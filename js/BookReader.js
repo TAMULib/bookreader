@@ -2733,7 +2733,7 @@ BookReader.prototype.search = function(term) {
     url    += '/BookReader/inside.php?item_id='+this.bookId;
     url    += '&doc='+this.subPrefix;   //TODO: test with subitem
     url    += '&path='+this.bookPath.replace(new RegExp('/'+this.subPrefix+'$'), ''); //remove subPrefix from end of path
-    url    += '&q='+escape(term);
+    url    += '&q='+escape(term.replace(/ /g, " OR "));
     
     //console.log('Search url =\n'+url);
 
@@ -2963,7 +2963,7 @@ BookReader.prototype.updateSearchHilites2UP = function() {
     if (null == results) return;
     var i, j;
     for (i=0; i<results.matches.length; i++) {
-        console.log(results.matches[i].par[0]);
+        //console.log(results.matches[i].par[0]);
         //TODO: loop over all par objects
         var pageIndex = this.leafNumToIndex(results.matches[i].par[0].page);
         for (j=0; j<results.matches[i].par[0].boxes.length; j++) {
