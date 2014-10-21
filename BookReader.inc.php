@@ -153,7 +153,7 @@ class BookReader
     <script type="text/javascript" src="js/jquery.bt.min.js"></script>
     <script type="text/javascript" src="js/BookReader.js?v=<?php echo($version); ?>"></script>
 <?php if ( !preg_match("/mobile/i", $_SERVER['HTTP_USER_AGENT']) ) { ?>
-    <script type="text/javascript" src="soundmanager/soundmanager2-ia.js?v=<?php echo($version); ?>"></script>
+    <script type="text/javascript" src="soundmanager/soundmanager2.js?v=<?php echo($version); ?>"></script>
     <script>
         soundManager.debugMode = false;
         soundManager.url = 'soundmanager/swf/';

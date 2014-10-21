@@ -4774,9 +4774,9 @@ BookReader.prototype.ttsStart = function () {
     //this.ttsPlaying = true; //set this in ttsToggle()
     this.ttsIndex = this.currentIndex();
     this.ttsFormat = 'mp3';
-    if ($.browser.mozilla) {
-        this.ttsFormat = 'ogg';
-    }
+    //if ($.browser.mozilla) {
+    //    this.ttsFormat = 'ogg';
+    //}
     this.ttsGetText(this.ttsIndex, 'ttsStartCB');
 }
 
