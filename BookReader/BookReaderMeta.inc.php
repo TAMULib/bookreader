@@ -1,4 +1,4 @@
-<?
+<?php
 /*
 
 Builds metadata about a book on the Internet Archive in json(p) format so that the book

@@ -11,7 +11,7 @@ from subprocess import Popen, PIPE
 ns = '{http://www.abbyy.com/FineReader_xml/FineReader6-schema-v1.xml}'
 page_tag = ns + 'page'
 
-solr_inside = 'http://ol-search-inside:8983/solr/inside/select?rows=1&wt=json&fl=ia,body_length,page_count&hl=true&hl.fl=body&hl.fragsize=0&hl.maxAnalyzedChars=-1&hl.usePhraseHighlighter=true&hl.simple.pre={{{&hl.simple.post=}}}&q.op=AND&q='
+solr_inside = 'http://localhost:8983/solr/select?rows=1&wt=json&fl=ia,body_length,page_count&hl=true&hl.fl=body&hl.fragsize=0&hl.maxAnalyzedChars=-1&hl.usePhraseHighlighter=true&hl.simple.pre={{{&hl.simple.post=}}}&q.op=AND&q='
 
 class Space():
     text = ' '
@@ -47,6 +47,14 @@ def find_matches(hl_body, abbyy_iter, leaf0_missing=False):
             text_offset += len(solr_line)
             continue
         match_with = solr_line
+	good = 1
+	for chk in par_char(par):
+	    if not chk.text:
+                    #print 'Caught exception for noneType'
+                    good = 0
+                    continue
+	if good == 0:
+            continue
         abbyy_text = ''.join(c.text for c in par_char(par))
         cur = {
             'text': solr_line,
@@ -132,8 +140,11 @@ if __name__ == '__main__':
         print json.dumps({ 'ia': item_id, 'q': q, 'matches': [], 'error': 'You must enter a query.' }, indent=2),
         print ')' if callback else ''
         sys.exit(0)
+    
     reply = urllib.urlopen(solr_inside + urllib.quote('ia:' + item_id)).read()
+
     results = json.loads(reply)
+    #print path
     assert os.path.exists(path)
     re_item = re.compile('^/\d+/items/([^/]+)')
     filename = None
@@ -145,11 +156,20 @@ if __name__ == '__main__':
     if callback:
         print callback + '(',
     if not results['response']['docs']:
-        index_result = urlopen('http://edward.openlibrary.org/index_now/' + item_id).read()
-        if not index_result.startswith('done'):
+        
+	print 'WHAT IS GOING ON HERE?'
+        print 'http://edward.openlibrary.org/index_now/' + item_id
+
+	#index_result = urlopen('http://edward.openlibrary.org/index_now/' + item_id).read()
+        """
+	if not index_result.startswith('done'):
             print json.dumps({ 'ia': item_id, 'q': q, 'matches': [], 'indexed': False}, indent=2),
             print ')' if callback else ''
             sys.exit(0)
+
+	"""
+
+        
     if not filename:
         print """{
     "ia": %s,
@@ -159,8 +179,15 @@ if __name__ == '__main__':
 
         print ')' if callback else ''
         sys.exit(0)
-    solr_q = 'ia:%s AND %s' % (item_id, q)
+    solr_q = 'ia:%s AND body:%s' % (item_id, q)
+
+    #print solr_inside +  urllib.quote(solr_q)
+
     reply = urllib.urlopen(solr_inside + urllib.quote(solr_q)).read()
+
+    #print '*********************************************************************************************'
+    #print reply
+
     try:
         results = json.loads(reply)
     except:
@@ -175,11 +202,24 @@ if __name__ == '__main__':
 }""" % (json.dumps(item_id), json.dumps(q)),
 
         print ')' if callback else ''
+
         sys.exit(0)
+
+    #print '********************************************************************************************'
+    #print  results
+
     solr_doc = results['response']['docs'][0]
     hl_body = results['highlighting'][item_id]['body'][0]
     jp2_zip = os.path.join(path, doc + '_jp2.zip')
     tif_zip = os.path.join(path, doc + '_tif.zip')
+
+    #print '****************************************************************************************'
+
+    #print solr_doc
+    #print jp2_zip
+    #print tif_zip
+
+
     leaf0_missing = False
     if os.path.exists(jp2_zip):
         leaf0_missing = '0000.jp2' not in Popen(['unzip', '-l', jp2_zip], stdout=PIPE).communicate()[0]

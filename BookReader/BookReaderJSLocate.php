@@ -1,4 +1,4 @@
-<?
+<?php
 /*
 Copyright(c)2008 Internet Archive. Software license AGPL version 3.
 
@@ -18,10 +18,34 @@ This file is part of BookReader.
     along with BookReader.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+//require_once '/petabox/setup.inc';
+
 $id = $_REQUEST['id'];
+$book = $_REQUEST['book']; // support multiple books within an item
+$subPrefix = $_REQUEST['subPrefix']; // same as above but with same naming as BookReaderImages
 
-header( "HTTP/1.1 301 Moved Permanently" );
-header( "Location: http://" . $_SERVER['SERVER_NAME'] . "/stream/" . $id . "?ui=embed"); 
+if ("" == $id) {
+    echo "No identifier specified!";
+    die(-1);
+}
 
-exit;
+$locator      = new Locator();
+
+$results = $locator->locateUDP($id, 1, false);
+
+$server = $results[0][0];
+$serverBaseURL = BookReader::serverBaseURL($server);
+
+$url = "http://{$serverBaseURL}/BookReader/BookReaderJSIA.php?id=" . urlencode($id) . "&itemPath={$results[0][1]}&server={$server}";
+if ($subPrefix) {
+    $url .= "&subPrefix=" . urlencode($subPrefix);
+} else if ($book) {
+    $url .= "&subPrefix=" . urlencode($book);
+}
+
+
+if (("" != $results[0][0]) && ("" != $results[0][1])) {
+    header("Location: $url");
+}
+
 ?>

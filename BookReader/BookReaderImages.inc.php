@@ -66,8 +66,8 @@ class BookReaderImages
     );
     
     // Paths to command-line tools
-    var $exiftool = '/petabox/sw/books/exiftool/exiftool';
-    var $kduExpand = '/petabox/sw/bin/kdu_expand';
+    var $exiftool = '/usr/local/bin/exiftool';
+    var $kduExpand = '/opt/kakadu/kdu_expand';
     
     // Name of temporary files, to be cleaned at exit
     var $tempFiles = array();
@@ -400,11 +400,16 @@ class BookReaderImages
           system('ln -s /dev/stdout ' . $stdoutLink);  
         }
         
-        putenv('LD_LIBRARY_PATH=/petabox/sw/lib/kakadu');
+        putenv('LD_LIBRARY_PATH=/usr/bin:/opt/kakadu');
         
         $unzipCmd  = $this->getUnarchiveCommand($zipPath, $file);
-        
-        $decompressCmd = $this->getDecompressCmd($imageInfo, $powReduce, $rotate, $scale, $region, $stdoutLink);
+       
+	//-------------------------------------------------
+	$tempFile3 = $this->getTempFilename($ext) . ".jp2";
+	array_push($this->tempFiles, $tempFile3);
+	//-------------------------------------------------
+ 
+        $decompressCmd = $this->getDecompressCmd($imageInfo, $powReduce, $rotate, $scale, $region, $stdoutLink, $tempFile3);
         
         // Non-integer scaling is currently disabled on the cluster
         // if (isset($_REQUEST['height'])) {
@@ -463,7 +468,33 @@ class BookReaderImages
                 $powReduce = min($powReduce, $maxReduce);
                 $reduce = pow(2, $powReduce);
                 
-                $cmd = $unzipCmd . $this->getDecompressCmd($imageInfo, $powReduce, $rotate, $scale, $region, $stdoutLink) . $compressCmd;
+		
+                //$cmd = $unzipCmd . $this->getDecompressCmd($imageInfo, $powReduce, $rotate, $scale, $region, $stdoutLink) . $compressCmd;
+
+		//------------------------------------------------------------------------------------------------------------
+
+		$tempFile1 = $this->getTempFilename($ext) . ".jp2";
+		array_push($this->tempFiles, $tempFile1);
+
+		$unzipNowCmd = $unzipCmd . " > " . $tempFile1;
+
+                print $unzipNowCmd . "\n";
+
+                exec($unzipNowCmd, $output, $return);
+
+                if (!$return) {
+                        echo "Successfully\n";
+                } else {
+                        echo "Failure\n";
+                }
+
+                $cmd = $this->getDecompressCmd($imageInfo, $powReduce, $rotate, $scale, $region, $stdoutLink, $tempFile1) . $compressCmd;
+
+                print $cmd . "\n";
+                print $compressCmd . "\n";
+
+		//------------------------------------------------------------------------------------------------------------
+		
                 trigger_error('BookReader rerunning with new cmd: ' . $cmd, E_USER_WARNING);
                 
                 $tempFile = $this->getTempFilename($ext);
@@ -566,11 +597,37 @@ class BookReaderImages
     // Get the records of of JP2 as returned by kdu_expand
     function getJp2Records($zipPath, $file)
     {
-        
-        $cmd = $this->getUnarchiveCommand($zipPath, $file)
-                 . ' | ' . $this->kduExpand
-                 . ' -no_seek -quiet -i /dev/stdin -record /dev/stdout';
-        exec($cmd, $output);
+        //$cmd = $this->getUnarchiveCommand($zipPath, $file) . ' | ' . $this->kduExpand . ' -no_seek -quiet -i /dev/stdin -record /dev/stdout';
+        //exec($cmd, $output);
+
+	//-----------------------------------------------------------------------------
+	$tempFile2 = $this->getTempFilename($ext) . ".jp2";
+	array_push($this->tempFiles, $tempFile2);	
+	
+	$cmd = $this->getUnarchiveCommand($zipPath, $file) . " > " . $tempFile2;
+
+        print $cmd . "\n";
+
+        exec($cmd, $output, $return);
+
+        if (!$return) {
+                echo "Successfully\n";
+        } else {
+                echo "Failure\n";
+        }
+
+        $cmd = $this->kduExpand . ' -quiet -i ' . $tempFile2 .  ' -record /dev/stdout';
+
+        print $cmd . "\n";
+
+        exec($cmd, $output, $return);
+
+        if (!$return) {
+                echo "Successfully\n";
+        } else {
+                echo "Failure\n";
+        }
+	//-----------------------------------------------------------------------------
         
         $records = Array();
         foreach ($output as $line) {
@@ -655,15 +712,19 @@ class BookReaderImages
         echo $jsonOutput;
     }
     
-    function getDecompressCmd($srcInfo, $powReduce, $rotate, $scale, $region, $stdoutLink) {
+    function getDecompressCmd($srcInfo, $powReduce, $rotate, $scale, $region, $stdoutLink, $tempFileX) {
         
         switch ($srcInfo['type']) {
             case 'jp2':
                 $regionAsFloat = $this->getRegionDimensionsAsFloat($srcInfo, $region);
                 $regionString = sprintf("{%f,%f},{%f,%f}", $regionAsFloat['y'], $regionAsFloat['x'], $regionAsFloat['h'], $regionAsFloat['w']);
-                $decompressCmd = 
-                    " | " . $this->kduExpand . " -no_seek -quiet -reduce $powReduce -rotate $rotate -region $regionString -i /dev/stdin -o " . $stdoutLink;
-                if ($this->decompressToBmp) {
+                //$decompressCmd = " | " . $this->kduExpand . " -no_seek -quiet -reduce $powReduce -rotate $rotate -region $regionString -i /dev/stdin -o " . $stdoutLink;
+                //-----------------------------------------------------------------------------------------------------------------------
+		$decompressCmd = $this->kduExpand . " -quiet -reduce $powReduce -rotate $rotate -i " . $tempFileX . " -o " . $stdoutLink;
+		//-----------------------------------------------------------------------------------------------------------------------
+
+
+		if ($this->decompressToBmp) {
                     // We suppress output since bmptopnm always outputs on stderr
                     $decompressCmd .= ' | (bmptopnm 2>/dev/null)';
                 }

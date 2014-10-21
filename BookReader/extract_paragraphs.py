@@ -5,7 +5,10 @@ import sys, re, gzip, zipfile
 from time import time
 
 ns = '{http://www.abbyy.com/FineReader_xml/FineReader6-schema-v1.xml}'
-page_tag = ns + 'page'
+page_tag_v6 = ns + 'page'
+
+ns = '{http://www.abbyy.com/FineReader_xml/FineReader10-schema-v1.xml}'
+page_tag_v10 = ns + 'page'
 
 re_par_end_dot = re.compile(r'\.\W*$')
 
@@ -13,16 +16,33 @@ def read_text_line(line):
     text = ''
     for fmt in line:
         for c in fmt:
+	    if not c.text:
+                #print 'Caught exception for NoneType'
+                continue
             text += c.text
     return text
 
 def par_text(lines):
     cur = ''
+    #print '**************************************************************************************************************'
     for line_num, line in enumerate(lines):
+	#print ': %d' % line_num
+	#print line	
         first_char = line[0][0]
         if first_char.attrib.get('wordStart') == 'false' or first_char.attrib.get('wordFromDictionary') == 'false' and cur.endswith('- '):
             cur = cur[:-2]
         for fmt in line:
+	    #print '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
+	    #print cur
+	    good = 1
+	    for chk in fmt:
+	        if not chk.text:
+		    #print 'Caught exception for noneType'
+		    good = 0
+                    continue 
+	    #print '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
+	    if good == 0:
+		continue
             cur += ''.join(c.text for c in fmt)
         if line_num + 1 != len(lines):
             cur += ' '
@@ -49,12 +69,17 @@ def par_iter(f):
     page_num = 0
     t0 = time()
     for eve, page in iterparse(f):
-        if page.tag != page_tag:
+        if page.tag != page_tag_v6 and page.tag != page_tag_v10:
             continue
         yield 'page'
 
         page_w = float(page.attrib['width'])
-        assert page.tag == page_tag
+
+	if page.tag == page_tag_v6:
+            assert page.tag == page_tag_v6
+
+	if page.tag == page_tag_v10:
+            assert page.tag == page_tag_v10
 
         for block_num, block in enumerate(page):
             if block.attrib['blockType'] != 'Text':

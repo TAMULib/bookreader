@@ -84,7 +84,7 @@ br.bookTitle= 'Open Library BookReader Presentation';
 br.bookUrl  = 'http://openlibrary.org';
 
 // Override the path used to find UI images
-br.imagesBaseURL = '../BookReader/images/';
+br.imagesBaseURL = '../bookreader/images/';
 
 br.getEmbedCode = function(frameWidth, frameHeight, viewParams) {
     return "Embed code not supported in bookreader demo.";
@@ -95,5 +95,5 @@ br.init();
 
 // read-aloud and search need backend compenents and are not supported in the demo
 $('#BRtoolbar').find('.read').hide();
-$('#textSrch').hide();
+//$('#textSrch').hide();
 $('#btnSrch').hide();

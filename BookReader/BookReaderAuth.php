@@ -1,4 +1,4 @@
-<?
+<?php
 /*
 Copyright(c)2011 Internet Archive. Software license AGPL version 3.
 

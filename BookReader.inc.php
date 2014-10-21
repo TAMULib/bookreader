@@ -1,4 +1,4 @@
-<?
+<?php
 
 /*
  * Copyright(c) 2008-2010 Internet Archive. Software license AGPL version 3.
@@ -14,7 +14,6 @@
 
 class BookReader
 {
-
 
   // Operators recognized in BookReader download URLs
   public static $downloadOperators = array('page');
@@ -116,10 +115,9 @@ class BookReader
     $metaURL = BookReader::jsMetadataURL($server, $identifier, $mainDir, $subPrefix);
     $metaURL .= "&version=" . $version;
     $locateURL = BookReader::jsLocateURL($identifier, $subPrefix);
-    $coverThumb = 'http://archive.org/download/' . $identifier . '/'. $subPrefix . '/page/cover_w114.jpg';
+    $coverThumb = 'http://bookreader.library.tamu.edu/' . $identifier . '/'. $subPrefix . '/page/cover_w114.jpg';
     // startup-up-image must be exactly 320x460
     //$startupImage = 'http://archive.org/download/' . $identifier . '/'. $subPrefix . '/page/cover_w512.jpg';
-
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
@@ -127,8 +125,8 @@ class BookReader
     <meta name="viewport" content="width=device-width, maximum-scale=1.0" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-    <link rel="apple-touch-icon" href="<? echo($coverThumb); ?>" />
-    <title><? echo $title; ?></title>
+    <link rel="apple-touch-icon" href="<?php echo($coverThumb); ?>" />
+    <title><?php echo $title; ?></title>
 
 
     <!-- THIS ALLOWS BEAUTYTIPS TO WORK ON IE -->
@@ -136,44 +134,43 @@ class BookReader
     <script type="text/javascript" src="/includes/excanvas.compiled.js"></script>
     <![endif]-->
 
-<!--[if !IE 7]><![IGNORE[--><![IGNORE[]]>
-    <link rel="stylesheet" type="text/css" href="/bookreader/BookReader.css?v=<? echo($version); ?>">
-<? if ($uiMode == "embed") { ?>
-    <link rel="stylesheet" type="text/css" href="/bookreader/BookReaderEmbed.css?v=<? echo($version); ?>">
-<? } elseif ($uiMode == "touch") { ?>
-    <link rel="stylesheet" type="text/css" href="/bookreader/touch/BookReaderTouch.css?v=<? echo($version); ?>">
-<? } /* uiMode */ ?>
-<? if ($protected) { ?>
-    <link rel="stylesheet" type="text/css" href="/bookreader/BookReaderLending.css?v=<? echo($version); ?>">
-<? } ?>
-    <script src="/includes/jquery-1.4.2.min.js" type="text/javascript"></script>
-    <script type="text/javascript" src="/bookreader/jquery-ui-1.8.5.custom.min.js?v=<? echo($version); ?>"></script>
-    <script type="text/javascript" src="//archive.org/includes/analytics.js?v=52515"></script>
-    <script type="text/javascript" src="/bookreader/dragscrollable.js?v=<? echo($version); ?>"></script>
-    <script type="text/javascript" src="/bookreader/jquery.colorbox-min.js"></script>
-    <script type="text/javascript" src="/bookreader/jquery.ui.ipad.js"></script>
+    <link rel="stylesheet" type="text/css" href="style/BookReader.css?v=<?php echo($version); ?>">
+<?php if ($uiMode == "embed") { ?>
+    <link rel="stylesheet" type="text/css" href="style/BookReaderEmbed.css?v=<?php echo($version); ?>">
+<?php } elseif ($uiMode == "touch") { ?>
+    <link rel="stylesheet" type="text/css" href="style/touch/BookReaderTouch.css?v=<?php echo($version); ?>">
+<?php } /* uiMode */ ?>
+<?php if ($protected) { ?>
+    <link rel="stylesheet" type="text/css" href="style/BookReaderLending.css?v=<?php echo($version); ?>">
+<?php } ?>
+    <script src="js/jquery-1.4.2.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="js/jquery-ui-1.8.5.custom.min.js?v=<?php echo($version); ?>"></script>
+<!--    <script type="text/javascript" src="//archive.org/includes/analytics.js?v=52515"></script> -->
+    <script type="text/javascript" src="js/dragscrollable.js?v=<?php echo($version); ?>"></script>
+    <script type="text/javascript" src="js/jquery.colorbox-min.js"></script>
+    <script type="text/javascript" src="js/jquery.ui.ipad.js"></script>
 
-    <script type="text/javascript" src="/bookreader/jquery.bt.min.js"></script>
-    <script type="text/javascript" src="/bookreader/BookReader.js?v=<? echo($version); ?>"></script>
-<? if ( !preg_match("/mobile/i", $_SERVER['HTTP_USER_AGENT']) ) { ?>
-    <script type="text/javascript" src="/bookreader/soundmanager/soundmanager2-ia.js?v=<? echo($version); ?>"></script>
+    <script type="text/javascript" src="js/jquery.bt.min.js"></script>
+    <script type="text/javascript" src="js/BookReader.js?v=<?php echo($version); ?>"></script>
+<?php if ( !preg_match("/mobile/i", $_SERVER['HTTP_USER_AGENT']) ) { ?>
+    <script type="text/javascript" src="soundmanager/soundmanager2-ia.js?v=<?php echo($version); ?>"></script>
     <script>
         soundManager.debugMode = false;
-        soundManager.url = '/bookreader/soundmanager/swf/';
+        soundManager.url = 'soundmanager/swf/';
         soundManager.useHTML5Audio = true;
         soundManager.flashVersion = 9; //flash 8 version of swf is buggy when calling play() on a sound that is still loading
     </script>
-<? } /* mobile user agent */ ?>
+<?php } /* mobile user agent */ ?>
 </head>
 <body style="background-color: ##939598;">
 
 <div id="BookReader">
-    Internet Archive BookReader - <? echo $title; ?>
+    Internet Archive BookReader - <?php echo $title; ?>
     <br/>
 
     <noscript>
     <p>
-        The BookReader requires JavaScript to be enabled. Please check that your browser supports JavaScript and that it is enabled in the browser settings.  You can also try one of the <a href="http://archive.org/details/<? echo $identifier; ?>"> other formats of the book</a>.
+        The BookReader requires JavaScript to be enabled. Please check that your browser supports JavaScript and that it is enabled in the browser settings.  You can also try one of the <a href="http://archive.org/details/<?php echo $identifier; ?>"> other formats of the book</a>.
     </p>
     </noscript>
 </div>
@@ -181,24 +178,24 @@ class BookReader
 <script type="text/javascript">
   // Set some config variables -- $$$ NB: Config object format has not been finalized
   var brConfig = {};
-<? if ($uiMode == 'embed') { ?>
-  brConfig["mode"] = 1;
-  brConfig["ui"] = "embed";
-<? } else { ?>
-  brConfig["mode"] = 2;
-<? } ?>
-<? if ($isAdmin == true) {
+  <?php if ($uiMode == 'embed') { ?>
+    brConfig["mode"] = 1;
+    brConfig["ui"] = "embed";
+  <?php } else { ?>
+    brConfig["mode"] = 2;
+  <?php } ?>
+  <?php if ($isAdmin == true) {
      echo '  brConfig["isAdmin"] = true;';
-   } ?>
+  } ?>
 </script>
 <script type="text/javascript">
 // The URL in the script tag below is dynamically generated JavaScript that includes the book metadata and page image access functions.
 // The ia{number}.us.archive.org server for the book can and does change, so this URL should NOT be used for permanent access.
 // Use the JSLocate URL below instead for stable access - it will find the item and redirect to the correct server
-// <? echo($locateURL); ?>
-
+// <?php echo($locateURL); ?>
 </script>
-<script type="text/javascript" src="<? echo($metaURL); ?>"></script>
+<script type="text/javascript" src="<?php echo($metaURL); ?>"> </script>
+<!-- <script type="text/javascript" src="<?php echo($locateURL); ?>"> </script> -->
 
 <script type="text/javascript">
     // Usage stats
@@ -207,13 +204,13 @@ class BookReader
 <!--<![endif]-->
 
 <!--[if IE 7]>
-<? BookReader::emitForIE7($server, $mainDir, $identifier, $subPrefix, $title, $coverLeaf, $titleStart, $uiMode); ?>
+<?php BookReader::emitForIE7($server, $mainDir, $identifier, $subPrefix, $title, $coverLeaf, $titleStart, $uiMode); ?>
 <![endif]-->
 
 
 </body>
 </html>
-  <?
+  <?php
     exit;
   }
 
@@ -250,40 +247,40 @@ class BookReader
 
 
 ?>
-    <link rel="stylesheet" type="text/css" href="/bookreader/ie7/BookReader.css?v=<? echo($version); ?>">
-<? if ($uiMode == "embed") { ?>
-    <link rel="stylesheet" type="text/css" href="/bookreader/ie7/BookReaderEmbed.css?v=<? echo($version); ?>">
-<? } elseif ($uiMode == "touch") { ?>
-    <link rel="stylesheet" type="text/css" href="/bookreader/ie7/touch/BookReaderTouch.css?v=<? echo($version); ?>">
-<? } /* uiMode */ ?>
-    <script src="/includes/jquery-1.4.2.min.js" type="text/javascript"></script>
-    <script type="text/javascript" src="http://archive.org/includes/analytics.js?v=52515"></script>
-    <script type="text/javascript" src="/bookreader/ie7/jquery-ui-1.8.1.custom.min.js?v=<? echo($version); ?>"></script>
-    <script type="text/javascript" src="/bookreader/ie7/dragscrollable.js?v=<? echo($version); ?>"></script>
-    <script type="text/javascript" src="/bookreader/ie7/BookReader.js?v=<? echo($version); ?>"></script>
+    <link rel="stylesheet" type="text/css" href="style/ie7/BookReader.css?v=<?php echo($version); ?>">
+<?php if ($uiMode == "embed") { ?>
+    <link rel="stylesheet" type="text/css" href="style/ie7/BookReaderEmbed.css?v=<?php echo($version); ?>">
+<?php } elseif ($uiMode == "touch") { ?>
+    <link rel="stylesheet" type="text/css" href="style/ie7/touch/BookReaderTouch.css?v=<?php echo($version); ?>">
+<?php } /* uiMode */ ?>
+    <script src="js/jquery-1.4.2.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="http://bookreader.library.tamu.edu/includes/analytics.js?v=52515"></script>
+    <script type="text/javascript" src="js/ie7/jquery-ui-1.8.1.custom.min.js?v=<?php echo($version); ?>"></script>
+    <script type="text/javascript" src="js/ie7/dragscrollable.js?v=<?php echo($version); ?>"></script>
+    <script type="text/javascript" src="js/ie7/BookReader.js?v=<?php echo($version); ?>"></script>
 </head>
 <body style="background-color: #FFFFFF;">
 
-<? if ($uiMode == 'full') { ?>
+<?php if ($uiMode == 'full') { ?>
 <div id="BookReader" style="left:10px; right:200px; top:10px; bottom:2em;">Internet Archive BookReader <noscript>requires JavaScript to be enabled.</noscript></div>
-<? } else { ?>
+<?php } else { ?>
 <div id="BookReader" style="left:0; right:0; top:0; bottom:0; border:0">Internet Archive BookReader <noscript>requires JavaScript to be enabled.</noscript></div>
-<? } /* uiMode*/ ?>
+<?php } /* uiMode*/ ?>
 
 <script type="text/javascript">
   // Set some config variables - $$$ NB: Config object format has not been finalized
   var brConfig = {};
-<? if ($uiMode == 'embed') { ?>
+<?php if ($uiMode == 'embed') { ?>
   brConfig["mode"] = 1;
   brConfig["reduce"] = 8;
   brConfig["ui"] = "embed";
-<? } else { ?>
+<?php } else { ?>
   brConfig["mode"] = 2;
-<? } ?>
+<?php } ?>
 </script>
-<script type="text/javascript" src="<? echo($metaURL); ?>"></script>
+<script type="text/javascript" src="<?php echo($metaURL); ?>"></script>
 
-<? if ($uiMode == 'full') { ?>
+<?php if ($uiMode == 'full') { ?>
 <div id="BookReaderSearch" style="width:190px; right:0px; top:10px; bottom:2em;">
     <form action='javascript:' onsubmit="br.search($('#BookReaderSearchBox').val());">
         <p style="display: inline">
@@ -307,7 +304,7 @@ class BookReader
         <a class="BRblack" href="http://archive.org/about/contact.php">Contact Us</a>
     </div>
 </div>
-<? } /* uiMode */ ?>
+<?php } /* uiMode */ ?>
 
 <script type="text/javascript">
     // $$$ hack to workaround sizing bug when starting in two-up mode
@@ -318,7 +315,7 @@ class BookReader
     // Usage stats
     if(window.archive_analytics) { window.archive_analytics.values['bookreader'] = 'open'};
 </script>
-  <?
+  <?php
   }
 
 
@@ -367,11 +364,10 @@ class BookReader
             $url .= '&';
         }
     }
-
     return $url;
   }
 
-    public static function jsMetadataURLForIE7($server, $identifier, $mainDir, $subPrefix = '')
+  public static function jsMetadataURLForIE7($server, $identifier, $mainDir, $subPrefix = '')
   {
     $serverBaseURL = BookReader::serverBaseURL($server);
 
@@ -398,7 +394,10 @@ class BookReader
   // on the item's server.
   public static function jsLocateURL($identifier, $subPrefix = '')
   {
-    $locateURL = 'http://archive.org/bookreader/BookReaderJSLocate.php?id=' . $identifier;
+    //$locateURL = 'http://bookreader.library.tamu.edu/bookreader/BookReaderJSLocate.php?id=' . $identifier;
+    
+    $locateURL = '/BookReader/BookReaderJSLocate.php?id=' . $identifier;
+    
     if ($subPrefix) {
         $locateURL .= '&subPrefix=' . $subPrefix;
     }

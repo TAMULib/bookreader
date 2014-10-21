@@ -86,7 +86,7 @@ function BookReader() {
     // custom implementations.
     // $$$ This is the same directory as the images referenced by relative
     //     path in the CSS.  Would be better to automagically find that path.
-    this.imagesBaseURL = '/bookreader/images/';
+    this.imagesBaseURL = '/style/images/';
 
 
     // Zoom levels
@@ -2718,37 +2718,43 @@ BookReader.prototype.getPageWidth2UP = function(index) {
     // We return the width based on the dominant height
     var height  = this._getPageHeight(index);
     var width   = this._getPageWidth(index);
+
     return Math.floor(this.twoPage.height*width/height); // $$$ we assume width is relative to current spread
 }
 
 // search()
 //______________________________________________________________________________
 BookReader.prototype.search = function(term) {
-    //console.log('search called with term=' + term);
+    //console.log('Search called with term = ' + term);
 
     $('#textSrch').blur(); //cause mobile safari to hide the keyboard
 
-    var url = 'https://'+this.server.replace(/:.+/, ''); //remove the port and userdir
-    url    += '/fulltext/inside.php?item_id='+this.bookId;
+    var url = 'http://'+this.server.replace(/:.+/, ''); //remove the port and userdir
+    url    += '/BookReader/inside.php?item_id='+this.bookId;
     url    += '&doc='+this.subPrefix;   //TODO: test with subitem
     url    += '&path='+this.bookPath.replace(new RegExp('/'+this.subPrefix+'$'), ''); //remove subPrefix from end of path
     url    += '&q='+escape(term);
-    //console.log('search url='+url);
+    
+    //console.log('Search url =\n'+url);
 
     term = term.replace(/\//g, ' '); // strip slashes, since this goes in the url
     this.searchTerm = term;
 
     this.removeSearchResults();
+
     this.showProgressPopup('<img id="searchmarker" src="'+this.imagesBaseURL + 'marker_srch-on.png'+'"> Search results will appear below...');
+
     $.ajax({url:url, dataType:'jsonp', jsonpCallback:'br.BRSearchCallback'});
 }
 
 // BRSearchCallback()
 //______________________________________________________________________________
 BookReader.prototype.BRSearchCallback = function(results) {
-    //console.log('got ' + results.matches.length + ' results');
+    //console.log(results.matches.length + ' results');
+    
     br.removeSearchResults();
     br.searchResults = results;
+    
     //console.log(br.searchResults);
 
     if (0 == results.matches.length) {
@@ -2957,7 +2963,7 @@ BookReader.prototype.updateSearchHilites2UP = function() {
     if (null == results) return;
     var i, j;
     for (i=0; i<results.matches.length; i++) {
-        //console.log(results.matches[i].par[0]);
+        console.log(results.matches[i].par[0]);
         //TODO: loop over all par objects
         var pageIndex = this.leafNumToIndex(results.matches[i].par[0].page);
         for (j=0; j<results.matches[i].par[0].boxes.length; j++) {
@@ -2990,7 +2996,7 @@ BookReader.prototype.setHilightCss2UP = function(div, index, left, right, top, b
     // We calculate the reduction factor for the specific page because it can be different
     // for each page in the spread
     var height = this._getPageHeight(index);
-    var width  = this._getPageWidth(index)
+    var width  = this._getPageWidth(index);
     var reduce = this.twoPage.height/height;
     var scaledW = parseInt(width*reduce);
 
@@ -3002,12 +3008,12 @@ BookReader.prototype.setHilightCss2UP = function(div, index, left, right, top, b
         pageL = gutter;
     }
     var pageT  = this.twoPageTop();
-
+   
     $(div).css({
-        width:  (right-left)*reduce + 'px',
-        height: (bottom-top)*reduce + 'px',
-        left:   pageL+left*reduce + 'px',
-        top:    pageT+top*reduce +'px'
+        width:  ((right-left)*reduce) + 'px',
+        height: ((bottom-top)*reduce) + 'px',
+        left:   (pageL+left*reduce) + 'px',
+        top:    (pageT+top*reduce) +'px'
     });
 }
 
@@ -3056,7 +3062,7 @@ BookReader.prototype.getPrintURI = function() {
         options += '&title=' + encodeURIComponent(this.shortTitle(50) + ' - Page ' + this.getPageNum(indexToPrint));
     }
 
-    return '/bookreader/print.php?' + options;
+    return '/BookReader/print.php?' + options;
 }
 
 // showEmbedCode()
@@ -4587,6 +4593,7 @@ BookReader.prototype._getPageWidth = function(index) {
 // Returns the page height for the given index, or first or last page if out of range
 BookReader.prototype._getPageHeight= function(index) {
     index = BookReader.util.clamp(index, 0, this.numLeafs - 1);
+
     return this.getPageHeight(index);
 }
 
@@ -4794,7 +4801,7 @@ BookReader.prototype.ttsStop = function () {
 // ttsGetText()
 //______________________________________________________________________________
 BookReader.prototype.ttsGetText = function(index, callback) {
-    var url = 'https://'+this.server+'/BookReader/BookReaderGetTextWrapper.php?path='+this.bookPath+'_djvu.xml&page='+index;
+    var url = 'http://'+this.server+'/BookReader/BookReaderGetTextWrapper.php?path='+this.bookPath+'_djvu.xml&page='+index;
     this.ttsAjax = $.ajax({url:url, dataType:'jsonp', jsonpCallback:callback});
 }
 
@@ -4824,7 +4831,7 @@ BookReader.prototype.ttsStartCB = function (data) {
     this.ttsPosition = -1;
     var snd = soundManager.createSound({
      id: 'chunk'+this.ttsIndex+'-0',
-     url: 'https://'+this.server+'/BookReader/BookReaderGetTTS.php?string=' + escape(data[0][0]) + '&format=.'+this.ttsFormat, //the .ogg is to trick SoundManager2 to use the HTML5 audio player
+     url: 'http://'+this.server+'/BookReader/BookReaderGetTTS.php?string=' + escape(data[0][0]) + '&format=.'+this.ttsFormat, //the .ogg is to trick SoundManager2 to use the HTML5 audio player
      onload: function(){this.br.removeProgressPopup();}, //fires in safari...
      onbufferchange: function(){if (false == this.isBuffering) this.br.removeProgressPopup();} //fires in FF and IE9
     });
@@ -4885,7 +4892,7 @@ BookReader.prototype.ttsNextPageCB = function (data) {
 BookReader.prototype.ttsLoadChunk = function (page, pos, string) {
     var snd = soundManager.createSound({
      id: 'chunk'+page+'-'+pos,
-     url: 'https://'+this.server+'/BookReader/BookReaderGetTTS.php?string=' + escape(string) + '&format=.'+this.ttsFormat //the .ogg is to trick SoundManager2 to use the HTML5 audio player
+     url: 'http://'+this.server+'/BookReader/BookReaderGetTTS.php?string=' + escape(string) + '&format=.'+this.ttsFormat //the .ogg is to trick SoundManager2 to use the HTML5 audio player
     });
     snd.br = this;
     snd.load()
@@ -5108,7 +5115,7 @@ BookReader.prototype.ttsHilite1UP = function(chunk) {
             width:  (r-l)/this.reduce + 'px',
             height: (b-t)/this.reduce + 'px',
             left:   l/this.reduce + 'px',
-            top:    t/this.reduce +'px'
+            top:    t/this.reduce + 'px'
         });
     }
 

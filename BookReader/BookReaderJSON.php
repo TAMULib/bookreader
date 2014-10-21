@@ -1,7 +1,12 @@
-<?
-
+<?php
 /*
-Copyright(c)2008-2010 Internet Archive. Software license AGPL version 3.
+
+Builds metadata about a book on the Internet Archive in json(p) format so that the book
+can be accessed by other software including the Internet Archive BookReader.
+
+Michael Ang <http://github.com/mangtronix>
+
+Copyright (c) 2008-2010 Internet Archive. Software license AGPL version 3.
 
 This file is part of BookReader.
 
@@ -17,25 +22,12 @@ This file is part of BookReader.
 
     You should have received a copy of the GNU Affero General Public License
     along with BookReader.  If not, see <http://www.gnu.org/licenses/>.
-    
-    The BookReader source is hosted at http://github.com/openlibrary/bookreader/
 */
 
-//$env = 'LD_LIBRARY_PATH=/petabox/sw/lib/lxml/lib PYTHONPATH=/petabox/sw/lib/lxml/lib/python2.5/site-packages:$PYTHONPATH';
+require_once('BookReaderMeta.inc.php');
 
-checkPrivs($_GET['path']);
+$brm = new BookReaderMeta();
+$brm->processRequest($_REQUEST);
 
-$path     = escapeshellarg($_GET['path']);
-$page     = escapeshellarg($_GET['page']);
-$callback = escapeshellarg($_GET['callback']);
 
-header('Content-Type: application/javascript');
-passthru("python BookReaderGetText.py $path $page $callback");
-
-function checkPrivs($filename) {
-    if (!is_readable($filename)) {        
-        header('HTTP/1.1 403 Forbidden');
-        exit(0);
-    }
-}
 ?>
