@@ -27,7 +27,7 @@ if ('.ogg' == $_GET['format']) {
 }
 
 $cmd = 'echo ' . escapeshellarg($_GET['string']);
-$cmd .= ' | /petabox/sw/bin/text2wave';
+$cmd .= ' | /opt/festival/bin/text2wave';
 if ($useMP3) {
     header('Content-Type: audio/mpeg');
     $cmd .= ' |ffmpeg -i - -f mp3 -';
