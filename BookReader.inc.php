@@ -155,7 +155,7 @@ class BookReader
 <?php if ( !preg_match("/mobile/i", $_SERVER['HTTP_USER_AGENT']) ) { ?>
     <script type="text/javascript" src="soundmanager/soundmanager2.js?v=<?php echo($version); ?>"></script>
     <script>
-        soundManager.debugMode = true;
+        soundManager.debugMode = false;
         soundManager.url = 'soundmanager/swf/';
         soundManager.useHTML5Audio = true;
         soundManager.flashVersion = 9; //flash 8 version of swf is buggy when calling play() on a sound that is still loading
