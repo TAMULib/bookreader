@@ -125,8 +125,8 @@ def main(args):
     pageNum = int(args[1])
     callback = args[2]
 
-    if not re.match('^/\d{1,2}/items/.+_djvu.xml$', path):
-        sys.exit(-1);
+    #if not re.match('^/\d{1,2}/items/.+_djvu.xml$', path):
+    #    sys.exit(-1);
     
     if ('ttsNextPageCB' != callback):
         callback = 'ttsStartCB'
