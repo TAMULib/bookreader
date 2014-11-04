@@ -25,16 +25,16 @@ $itemPath = $_REQUEST['itemPath'];
 $subPrefix = $_REQUEST['subPrefix'];
 $server = $_REQUEST['server'];
 
-$SQLIPAddress = 'mssql-dev3';
-$UserName = 'ezpeditor';
-$Password = 'eZpEd1t0r';
-$db = 'ybeditor';
-mssql_connect($SQLIPAddress,$UserName,$Password) or die('MSSQL error: ' . mssql_get_last_message());
-mssql_select_db($db) or die(mssql_error());
+#$SQLIPAddress = 'mssql-dev3';
+#$UserName = 'ezpeditor';
+#$Password = 'eZpEd1t0r';
+#$db = 'ybeditor';
+#mssql_connect($SQLIPAddress,$UserName,$Password) or die('MSSQL error: ' . mssql_get_last_message());
+#mssql_select_db($db) or die(mssql_error());
 
-$sqlresources = "SELECT * FROM yb_metadata where yb_id = '" . $id  . "'";
-$rs = mssql_query($sqlresources) or die('MSSQL error: ' . mssql_get_last_message());
-$row = mssql_fetch_array( $rs );
+#$sqlresources = "SELECT * FROM yb_metadata where yb_id = '" . $id  . "'";
+#$rs = mssql_query($sqlresources) or die('MSSQL error: ' . mssql_get_last_message());
+#$row = mssql_fetch_array( $rs );
 
 //needs work!!
 
