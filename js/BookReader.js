@@ -2775,7 +2775,9 @@ BookReader.prototype.BRSearchCallback = function(results) {
 
     var i;
     for (i=0; i<results.matches.length; i++) {
-        br.addSearchResult(results.matches[i].text, br.leafNumToIndex(results.matches[i].par[0].page));
+	if(results.matches[i].par[0] != null) {
+            br.addSearchResult(results.matches[i].text, br.leafNumToIndex(results.matches[i].par[0].page));
+	}
     }
     br.updateSearchHilites();
     br.removeProgressPopup();
@@ -2965,6 +2967,7 @@ BookReader.prototype.updateSearchHilites2UP = function() {
     for (i=0; i<results.matches.length; i++) {
         //console.log(results.matches[i].par[0]);
         //TODO: loop over all par objects
+	if(results.matches[i].par[0] != null) {
         var pageIndex = this.leafNumToIndex(results.matches[i].par[0].page);
         for (j=0; j<results.matches[i].par[0].boxes.length; j++) {
             var box = results.matches[i].par[0].boxes[j];
@@ -2984,6 +2987,7 @@ BookReader.prototype.updateSearchHilites2UP = function() {
                 }
             }
         }
+	}
     }
 
 }
@@ -3024,6 +3028,7 @@ BookReader.prototype.removeSearchHilites = function() {
     if (null == results) return;
     var i, j;
     for (i=0; i<results.matches.length; i++) {
+	if(results.matches[i].par[0] != null) {
         for (j=0; j<results.matches[i].par[0].boxes.length; j++) {
             var box = results.matches[i].par[0].boxes[j];
             if (null != box.div) {
@@ -3031,6 +3036,7 @@ BookReader.prototype.removeSearchHilites = function() {
                 box.div=null;
             }
         }
+	}
     }
 }
 
@@ -4565,6 +4571,7 @@ BookReader.prototype.searchHighlightVisible = function() {
     var i, j;
     for (i=0; i<results.matches.length; i++) {
         //console.log(results.matches[i].par[0]);
+	if(results.matches[i].par[0] != null) {
         for (j=0; j<results.matches[i].par[0].boxes.length; j++) {
             var box = results.matches[i].par[0].boxes[j];
             var pageIndex = this.leafNumToIndex(box.page);
@@ -4572,6 +4579,7 @@ BookReader.prototype.searchHighlightVisible = function() {
                 return true;
             }
         }
+	}
     }
 
     return false;

@@ -122,7 +122,20 @@ def find_matches(hl_body, abbyy_iter, leaf0_missing=False):
 
             if len(match_with) == 0:
                 break
+
+	    if c.text != match_with[0]:
+		break
+
+	    #print '****************************************'
+	    #print c.text
+	    #print '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
+	    #print match_with[0]
+	    #print '****************************************!'
+
             assert c.text == match_with[0]
+
+	    #print '!***************************************'
+
             match_with = match_with[1:]
             prev_char = c
         if match_with == '}}}':

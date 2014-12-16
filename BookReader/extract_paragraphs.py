@@ -46,6 +46,7 @@ def par_text(lines):
             cur += ''.join(c.text for c in fmt)
         if line_num + 1 != len(lines):
             cur += ' '
+    #print '!!!!!!!!!!!!!!!!!!!'
     return cur
 
 def line_end_dot(line):
@@ -63,12 +64,21 @@ def col_unfinished(last_line):
     return sum(len(fmt) for fmt in last_line) > 14 and not line_end_dot(last_line)
 
 def par_iter(f):
+
+    #print '))))))))))))))))))))))))))))))))))))>>>>>>>>> START PAR ITER <<<<<<<<<<<(((((((((((((((((((((((((((('
+    
     incomplete_par = None
     end_column_par = None
     skipped_par = []
     page_num = 0
     t0 = time()
+  
+
     for eve, page in iterparse(f):
+
+	if page.getparent() is None:
+            break	
+
         if page.tag != page_tag_v6 and page.tag != page_tag_v10:
             continue
         yield 'page'
@@ -87,7 +97,21 @@ def par_iter(f):
             block.set('page', `page_num`)
             block.set('page_width', page.get('width'))
             block.set('page_height', page.get('height'))
+
+ 	    #print ')()()))))))))))))))))))))))))))))()()(()'
+	    #print block_num
+	    #print block
+	    #print len(block)
+ 	    #print ')()()))))))))))))))))))))))))))))()()(()'
+	   
+	    if len(block) > 2:
+		continue
+ 
             region, text = block
+
+	    #print '))))))))))))))))))))))) region, text = block (((((((((((((((((((((((((('
+
+
             for par_num, par in enumerate(text):
                 if len(par) == 0 or len(par[0]) == 0 or len(par[0][0]) == 0:
                     continue
@@ -172,9 +196,14 @@ if __name__ == '__main__':
         lang = 'other'
     f = open_abbyy(filename)
     for lines in par_iter(f):
+        #print '>>>>>>>>>>>>'
+	#print lines
+	#print '<<<<<<<<<<<<'
         if lines == 'page':
             page_count += 1
             continue
         text = par_text(lines)
+        #print '&&&&&&&&&&&&&&&&&&&&&&&&&&'
         print text.encode('utf-8')
+	#print '%%%%%%%%%%%%%%%%%%%%%%%%%%'
     print 'meta: %s %d' % (lang, page_count)
