@@ -18,14 +18,15 @@ function checkPrivs($filename) {
     }
 }
 
-$filename = "$path/${doc}_abbyy.gz";
-if (file_exists($filename)) {
-    checkPrivs($filename);
-} else {
-    $filename = "$path/${doc}_abbyy.zip";
-    if (file_exists($filename)) {
-        checkPrivs($filename);
-    }
+if (file_exists("$path/${doc}_abbyy.gz")) {
+    checkPrivs("$path/${doc}_abbyy.gz");
+	$filename = "$path/${doc}_abbyy.gz";
+} elseif (file_exists("$path/${doc}_abbyy.xml")) {	
+	checkPrivs("$path/${doc}_abbyy.xml");
+	$filename = "$path/${doc}_abbyy.xml";
+} elseif (file_exists("$path/${doc}_abbyy.zip")) {
+	checkPrivs("$path/${doc}_abbyy.zip");
+	$filename = "$path/${doc}_abbyy.zip";
 }
 
 $contentType = 'application/json'; // default
@@ -47,4 +48,5 @@ $q = escapeshellarg($q);
 set_time_limit(120);
 passthru("python inside.py $item_id $doc $path $q $callback 2>&1");
 ?>
+
 
