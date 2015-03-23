@@ -7,7 +7,7 @@ body {
 }
 h3 {
   font-size: 20px;
-  font-family:  "News Gothic MT","Trebuchet MS",Geneva,Helvetica,sans-serif;
+  font-family:  "Verdana, Lucida, Helvetica, Arial, sans-serif";
   font-weight: 700;
   color: #dedede;
 }
@@ -16,7 +16,7 @@ a {
 }
 #BookReader {
  position:absolute;
- font-family: arial, sans-serif;
+ font-family: Verdana, Lucida, Helvetica, Arial, sans-serif;
  left:0;
  right:0; 
  top:0; 
@@ -40,7 +40,7 @@ a {
     color: #999;
 }
 #BRtoolbar a {
-    color: #ccc;
+    color: #036daa;
     text-decoration: underline;
 }
 #BRtoolbarbuttons {
@@ -163,12 +163,14 @@ a {
     background: transparent url(images/booksplit.png) repeat scroll 0% 0%;
 }
 
+/*
 .BookReaderSearchHilite {
     opacity: 0.20; 
     filter: alpha(opacity = 20);
     background-color: #00f;
     position:absolute;
 }
+*/
 
 .hidden {
   display: none;
@@ -181,7 +183,7 @@ a {
     border: none;
     background-color: #9A9B9D;
     color: #ccc;
-    font-family: arial, sans-serif;
+    font-family: Verdana, Lucida, Helvetica, Arial, sans-serif;
     font-size: 12px;
     font-weight: 700;
 }
@@ -189,7 +191,7 @@ a {
     /* display: block; */
     /* float: left; */
     /* margin: 0 10px 0 5px; */
-    font-family: "Lucida Grande","Arial",sans-serif;
+    font-family: Verdana, Lucida, Helvetica, Arial, sans-serif;
     color: #333;
     height: 100%;
     line-height: 38px;
@@ -253,15 +255,24 @@ a {
 .BRicon.thumb:hover {background-position:-1120px 0;}
 .BRicon.fit {background-position:-1160px 0;}
 .BRicon.fit:hover {background-position:-1200px 0;}
-
+.BRicon.question {background-position:-1240px 0;}
+.BRicon.question:hover {background-position:-1280px 0;}
 
 a.logo {
     display: block;
     float: left;
-    width: 40px;
+    width: 95px;
+    height: 38px;
+    margin: -1px 10px 0px 0px;
+    background: transparent url(images/library_logo.png) no-repeat 0 0;
+}
+a.logotamu {
+    display: block;
+    float: left;
+    width: 172px;
     height: 40px;
-    margin: 0 5px;
-    background: transparent url(images/icon_home.png) no-repeat 0 0;
+    margin: -1px -9px 0px 10px;
+    background: transparent url(images/tamu_logo.png) no-repeat 0 0;
 }
 a.popOff {
     position: absolute;
@@ -290,7 +301,7 @@ form#booksearch input[type=search] {
     min-width: 16em;
     height: 22px;
     line-height: 22px;
-    font-family: "Arial", sans-serif;
+    font-family: Verdana, Lucida, Helvetica, Arial, sans-serif;
     font-size: 13px;
     -webkit-appearance: textfield;
     -moz-appearance: textfield;
@@ -308,7 +319,7 @@ form#booksearch button {
     background-color: #000;
     text-align: center;
     color: #fff;
-    font-family: "News Gothic MT","Trebuchet MS",Geneva,Helvetica,sans-serif;
+    font-family: Verdana, Lucida, Helvetica, Arial, sans-serif;
     font-weight: 700;
     font-size: 11px;
     text-transform: uppercase;
@@ -361,7 +372,7 @@ a.BRgrey:visited   { color: #666; }
 .BRwidgetlabel { 
     color: #919070; 
     padding: 8px 8px 4px 8px; 
-    font-family: verdana, arial, helvetica, sans-serif; 
+    font-family: Verdana, Lucida, Helvetica, Arial, sans-serif;
     font-size: 10px; 
     float: left; 
 }
@@ -374,7 +385,7 @@ a.BRgrey:visited   { color: #666; }
 .BRtwoPagePopUp {
     padding: 6px;
     position: absolute;
-    font-family: Arial, sans-serif;
+    font-family: Verdana, Lucida, Helvetica, Arial, sans-serif;
     font-size: 11px;
     color: white;
     background-color: #9A9B9D;
@@ -411,7 +422,7 @@ a.BRgrey:visited   { color: #666; }
     background: #fff;
     text-align: left;
     min-width: 600px;
-    font-family: "Lucida Grande", "Verdana", "Arial", sans-serif;
+    font-family: Verdana, Lucida, Helvetica, Arial, sans-serif;
     color: #000;
 }
 .BRfloat a {
@@ -433,7 +444,7 @@ a.BRgrey:visited   { color: #666; }
     height: 32px;
     line-height: 32px;
     padding: 0 10px 10px 0;
-    font-family: "News Gothic MT","Trebuchet MS",Geneva,Helvetica,sans-serif;
+    font-family: Verdana, Lucida, Helvetica, Arial, sans-serif;
     font-size: 3em;
     font-weight: 700;
     color: #fff;
@@ -441,8 +452,8 @@ a.BRgrey:visited   { color: #666; }
 .BRfloat a.floatShut {position:absolute;top:0;right:0;display:block;width:32px;height:32px;background-image:url("images/icon_close-pop.png");background-position:0 0;background-repeat:no-repeat;}
 .BRfloat a.floatShut:hover {background-position:0 -32px;}
 .BRfloat fieldset {
-    margin-top: 20px;
-    padding: 10px 20px;
+    margin-top: 10px;
+    padding: 5px 20px;
     border: none;
 }
 .BRfloat fieldset.sub {
@@ -457,7 +468,7 @@ a.BRgrey:visited   { color: #666; }
     display: block;
     font-weight: 700;
     font-size: 1.6em;
-    margin: 5px 0;
+    margin: 0px 0;
 }
 .BRfloat label.sub {
     display: inline;
@@ -473,7 +484,7 @@ a.BRgrey:visited   { color: #666; }
     width: 570px;
     padding: 3px;
     border: 2px inset;
-    font-family: "Lucida Grande", "Verdana", "Arial", sans-serif;
+    font-family: Verdana, Lucida, Helvetica, Arial, sans-serif;
     font-size: 1.4em;
     line-height: 1.5em;
     font-weight: normal;
@@ -489,13 +500,14 @@ a.BRgrey:visited   { color: #666; }
 .BRfloat p {
     width: 575px;
     font-size: 1.6em;
-    margin: 20px 20px 0;
+    margin: 10px 20px 0;
 }
 .BRfloat p.meta {
     font-size: 1.1em;
     color: #748d36;
     margin: 10px 0 0;
 }
+
 .shift{
     position:absolute!important;
     left:-10000px!important;
@@ -517,6 +529,9 @@ a.BRgrey:visited   { color: #666; }
 .BRfloatTitle h2 {
     display: inline;
     font-size: 1.3em;
+}
+.BRfloatMeta  {
+	font-size: 1.2em;
 }
 .BRfloatMeta p {
     margin: 0;
@@ -669,7 +684,7 @@ div#pagenum {
     width: 80px;
     text-align: right;
     background-color: #000;
-    font-family: "Lucida Grande", "Arial", sans-serif;
+    font-family: Verdana, Lucida, Helvetica, Arial, sans-serif;
 }
 div#pagenum span {
     color: #ffa337;
@@ -912,3 +927,58 @@ div#BRzoombtn {
 #BRnavCntlTop.BRup,#BRnavCntlTop.BRdn {
     background-position: 8px 4px;
 }
+
+.breadcrumb {
+    list-style: none;
+	margin-left: 2px;
+}
+
+.breadcrumb ul {
+   margin-left: -12px;
+}
+
+.breadcrumb li {
+    float: left;
+	font-size: 14px;
+}
+
+.breadcrumb li::after { 
+    content:'\2192';
+	margin-left: 2px;
+	margin-right: 2px;	 
+}
+
+.breadcrumb li:last-child:after
+{
+  content: '';
+}
+
+.BRhelp {
+    display: block;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    margin: 0;
+    vertical-align: middle;
+    border: none;
+    background-color: transparent;
+    background-image: url(images/BRicons.png);
+    background-repeat: no-repeat;
+	margin-left: 10px;
+}
+.BRhelp.info {background-position:-40px 0;}
+.BRhelp.share {background-position:-120px 0;}
+.BRhelp.read {background-position:-200px 0;}
+.BRhelp.unread {background-position:-280px 0;}
+.BRhelp.full {background-position:-360px 0;}
+.BRhelp.book_left {background-position:-440px 0;}
+.BRhelp.book_right {background-position:-520px 0;}
+.BRhelp.zoom_out {background-position:-600px 0;}
+.BRhelp.zoom_in {background-position:-680px 0;}
+.BRhelp.play {background-position:-760px 0;}
+.BRhelp.pause {background-position:-840px 0;}
+.BRhelp.twopg {background-position:-920px 0;}
+.BRhelp.onepg {background-position:-1000px 0;}
+.BRhelp.thumb {background-position:-1080px 0;}
+.BRhelp.fit {background-position:-1160px 0;}
+.BRhelp.question {background-position:-1240px 0;}

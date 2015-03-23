@@ -159,7 +159,7 @@ if __name__ == '__main__':
     results = json.loads(reply)
     #print path
     assert os.path.exists(path)
-    re_item = re.compile('^/\d+/items/([^/]+)')
+    re_item = re.compile('^/mnt/yearbooks/([^/]+)')
     filename = None
     for ending in 'abbyy.gz', 'abbyy.xml', 'abbyy.zip':
         test_filename = os.path.join(path, doc + '_' + ending)

@@ -25,16 +25,27 @@ $itemPath = $_REQUEST['itemPath'];
 $subPrefix = $_REQUEST['subPrefix'];
 $server = $_REQUEST['server'];
 
-#$SQLIPAddress = 'mssql-dev3';
-#$UserName = 'ezpeditor';
-#$Password = 'eZpEd1t0r';
-#$db = 'ybeditor';
-#mssql_connect($SQLIPAddress,$UserName,$Password) or die('MSSQL error: ' . mssql_get_last_message());
-#mssql_select_db($db) or die(mssql_error());
+$SQLIPAddress = 'mssql-dev3';
+$UserName = 'ezpeditor';
+$Password = 'eZpEd1t0r';
+$db = 'ybeditor';
 
-#$sqlresources = "SELECT * FROM yb_metadata where yb_id = '" . $id  . "'";
-#$rs = mssql_query($sqlresources) or die('MSSQL error: ' . mssql_get_last_message());
-#$row = mssql_fetch_array( $rs );
+$con = mssql_connect($SQLIPAddress,$UserName,$Password) or 
+	die("Couldn't connect to SQL Server on $SQLIPAddress"); 
+
+mssql_select_db($db, $con) or 
+	die("Couldn't connect to database on $db"); 
+
+$sqlresources = "SELECT * FROM yb_metadata where yb_id = '" . $id  . "'";
+$rs = mssql_query($sqlresources, $con) or die("Error with Query");
+
+if ($row = mssql_fetch_array($rs)) {
+	$book_description = preg_replace('/[^a-zA-Z0-9<>@_ %\[\]\.\(\)%&-\/]/s', '', $row['description']);
+	$bookrecord = $row['bookrecord'];
+} else {
+	$book_description = "";
+	$bookrecord = "";
+}	
 
 //needs work!!
 
@@ -71,7 +82,7 @@ if ("" == $server) {
     BRFatal("No server specified!");
 }
 
-if (!preg_match("|^/mnt/www/library/1/index/{$id}$|", $itemPath)) {
+if (!preg_match("|^/mnt/yearbooks/{$id}$|", $itemPath)) {
     BRFatal("Bad id! " . "Path: " . $itemPath);
 }
 
@@ -454,8 +465,8 @@ br.buildInfoDiv = function(jInfoDiv) {
     var download_links = [];
     if (!this.olAuth) {
         download_links = [
-                '<h3>Description:</h3>',
-                '<?php echo $row['description']; ?>',
+                '</br>',
+                '<?php echo $book_description; ?>',
             '<!-- <h3>Other Formats</h3>',
             '<ul class="links">',
                 '<li><a href="//bookreader.library.tamu.edu/items/', this.bookId, '/', this.subPrefix, '.pdf">PDF</a><span>|</span></li>',
@@ -468,7 +479,7 @@ br.buildInfoDiv = function(jInfoDiv) {
         ];
     }
 
-    download_links.push('<p class="moreInfo"><span></span>More information in our catalog <a href="<?php echo $row['bookrecord']; ?>">LibCat</a>  </p>');
+    download_links.push('<p class="moreInfo"><span></span>More information in our catalog <a href="<?php echo $bookrecord; ?>">LibCat</a>  </p>');
 
     jInfoDiv.find('.BRfloatMeta').append(download_links.join('\n'));
 
@@ -578,7 +589,7 @@ foreach ($metaData->xpath('//collection') as $collection) {
     }
 }
 
-echo "br.olHost = 'https://openlibrary.org';\n";
+echo "br.olHost = 'http://bookreader.library.tamu.edu';\n";
 echo "br.olAuthUrl = null;\n";
 
 if ($useOLAuth) {

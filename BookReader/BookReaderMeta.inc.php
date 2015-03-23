@@ -63,7 +63,7 @@ class BookReaderMeta {
             $this->BRFatal("No server specified!");
         }
         
-        if (!preg_match("|^/\d+/items/{$id}$|", $itemPath)) {
+        if (!preg_match("|^/mnt/yearbooks/{$id}$|", $itemPath)) {
             $this->BRFatal("Bad id!");
         }
         

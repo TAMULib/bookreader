@@ -86,7 +86,7 @@ class BookReader
   // $$$ would be cleaner to use different templates instead of the uiMode param
   //
   // @param subprefix Optional prefix to display a book inside an item (e.g. if does not match identifier)
-  public static function draw($server, $mainDir, $identifier, $subPrefix, $title,
+  public static function draw($server, $mainDir, $identifier, $subPrefix, $title, $searchenabled,
                               $coverLeaf=null, $titleStart='Internet Archive', $uiMode='full', $protected = false, $isAdmin=false)
   {
     // Set title to default if not set
@@ -94,6 +94,11 @@ class BookReader
         $title = 'BookReader';
     }
 
+    if (!$searchenabled) {
+        $searchenabled = 0;
+    }
+	
+	
     $id = $identifier;
 
     // manually update with Launchpad version number at each checkin so that browsers
@@ -126,6 +131,7 @@ class BookReader
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
     <link rel="apple-touch-icon" href="<?php echo($coverThumb); ?>" />
+	<meta name="searchenabled" content="<?php echo $searchenabled; ?>" />
     <title><?php echo $title; ?></title>
 
 
@@ -145,13 +151,13 @@ class BookReader
 <?php } ?>
     <script src="js/jquery-1.4.2.min.js" type="text/javascript"></script>
     <script type="text/javascript" src="js/jquery-ui-1.8.5.custom.min.js?v=<?php echo($version); ?>"></script>
-<!--    <script type="text/javascript" src="//archive.org/includes/analytics.js?v=52515"></script> -->
     <script type="text/javascript" src="js/dragscrollable.js?v=<?php echo($version); ?>"></script>
     <script type="text/javascript" src="js/jquery.colorbox-min.js"></script>
     <script type="text/javascript" src="js/jquery.ui.ipad.js"></script>
 
     <script type="text/javascript" src="js/jquery.bt.min.js"></script>
     <script type="text/javascript" src="js/BookReader.js?v=<?php echo($version); ?>"></script>
+	
 <?php if ( !preg_match("/mobile/i", $_SERVER['HTTP_USER_AGENT']) ) { ?>
     <script type="text/javascript" src="soundmanager/soundmanager2.js?v=<?php echo($version); ?>"></script>
     <script>

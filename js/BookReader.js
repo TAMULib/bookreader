@@ -1,4 +1,5 @@
 /*
+/*
 Copyright(c)2008-2009 Internet Archive. Software license AGPL version 3.
 
 This file is part of BookReader.
@@ -80,7 +81,7 @@ function BookReader() {
     this.lastDisplayableIndex2up = null;
 
     // Should be overriden (before init) by custom implmentations.
-    this.logoURL = 'https://www.archive.org';
+    this.logoURL = 'http://library.tamu.edu';
 
     // Base URL for UI images - should be overriden (before init) by
     // custom implementations.
@@ -263,6 +264,8 @@ BookReader.prototype.init = function() {
         });
 
         $('.BRicon.share').hide();
+		
+		$('.BRicon.question').hide();
     }
 
     $('.BRpagediv1up').bind('mousedown', this, function(e) {
@@ -2742,7 +2745,7 @@ BookReader.prototype.search = function(term) {
 
     this.removeSearchResults();
 
-    this.showProgressPopup('<img id="searchmarker" src="'+this.imagesBaseURL + 'marker_srch-on.png'+'"> Search results will appear below...');
+    this.showProgressPopup('<img id="searchmarker" src="'+this.imagesBaseURL + 'marker_srch-on.png'+'"> Search results will appear below... <br/><br/>(Search results may be reduced due to the accuracy of OCR)');
 
     $.ajax({url:url, dataType:'jsonp', jsonpCallback:'br.BRSearchCallback'});
 }
@@ -2758,8 +2761,8 @@ BookReader.prototype.BRSearchCallback = function(results) {
     //console.log(br.searchResults);
 
     if (0 == results.matches.length) {
-        var errStr  = 'No matches were found.';
-        var timeout = 1000;
+        var errStr  = 'No matches were found.<br/><br/>(Search results may be reduced due to the accuracy of OCR)';
+        var timeout = 4000;
         if (false === results.indexed) {
             errStr  = "<p>This book hasn't been indexed for searching yet. We've just started indexing it, so search should be available soon. Please try again later. Thanks!</p>";
             timeout = 5000;
@@ -3632,41 +3635,54 @@ BookReader.prototype.initToolbar = function(mode, ui) {
         readIcon = "<button class='BRicon read modal'></button>";
     }
 
-    $("#BookReader").append(
-          "<div id='BRtoolbar'>"
-        +   "<span id='BRtoolbarbuttons'>"
-        +     "<form action='javascript:br.search($(\"#textSrch\").val());' id='booksearch'><input type='search' id='textSrch' name='textSrch' val='' placeholder='Search inside'/><button type='submit' id='btnSrch' name='btnSrch'>GO</button></form>"
-        +     "<button class='BRicon play'></button>"
-        +     "<button class='BRicon pause'></button>"
-        +     "<button class='BRicon info'></button>"
-        +     "<button class='BRicon share'></button>"
-        +     readIcon
-        //+     "<button class='BRicon full'></button>"
-        +   "</span>"
-        +   "<span><a class='logo' href='" + this.logoURL + "'></a></span>"
-        +   "<span id='BRreturn'><a></a></span>"
-        +   "<div id='BRnavCntlTop' class='BRnabrbuvCntl'></div>"
-        + "</div>"
-        /*
-        + "<div id='BRzoomer'>"
-        +   "<div id='BRzoompos'>"
-        +     "<button class='BRicon zoom_out'></button>"
-        +     "<div id='BRzoomcontrol'>"
-        +       "<div id='BRzoomstrip'></div>"
-        +       "<div id='BRzoombtn'></div>"
-        +     "</div>"
-        +     "<button class='BRicon zoom_in'></button>"
-        +   "</div>"
-        + "</div>"
-        */
-        );
+	if ($('meta[name=searchenabled]').attr("content") == 1) {
+		$("#BookReader").append(
+			  "<div id='BRtoolbar'>"
+			+   "<span id='BRtoolbarbuttons'>"
+			+     "<form action='javascript:br.search($(\"#textSrch\").val());' id='booksearch'><input type='search' id='textSrch' name='textSrch' val='' placeholder='Search inside'/><button type='submit' id='btnSrch' name='btnSrch'>GO</button></form>"
+			+     "<button class='BRicon play'></button>"
+			+     "<button class='BRicon pause'></button>"
+			+     "<button class='BRicon info'></button>"
+			+     "<button class='BRicon share'></button>"
+			+     "<button class='BRicon question'></button>"
+			//+     readIcon
+			+   "</span>"
+			
+//			+   "<span><a href='" + this.logoURL + "'>Yearbook Collection</a></span>"
+//			+   "<span><a class='logo' href='" + this.logoURL + "'></a></span>"
+//			+   "<span id='BRreturn'><a></a></span>"
+		
+		
++ "<span><a class='logotamu' href='http://www.tamu.edu/'></a><a class='logo' href='" + this.logoURL + "'></a><ul class='breadcrumb'><li><a href='http://library.tamu.edu/yearbooks'>Yearbook Collection</a></li><li>" + this.bookTitle + " " + this.bookId.replace('yb', '') + "</li></ul></span>"
 
+			+   "<div id='BRnavCntlTop' class='BRnabrbuvCntl'></div>"
+			+ "</div>"
+			);
+	} else {
+		$("#BookReader").append(
+			  "<div id='BRtoolbar'>"
+			+   "<span id='BRtoolbarbuttons'>"
+			+     "<button class='BRicon play'></button>"
+			+     "<button class='BRicon pause'></button>"
+			+     "<button class='BRicon info'></button>"
+			+     "<button class='BRicon share'></button>"
+			+     "<button class='BRicon question'></button>"			
+			//+     readIcon
+			+   "</span>"
+			+   "<span><a href='http://library.tamu.edu/yearbooks/'>Yearbook Collection</a>" + this.logoURL + "'></a></span>"
+			+   "<span id='BRreturn'><a></a></span>"
+			+   "<div id='BRnavCntlTop' class='BRnabrbuvCntl'></div>"
+			+ "</div>"
+			);	
+	}
+		
     // Browser hack - bug with colorbox on iOS 3 see https://bugs.launchpad.net/bookreader/+bug/686220
     if ( navigator.userAgent.match(/ipad/i) && $.browser.webkit && (parseInt($.browser.version, 10) <= 531) ) {
        $('#BRtoolbarbuttons .info').hide();
        $('#BRtoolbarbuttons .share').hide();
+	    $('#BRtoolbarbuttons .question').hide();
     }
-
+// navigation dch
     $('#BRreturn a').attr('href', this.bookUrl).text(this.bookTitle);
 
     $('#BRtoolbar .BRnavCntl').addClass('BRup');
@@ -3702,14 +3718,16 @@ BookReader.prototype.initToolbar = function(mode, ui) {
     var self = this;
     jToolbar.find('.share').colorbox({inline: true, opacity: "0.5", href: "#BRshare", onLoad: function() { self.autoStop(); self.ttsStop(); } });
     jToolbar.find('.info').colorbox({inline: true, opacity: "0.5", href: "#BRinfo", onLoad: function() { self.autoStop(); self.ttsStop(); } });
+    jToolbar.find('.question').colorbox({inline: true, opacity: "0.5", href: "#BRquestion", onLoad: function() { self.autoStop(); self.ttsStop(); } });
 
     $('<div style="display: none;"></div>').append(this.blankShareDiv()).append(this.blankInfoDiv()).appendTo($('body'));
-
+	$('<div style="display: none;"></div>').append(this.blankQuestionDiv()).append(this.blankInfoDiv()).appendTo($('body'));
     $('#BRinfo .BRfloatTitle a').attr( {'href': this.bookUrl} ).text(this.bookTitle).addClass('title');
 
     // These functions can be overridden
     this.buildInfoDiv($('#BRinfo'));
     this.buildShareDiv($('#BRshare'));
+	this.buildQuestionDiv($('#BRquestion'));
 
     // Switch to requested mode -- binds other click handlers
     //this.switchToolbarMode(mode);
@@ -3749,6 +3767,16 @@ BookReader.prototype.blankShareDiv = function() {
     );
 }
 
+BookReader.prototype.blankQuestionDiv = function() {
+    return $([
+        '<div class="BRfloat" id="BRquestion">',
+            '<div class="BRfloatHead">',
+                'Help',
+                '<a class="floatShut" href="javascript:;" onclick="$.fn.colorbox.close();"><span class="shift">Close</span></a>',
+            '</div>',
+        '</div>'].join('\n')
+    );
+}
 
 // switchToolbarMode
 //______________________________________________________________________________
@@ -4658,6 +4686,7 @@ BookReader.prototype.gotOpenLibraryRecord = function(self, olObject) {
 
         $('#BRinfo').remove();
         $('#BRshare').after(self.blankInfoDiv());
+		$('#BRquestion').after(self.blankInfoDiv());
         self.buildInfoDiv($('#BRinfo'));
 
         // Check for borrowed book
@@ -5238,6 +5267,52 @@ BookReader.prototype.buildShareDiv = function(jShareDiv)
 
 }
 
+BookReader.prototype.buildQuestionDiv = function(jQuestionDiv)
+{
+    var pageView = document.location + '';
+    var bookView = (pageView + '').replace(/#.*/,'');
+    var self = this;
+
+    var jForm = $([
+        '<p>Help with the Bookreader.</p>',
+        '<div class="BRhelp info" title="Help with the Book Reader"></div><br/>',
+        '<div class="BRhelp share" title="Help with the Book Reader"></div><br/>',
+        '<div class="BRhelp book_left" title="Help with the Book Reader"></div><br/>',
+        '<div class="BRhelp book_right" title="Help with the Book Reader"></div><br/>',
+        '<div class="BRhelp zoom_out" title="Help with the Book Reader"></div><br/>',
+        '<div class="BRhelp zoom_in" title="Help with the Book Reader"></div><br/>',
+        '<div class="BRhelp play" title="Help with the Book Reader"></div><br/>',
+        '<div class="BRhelp pause" title="Help with the Book Reader"></div><br/>',
+        '<div class="BRhelp twopg" title="Help with the Book Reader"></div><br/>',
+        '<div class="BRhelp onepg" title="Help with the Book Reader"></div><br/>',
+        '<div class="BRhelp thumb" title="Help with the Book Reader"></div><br/>'
+		].join('\n'));
+
+    jForm.appendTo(jQuestionDiv);
+
+    jForm.find('input').bind('change', function() {
+        var form = $(this).parents('form:first');
+        var params = {};
+        params.mode = $(form.find('input[name=pages]:checked')).val();
+        if (form.find('input[name=thispage]').attr('checked')) {
+            params.page = self.getPageNum(self.currentIndex());
+        }
+
+        // $$$ changeable width/height to be added to share UI
+        var frameWidth = "480px";
+        var frameHeight = "430px";
+        form.find('.BRframeEmbed').val(self.getEmbedCode(frameWidth, frameHeight, params));
+    })
+    jForm.find('input[name=thispage]').trigger('change');
+    jForm.find('input, textarea').bind('focus', function() {
+        this.select();
+    });
+
+    jForm.appendTo(jQuestionDiv);
+    jForm = ''; // closure
+
+}
+
 // Should be overridden
 BookReader.prototype.buildInfoDiv = function(jInfoDiv)
 {
@@ -5251,7 +5326,7 @@ BookReader.prototype.initUIStrings = function()
     // the toolbar and nav bar easier
 
     // Setup tooltips -- later we could load these from a file for i18n
-    var titles = { '.logo': 'Go to Archive.org', // $$$ update after getting OL record
+    var titles = { '.logo': 'Go to library.tamu.edu', // $$$ update after getting OL record
                    '.zoom_in': 'Zoom in',
                    '.zoom_out': 'Zoom out',
                    '.onepg': 'One-page view',
@@ -5263,6 +5338,7 @@ BookReader.prototype.initUIStrings = function()
                    '.bookmark': 'Bookmark this page',
                    '.read': 'Read this book aloud',
                    '.share': 'Share this book',
+				   '.question': 'Help with this book',
                    '.info': 'About this book',
                    '.full': 'Show fullscreen',
                    '.book_left': 'Flip left',
