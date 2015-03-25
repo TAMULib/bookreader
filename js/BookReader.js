@@ -80,6 +80,8 @@ function BookReader() {
 
     this.lastDisplayableIndex2up = null;
 
+    this.ignoreResults = false;
+
     // Should be overriden (before init) by custom implmentations.
     this.logoURL = 'http://library.tamu.edu';
 
@@ -2745,7 +2747,7 @@ BookReader.prototype.search = function(term) {
 
     this.removeSearchResults();
 
-    this.showProgressPopup('<img id="searchmarker" src="'+this.imagesBaseURL + 'marker_srch-on.png'+'"> Search results will appear below... <br/><br/>(Search results may be reduced due to the accuracy of OCR)');
+    this.showProgressPopup('<img id="searchmarker" src="'+this.imagesBaseURL + 'marker_srch-on.png'+'"> Search results will appear below... <br/><br/>(Search results may be reduced due to the accuracy of OCR)<br/><br/>');
 
     $.ajax({url:url, dataType:'jsonp', jsonpCallback:'br.BRSearchCallback'});
 }
@@ -2754,7 +2756,28 @@ BookReader.prototype.search = function(term) {
 //______________________________________________________________________________
 BookReader.prototype.BRSearchCallback = function(results) {
     //console.log(results.matches.length + ' results');
-    
+
+    if(this.ignoreResults == true) {
+	this.ignoreResults = false;
+	//alert("results ignored");
+	return;
+    }
+
+    if(results == 'cancel') {
+	br.removeSearchResults();
+	
+	var msgStr = '<center>Canceling search.</center>';
+        $(br.popup).html(msgStr);
+	setTimeout(function(){
+            $(br.popup).fadeOut('slow', function() {
+                br.removeProgressPopup();
+            })
+        },3500);
+	
+	this.ignoreResults = true;
+	return;
+    }
+ 
     br.removeSearchResults();
     br.searchResults = results;
     
@@ -4901,6 +4924,21 @@ BookReader.prototype.showProgressPopup = function(msg) {
         msgdiv.innerHTML = msg;
         $(this.popup).append(msgdiv);
     }
+
+    var cancel = document.createElement("button");
+
+    cancel.style.float = 'right';
+
+    var text = document.createTextNode("Cancel");
+    cancel.appendChild(text);
+
+    cancel.onclick = function() {
+        
+	br.BRSearchCallback('cancel');
+
+    };
+
+    $(this.popup).append(cancel);
 
     $(this.popup).appendTo('#BookReader');
 }
