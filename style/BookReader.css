@@ -163,14 +163,12 @@ a {
     background: transparent url(images/booksplit.png) repeat scroll 0% 0%;
 }
 
-/*
 .BookReaderSearchHilite {
-    opacity: 0.20; 
-    filter: alpha(opacity = 20);
-    background-color: #00f;
+    opacity: 0.60; 
+    filter: alpha(opacity = 60);
+    background-color: #ff0;
     position:absolute;
 }
-*/
 
 .hidden {
   display: none;
