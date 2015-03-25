@@ -31,7 +31,7 @@ solr_ia_status = None
 def add_to_item_queue():
     global input_count
     skip = None
-    for line in open('/mnt/yearbooks/list'):
+    for line in open('./list'):
         input_counter_lock.acquire()
         input_count += 1
         input_counter_lock.release()
@@ -85,8 +85,8 @@ def read_text_from_node(host):
 	url = 'http://localhost/BookReader/abbyy_to_text.php?ia=' + ia + '&path=/mnt/yearbooks/' + ia +  '&file=' + ia + '_abbyy.gz'
 	
         reply = urlopen(url).read()
-        print url
-        if not reply:
+        
+	if not reply:
             host_queues[host].task_done()
             continue
        
@@ -112,9 +112,8 @@ def index_items():
             t = threading.Thread(name=host, target=read_text_from_node, args=(host,))
             host_threads[host] = t
             t.start()
-	    #if t.isAlive():
-	    print 'thread started!'
-        item_and_host_queue.task_done()
+        
+	item_and_host_queue.task_done()
 
 def build_doc(ia, body, page_count):
 
