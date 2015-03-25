@@ -2736,7 +2736,7 @@ BookReader.prototype.search = function(term) {
     url    += '/BookReader/inside.php?item_id='+this.bookId;
     url    += '&doc='+this.subPrefix;   //TODO: test with subitem
     url    += '&path='+this.bookPath.replace(new RegExp('/'+this.subPrefix+'$'), ''); //remove subPrefix from end of path
-    url    += '&q='+escape(term.replace(/ /g, " OR "));
+    url    += '&q="'+escape(term.replace(/ /g, " ")) + '"~1';
     
     //console.log('Search url =\n'+url);
 
