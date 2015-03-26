@@ -2747,7 +2747,7 @@ BookReader.prototype.search = function(term) {
 
     var xhr = $.ajax({url:url, dataType:'jsonp', jsonpCallback:'br.BRSearchCallback'});
     
-    alert($.fn.jquery);
+    //alert($.fn.jquery);
     
     this.showProgressPopup('<img id="searchmarker" src="'+this.imagesBaseURL + 'marker_srch-on.png'+'"> Search results will appear below... <br/><br/>(Search results may be reduced due to the accuracy of OCR)<br/><br/>', xhr);
 }
