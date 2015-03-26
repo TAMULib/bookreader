@@ -75,12 +75,10 @@ function BookReader() {
 
     this.searchTerm = '';
     this.searchResults = null;
-
+    
     this.firstIndex = null;
 
     this.lastDisplayableIndex2up = null;
-
-    this.ignoreResults = false;
 
     // Should be overriden (before init) by custom implmentations.
     this.logoURL = 'http://library.tamu.edu';
@@ -2747,36 +2745,17 @@ BookReader.prototype.search = function(term) {
 
     this.removeSearchResults();
 
-    this.showProgressPopup('<img id="searchmarker" src="'+this.imagesBaseURL + 'marker_srch-on.png'+'"> Search results will appear below... <br/><br/>(Search results may be reduced due to the accuracy of OCR)<br/><br/>');
-
-    $.ajax({url:url, dataType:'jsonp', jsonpCallback:'br.BRSearchCallback'});
+    var xhr = $.ajax({url:url, dataType:'jsonp', jsonpCallback:'br.BRSearchCallback'});
+    
+    alert($.fn.jquery);
+    
+    this.showProgressPopup('<img id="searchmarker" src="'+this.imagesBaseURL + 'marker_srch-on.png'+'"> Search results will appear below... <br/><br/>(Search results may be reduced due to the accuracy of OCR)<br/><br/>', xhr);
 }
 
 // BRSearchCallback()
 //______________________________________________________________________________
 BookReader.prototype.BRSearchCallback = function(results) {
     //console.log(results.matches.length + ' results');
-
-    if(this.ignoreResults == true) {
-	this.ignoreResults = false;
-	//alert("results ignored");
-	return;
-    }
-
-    if(results == 'cancel') {
-	br.removeSearchResults();
-	
-	var msgStr = '<center>Canceling search.</center>';
-        $(br.popup).html(msgStr);
-	setTimeout(function(){
-            $(br.popup).fadeOut('slow', function() {
-                br.removeProgressPopup();
-            })
-        },3500);
-	
-	this.ignoreResults = true;
-	return;
-    }
  
     br.removeSearchResults();
     br.searchResults = results;
@@ -4903,7 +4882,7 @@ BookReader.prototype.ttsStartCB = function (data) {
 
 // showProgressPopup
 //______________________________________________________________________________
-BookReader.prototype.showProgressPopup = function(msg) {
+BookReader.prototype.showProgressPopup = function(msg, xhr) {
     //if (soundManager.debugMode) console.log('showProgressPopup index='+this.ttsIndex+' pos='+this.ttsPosition);
     if (this.popup) return;
 
@@ -4934,7 +4913,11 @@ BookReader.prototype.showProgressPopup = function(msg) {
 
     cancel.onclick = function() {
         
-	br.BRSearchCallback('cancel');
+		br.removeSearchResults();
+		
+		xhr.abort();
+		
+		br.removeProgressPopup();
 
     };
 
