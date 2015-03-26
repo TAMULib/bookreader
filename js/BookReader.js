@@ -140,7 +140,7 @@ function BookReader() {
     this.ttsBuffering   = false;
     this.ttsPoller      = null;
     this.ttsFormat      = null;
-
+    
     return this;
 };
 
@@ -284,7 +284,7 @@ BookReader.prototype.init = function() {
         this.firstIndex = startIndex;
         this.prepareThumbnailView();
         this.jumpToIndex(startIndex);
-    } else {
+    } else {    	
         this.displayedIndices=[0];
         this.firstIndex = startIndex;
         this.displayedIndices = [this.firstIndex];
@@ -1393,16 +1393,37 @@ BookReader.prototype.switchMode = function(mode) {
 
     // $$$ TODO preserve center of view when switching between mode
     //     See https://bugs.edge.launchpad.net/gnubook/+bug/416682
-
+ 
     // XXX maybe better to preserve zoom in each mode
     if (1 == mode) {
+    	
+    	$("[title='Zoom in disabled in two-page mode']").attr('title','Zoom in');
+    	$("[title='Zoom out disabled in two-page mode']").attr('title','Zoom out');
+    	
+    	$("[title='Zoom in']").removeAttr('disabled');
+    	$("[title='Zoom out']").removeAttr('disabled');
+    	
         this.onePageCalculateReductionFactors( $('#BRcontainer').attr('clientWidth'), $('#BRcontainer').attr('clientHeight'));
         this.reduce = this.quantizeReduce(this.reduce, this.onePage.reductionFactors);
         this.prepareOnePageView();
     } else if (3 == mode) {
+    	    	
+    	$("[title='Zoom in disabled in two-page mode']").attr('title','Zoom in');
+    	$("[title='Zoom out disabled in two-page mode']").attr('title','Zoom out');
+    	
+    	$("[title='Zoom in']").removeAttr('disabled');
+    	$("[title='Zoom out']").removeAttr('disabled');
+    	    	
         this.reduce = this.quantizeReduce(this.reduce, this.reductionFactors);
         this.prepareThumbnailView();
     } else {
+    	    	
+    	$("[title='Zoom in']").attr('disabled','disabled');
+    	$("[title='Zoom out']").attr('disabled','disabled');
+    	
+    	$("[title='Zoom in']").attr('title','Zoom in disabled in two-page mode');
+    	$("[title='Zoom out']").attr('title','Zoom out disabled in two-page mode');
+    	
         // $$$ why don't we save autofit?
         // this.twoPage.autofit = null; // Take zoom level from other mode
         this.twoPageCalculateReductionFactors();
@@ -5386,5 +5407,32 @@ BookReader.prototype.initUIStrings = function()
             $('#BookReader').find(icon).attr('title', titles[icon]);
         }
     }
+	
+    if (1 == this.mode) {
+    	
+    	$("[title='Zoom in disabled in two-page mode']").attr('title','Zoom in');
+    	$("[title='Zoom out disabled in two-page mode']").attr('title','Zoom out');
+    	
+    	$("[title='Zoom in']").removeAttr('disabled');
+    	$("[title='Zoom out']").removeAttr('disabled');
+    	
+    } else if (3 == this.mode) {
+    	    	
+    	$("[title='Zoom in disabled in two-page mode']").attr('title','Zoom in');
+    	$("[title='Zoom out disabled in two-page mode']").attr('title','Zoom out');
+    	
+    	$("[title='Zoom in']").removeAttr('disabled');
+    	$("[title='Zoom out']").removeAttr('disabled');    	
+    	    	
+    } else {
+    	    	
+    	$("[title='Zoom in']").attr('disabled','disabled');
+    	$("[title='Zoom out']").attr('disabled','disabled');
+    	
+    	$("[title='Zoom in']").attr('title','Zoom in disabled in two-page mode');
+    	$("[title='Zoom out']").attr('title','Zoom out disabled in two-page mode');
+    	
+    }
+	
 }
 })(jQuery);
