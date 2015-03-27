@@ -2784,13 +2784,28 @@ BookReader.prototype.BRSearchCallback = function(results) {
     //console.log(br.searchResults);
 
     if (0 == results.matches.length) {
-        var errStr  = 'No matches were found.<br/><br/>(Search results may be reduced due to the accuracy of OCR)';
+        var errStr  = 'No matches were found.<br/><br/>(Search results may be reduced due to the accuracy of OCR)<br/><br/>';
         var timeout = 4000;
         if (false === results.indexed) {
-            errStr  = "<p>This book hasn't been indexed for searching yet. We've just started indexing it, so search should be available soon. Please try again later. Thanks!</p>";
+            errStr  = "<p>This book hasn't been indexed for searching yet. We've just started indexing it, so search should be available soon. Please try again later. Thanks!</p><br/><br/>";
             timeout = 5000;
         }
         $(br.popup).html(errStr);
+
+        var cancel = document.createElement("button");
+
+        cancel.style.float = 'right';
+
+        var text = document.createTextNode("Cancel");
+        cancel.appendChild(text);
+
+        cancel.onclick = function() {
+        	br.removeSearchResults();
+        	br.removeProgressPopup();
+    	};
+
+        $(br.popup).append(cancel);
+
         setTimeout(function(){
             $(br.popup).fadeOut('slow', function() {
                 br.removeProgressPopup();
