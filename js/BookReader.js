@@ -3677,7 +3677,7 @@ BookReader.prototype.initToolbar = function(mode, ui) {
 		$("#BookReader").append(
 			  "<div id='BRtoolbar'>"
 			+   "<span id='BRtoolbarbuttons'>"
-			+     "<form action='javascript:br.search($(\"#textSrch\").val());' id='booksearch'><input type='search' id='textSrch' name='textSrch' val='' placeholder='Search inside'/><button type='submit' id='btnSrch' name='btnSrch'>GO</button></form>"
+			+     "<form action='javascript:br.search($(\"#textSrch\").val());' id='booksearch'><input type='search' id='textSrch' name='textSrch' val='' placeholder='Search inside' onclick='$(this).focus()'/><button type='submit' id='btnSrch' name='btnSrch'>GO</button></form>"
 			+     "<button class='BRicon play'></button>"
 			+     "<button class='BRicon pause'></button>"
 			+     "<button class='BRicon info'></button>"
