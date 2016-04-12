@@ -2766,8 +2766,14 @@ BookReader.prototype.search = function(term) {
     this.searchTerm = term;
 
     this.removeSearchResults();
-
-    var xhr = $.ajax({url:url, dataType:'jsonp', jsonpCallback:'br.BRSearchCallback'});
+    
+    var xhr = $.ajax({
+      dataType: "json",
+      url: url,
+      success: function(results) {
+          br.BRSearchCallback(results);
+      }
+    });
     
     //alert($.fn.jquery);
     
