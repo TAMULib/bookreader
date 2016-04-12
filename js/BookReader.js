@@ -1401,9 +1401,8 @@ BookReader.prototype.switchMode = function(mode) {
     // XXX maybe better to preserve zoom in each mode
     if (1 == mode) {
         
-        $("[title='Zoom in']").hide();
+        $("[title='Zoom in']").show();
         $("[title='Zoom out']").hide();
-        $("[title='Show OpenSeaDragon Zoom']").show();
         
         this.onePageCalculateReductionFactors( $('#BRcontainer').attr('clientWidth'), $('#BRcontainer').attr('clientHeight'));
         this.reduce = this.quantizeReduce(this.reduce, this.onePage.reductionFactors);
@@ -1411,9 +1410,8 @@ BookReader.prototype.switchMode = function(mode) {
         
     } else if (2 == mode) {
         
-        $("[title='Zoom in']").hide();
+        $("[title='Zoom in']").show();
         $("[title='Zoom out']").hide();
-        $("[title='Show OpenSeaDragon Zoom']").show();
         
         // $$$ why don't we save autofit?
         // this.twoPage.autofit = null; // Take zoom level from other mode
@@ -1427,7 +1425,6 @@ BookReader.prototype.switchMode = function(mode) {
         
         $("[title='Zoom in']").show();
         $("[title='Zoom out']").show();
-        $("[title='Show OpenSeaDragon Zoom']").hide();
                 
         this.reduce = this.quantizeReduce(this.reduce, this.reductionFactors);
         this.prepareThumbnailView();
@@ -3374,7 +3371,6 @@ BookReader.prototype.initNavbar = function() {
         //+         '<button class="BRicon fit"></button>'
         +         '<button class="BRicon zoom_in"></button>'
         +         '<button class="BRicon zoom_out"></button>'
-        +         '<button class="BRicon full"></button>'
         +         '<button class="BRicon book_left"></button>'
         +         '<button class="BRicon book_right"></button>'
         +     '</div>'
@@ -3979,8 +3975,16 @@ BookReader.prototype.bindNavigationHandlers = function() {
     });
 
     jIcons.filter('.zoom_in').bind('click', function() {
-        self.ttsStop();
-        self.zoom(1);
+        
+        if (1 == br.mode) {
+            br.showOpenSeaDragon(br.firstIndex);
+        } else if (2 == br.mode) {
+            br.showZoomSelection(2);
+        } else {
+            self.ttsStop();
+            self.zoom(1);
+        }       
+        
         return false;
     });
 
@@ -4981,28 +4985,18 @@ BookReader.prototype.removeProgressPopup = function() {
 //______________________________________________________________________________
 BookReader.prototype.showZoomSelection = function(mode) {
     if(mode == 2) {
-
+        
         if (br.zoomSelect) {
             br.zoomSelect = false;
             br.removeOpenSeaDragon();
             br.setMouseHandlers2UP();
             return;
         }
-
-        br.zoomSelect = true;
-
-        $("[title='Zoom in']").attr('disabled','disabled');
-        $("[title='Zoom out']").attr('disabled','disabled');
-        $("[title='One-page view']").attr('disabled','disabled');
-        $("[title='Two-page view']").attr('disabled','disabled');
-        $("[title='Thumbnail view']").attr('disabled','disabled');
         
-        $("[title='Zoom in']").css({"opacity": ".4"});
-        $("[title='Zoom out']").css({"opacity": ".4"});
-        $("[title='One-page view']").css({"opacity": ".4"});
-        $("[title='Two-page view']").css({"opacity": ".4"});
-        $("[title='Thumbnail view']").css({"opacity": ".4"});
-
+        br.zoomSelect = true;
+        
+        br.disableNavControls();
+        
         $('#BRtwopageview').children('img').each(function() {
             
             $(this).css({"border": "yellow", "border-style": "solid", "opacity": ".6"});
@@ -5036,20 +5030,8 @@ BookReader.prototype.removeZoomSelection = function() {
 //______________________________________________________________________________
 BookReader.prototype.showOpenSeaDragon = function(page) {
   if (this.popup) return;
- 
-  $("[title='Zoom in']").attr('disabled','disabled');
-  $("[title='Zoom out']").attr('disabled','disabled');
-  $("[title='One-page view']").attr('disabled','disabled');
-  $("[title='Two-page view']").attr('disabled','disabled');
-  $("[title='Thumbnail view']").attr('disabled','disabled');
-  $("[title='Show OpenSeaDragon Zoom']").attr('disabled','disabled');
   
-  $("[title='Zoom in']").css({"opacity": ".4"});
-  $("[title='Zoom out']").css({"opacity": ".4"});
-  $("[title='One-page view']").css({"opacity": ".4"});
-  $("[title='Two-page view']").css({"opacity": ".4"});
-  $("[title='Thumbnail view']").css({"opacity": ".4"});
-  $("[title='Show OpenSeaDragon Zoom']").css({"opacity": ".4"});
+  br.disableNavControls();
   
   this.popup = document.createElement("div");
   
@@ -5095,19 +5077,7 @@ BookReader.prototype.showOpenSeaDragon = function(page) {
 BookReader.prototype.removeOpenSeaDragon = function() {
   $(this.popup).remove();
   
-  $("[title='Zoom in']").removeAttr('disabled');
-  $("[title='Zoom out']").removeAttr('disabled');
-  $("[title='One-page view']").removeAttr('disabled');
-  $("[title='Two-page view']").removeAttr('disabled');
-  $("[title='Thumbnail view']").removeAttr('disabled');
-  $("[title='Show OpenSeaDragon Zoom']").removeAttr('disabled');
-  
-  $("[title='Zoom in']").css({"opacity": ""});
-  $("[title='Zoom out']").css({"opacity": ""});
-  $("[title='One-page view']").css({"opacity": ""});
-  $("[title='Two-page view']").css({"opacity": ""});
-  $("[title='Thumbnail view']").css({"opacity": ""});
-  $("[title='Show OpenSeaDragon Zoom']").css({"opacity": ""});
+  br.enableNavControls();
   
   $('#BRtwopageview').children('img').each(function() {
         $(this).css({"border": "", "border-style": "", "opacity": ""});
@@ -5119,6 +5089,51 @@ BookReader.prototype.removeOpenSeaDragon = function() {
 }
 
 
+//disableNavControls
+//______________________________________________________________________________
+BookReader.prototype.disableNavControls = function() {
+    $("#textSrch").attr('disabled','disabled');
+    $("#btnSrch").attr('disabled','disabled');
+    $("[title='Play']").attr('disabled','disabled');
+    
+    $("[title='Zoom out']").attr('disabled','disabled');
+    $("[title='One-page view']").attr('disabled','disabled');
+    $("[title='Two-page view']").attr('disabled','disabled');
+    $("[title='Thumbnail view']").attr('disabled','disabled');
+    
+    $("#textSrch").css({"opacity": ".4"});
+    $("#btnSrch").css({"opacity": ".4"});
+    $("[title='Play']").css({"opacity": ".4"});
+    
+    $("[title='Zoom out']").css({"opacity": ".4"});
+    $("[title='One-page view']").css({"opacity": ".4"});
+    $("[title='Two-page view']").css({"opacity": ".4"});
+    $("[title='Thumbnail view']").css({"opacity": ".4"});
+}
+
+//enableNavControls
+//______________________________________________________________________________
+BookReader.prototype.enableNavControls = function() {
+    $("#textSrch").removeAttr('disabled');
+    $("#btnSrch").removeAttr('disabled');
+    $("[title='Play']").removeAttr('disabled');
+  
+    $("[title='Zoom in']").removeAttr('disabled');
+    $("[title='Zoom out']").removeAttr('disabled');
+    $("[title='One-page view']").removeAttr('disabled');
+    $("[title='Two-page view']").removeAttr('disabled');
+    $("[title='Thumbnail view']").removeAttr('disabled');
+  
+    $("#textSrch").css({"opacity": ""});
+    $("#btnSrch").css({"opacity": ""});
+    $("[title='Play']").css({"opacity": ""});
+  
+    $("[title='Zoom in']").css({"opacity": ""});
+    $("[title='Zoom out']").css({"opacity": ""});
+    $("[title='One-page view']").css({"opacity": ""});
+    $("[title='Two-page view']").css({"opacity": ""});
+    $("[title='Thumbnail view']").css({"opacity": ""});
+}
 
 
 
@@ -5552,7 +5567,7 @@ BookReader.prototype.initUIStrings = function()
                    '.share': 'Share this book',
                    '.question': 'Help with this book',
                    '.info': 'About this book',
-                   '.full': 'Show OpenSeaDragon Zoom',
+                   '.full': 'Full page',
                    '.book_left': 'Flip left',
                    '.book_right': 'Flip right',
                    '.book_up': 'Page up',
@@ -5580,35 +5595,20 @@ BookReader.prototype.initUIStrings = function()
     
     if (1 == this.mode) {
         
-        $("[title='Zoom in']").hide();      
+        $("[title='Zoom in']").show();      
         $("[title='Zoom out']").hide();
-        $("[title='Show OpenSeaDragon Zoom']").show();
         
     } else if (2 == this.mode) {
 
-        $("[title='Zoom in']").hide();
+        $("[title='Zoom in']").show();
         $("[title='Zoom out']").hide();
-        $("[title='Show OpenSeaDragon Zoom']").show();
         
     } else if (3 == this.mode) {
                 
         $("[title='Zoom in']").show();
         $("[title='Zoom out']").show();
-        $("[title='Show OpenSeaDragon Zoom']").hide();
         
     }
-    
-    $("[title='Show OpenSeaDragon Zoom']").click(function() {
-        if (1 == br.mode) {
-            br.showOpenSeaDragon(br.firstIndex);
-        } else if (2 == br.mode) {
-            br.showZoomSelection(2);
-        } else {
-            // do nothing
-        }
-        
-            
-    })
     
 }
 })(jQuery);
