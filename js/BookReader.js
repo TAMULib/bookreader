@@ -2479,8 +2479,7 @@ BookReader.prototype.setMouseHandlers2UP = function() {
                 return true;
             }
 
-             if (! e.data.self.twoPageIsZoomedIn() && !br.zoomSelect) {
-                 console.log('left')
+             if (!e.data.self.twoPageIsZoomedIn() && !br.zoomSelect) {
                 e.data.self.ttsStop();
                 e.data.self.left();
             }
@@ -2488,7 +2487,7 @@ BookReader.prototype.setMouseHandlers2UP = function() {
         }
     );
 
-    this.setClickHandler2UP( this.prefetchedImgs[this.twoPage.currentIndexR],
+    this.setClickHandler2UP(this.prefetchedImgs[this.twoPage.currentIndexR],
         { self: this },
         function(e) {
             if (e.which == 3) {
@@ -2500,7 +2499,6 @@ BookReader.prototype.setMouseHandlers2UP = function() {
             }
 
             if (!e.data.self.twoPageIsZoomedIn() && !br.zoomSelect) {
-                console.log('right')
                 e.data.self.ttsStop();
                 e.data.self.right();
             }
