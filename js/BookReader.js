@@ -2766,7 +2766,13 @@ BookReader.prototype.search = function(term) {
 
     this.removeSearchResults();
 
-    var xhr = $.ajax({url:url, dataType:'jsonp', jsonpCallback:'br.BRSearchCallback'});
+    var xhr = $.ajax({
+	  dataType: "json",
+	  url: url,
+	  success: function(results) {
+		  br.BRSearchCallback(results);
+	  }
+	});
     
     //alert($.fn.jquery);
     
@@ -3677,7 +3683,7 @@ BookReader.prototype.initToolbar = function(mode, ui) {
 		$("#BookReader").append(
 			  "<div id='BRtoolbar'>"
 			+   "<span id='BRtoolbarbuttons'>"
-			+     "<form action='javascript:br.search($(\"#textSrch\").val());' id='booksearch'><input type='search' id='textSrch' name='textSrch' val='' placeholder='Search inside'/><button type='submit' id='btnSrch' name='btnSrch'>GO</button></form>"
+			+     "<form action='javascript:br.search($(\"#textSrch\").val());' id='booksearch'><input type='search' id='textSrch' name='textSrch' val='' placeholder='Search inside' onclick='$(this).focus()'/><button type='submit' id='btnSrch' name='btnSrch'>GO</button></form>"
 			+     "<button class='BRicon play'></button>"
 			+     "<button class='BRicon pause'></button>"
 			+     "<button class='BRicon info'></button>"
@@ -4924,8 +4930,8 @@ BookReader.prototype.showProgressPopup = function(msg, xhr) {
 
     this.popup = document.createElement("div");
     $(this.popup).css({
-        top:      ($('#BookReader').height()*0.5-100) + 'px',
-        left:     ($('#BookReader').width()-300)*0.5 + 'px'
+        top:      (($('#BookReader').height() / 2) - 75) + 'px',
+        left:     (($('#BookReader').width() / 2) - 250) + 'px'
     }).attr('className', 'BRprogresspopup');
 
     var bar = document.createElement("div");
