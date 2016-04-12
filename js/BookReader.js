@@ -4981,8 +4981,28 @@ BookReader.prototype.removeProgressPopup = function() {
 //______________________________________________________________________________
 BookReader.prototype.showZoomSelection = function(mode) {
     if(mode == 2) {
+
+        if (br.zoomSelect) {
+            br.zoomSelect = false;
+            br.removeOpenSeaDragon();
+            br.setMouseHandlers2UP();
+            return;
+        }
+
         br.zoomSelect = true;
+
+        $("[title='Zoom in']").attr('disabled','disabled');
+        $("[title='Zoom out']").attr('disabled','disabled');
+        $("[title='One-page view']").attr('disabled','disabled');
+        $("[title='Two-page view']").attr('disabled','disabled');
+        $("[title='Thumbnail view']").attr('disabled','disabled');
         
+        $("[title='Zoom in']").css({"opacity": ".4"});
+        $("[title='Zoom out']").css({"opacity": ".4"});
+        $("[title='One-page view']").css({"opacity": ".4"});
+        $("[title='Two-page view']").css({"opacity": ".4"});
+        $("[title='Thumbnail view']").css({"opacity": ".4"});
+
         $('#BRtwopageview').children('img').each(function() {
             
             $(this).css({"border": "yellow", "border-style": "solid", "opacity": ".6"});
@@ -5017,6 +5037,20 @@ BookReader.prototype.removeZoomSelection = function() {
 BookReader.prototype.showOpenSeaDragon = function(page) {
   if (this.popup) return;
  
+  $("[title='Zoom in']").attr('disabled','disabled');
+  $("[title='Zoom out']").attr('disabled','disabled');
+  $("[title='One-page view']").attr('disabled','disabled');
+  $("[title='Two-page view']").attr('disabled','disabled');
+  $("[title='Thumbnail view']").attr('disabled','disabled');
+  $("[title='Show OpenSeaDragon Zoom']").attr('disabled','disabled');
+  
+  $("[title='Zoom in']").css({"opacity": ".4"});
+  $("[title='Zoom out']").css({"opacity": ".4"});
+  $("[title='One-page view']").css({"opacity": ".4"});
+  $("[title='Two-page view']").css({"opacity": ".4"});
+  $("[title='Thumbnail view']").css({"opacity": ".4"});
+  $("[title='Show OpenSeaDragon Zoom']").css({"opacity": ".4"});
+  
   this.popup = document.createElement("div");
   
   $(this.popup).attr('class', 'BRopenseadragon');
@@ -5060,6 +5094,20 @@ BookReader.prototype.showOpenSeaDragon = function(page) {
 //______________________________________________________________________________
 BookReader.prototype.removeOpenSeaDragon = function() {
   $(this.popup).remove();
+  
+  $("[title='Zoom in']").removeAttr('disabled');
+  $("[title='Zoom out']").removeAttr('disabled');
+  $("[title='One-page view']").removeAttr('disabled');
+  $("[title='Two-page view']").removeAttr('disabled');
+  $("[title='Thumbnail view']").removeAttr('disabled');
+  $("[title='Show OpenSeaDragon Zoom']").removeAttr('disabled');
+  
+  $("[title='Zoom in']").css({"opacity": ""});
+  $("[title='Zoom out']").css({"opacity": ""});
+  $("[title='One-page view']").css({"opacity": ""});
+  $("[title='Two-page view']").css({"opacity": ""});
+  $("[title='Thumbnail view']").css({"opacity": ""});
+  $("[title='Show OpenSeaDragon Zoom']").css({"opacity": ""});
   
   $('#BRtwopageview').children('img').each(function() {
         $(this).css({"border": "", "border-style": "", "opacity": ""});
