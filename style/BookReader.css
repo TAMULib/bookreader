@@ -447,8 +447,8 @@ a.BRgrey:visited   { color: #666; }
     font-weight: 700;
     color: #fff;
 }
-.BRfloat a.floatShut {position:absolute;top:0;right:0;display:block;width:32px;height:32px;background-image:url("images/icon_close-pop.png");background-position:0 0;background-repeat:no-repeat;}
-.BRfloat a.floatShut:hover {background-position:0 -32px;}
+.BRfloat a.floatShut, .BRopenseadragon a.floatShut {position:absolute;top:0;right:0;display:block;width:32px;height:32px;background-image:url("images/icon_close-pop.png");background-position:0 0;background-repeat:no-repeat;}
+.BRfloat a.floatShut:hover, .BRopenseadragon a.floatShut:hover {background-position:0 -32px;}
 .BRfloat fieldset {
     margin-top: 10px;
     padding: 5px 20px;
@@ -529,7 +529,7 @@ a.BRgrey:visited   { color: #666; }
     font-size: 1.3em;
 }
 .BRfloatMeta  {
-	font-size: 1.2em;
+    font-size: 1.2em;
 }
 .BRfloatMeta p {
     margin: 0;
@@ -882,6 +882,34 @@ div#BRzoombtn {
     min-width: 300px;
 }
 
+.BRopenseadragon {
+    margin: 5px;
+    min-height: 75%;
+    position: relative;
+    background-color: #e6e4e1;
+    border: none!important;
+    font-size: 1.5em; 
+    z-index: 3;   
+    padding: 20px;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    border-radius: 8px;
+    -moz-box-shadow: 1px 0 3px #000;
+    -webkit-box-shadow: 1px 0 3px #000;
+    box-shadow: 1px 0 3px #333;
+    min-width: 300px;
+}
+
+.closeopenseadragon {
+    position: relative;
+    display: block;
+    z-index: 10;    
+}
+
+.openseadragon-container {
+    position: absolute !important;
+}
+
 .BRprogressbar {
     background-image: url("images/progressbar.gif");
     background-repeat:no-repeat;
@@ -928,7 +956,7 @@ div#BRzoombtn {
 
 .breadcrumb {
     list-style: none;
-	margin-left: 2px;
+    margin-left: 2px;
 }
 
 .breadcrumb ul {
@@ -937,13 +965,13 @@ div#BRzoombtn {
 
 .breadcrumb li {
     float: left;
-	font-size: 14px;
+    font-size: 14px;
 }
 
 .breadcrumb li::after { 
     content:'\2192';
-	margin-left: 2px;
-	margin-right: 2px;	 
+    margin-left: 2px;
+    margin-right: 2px;   
 }
 
 .breadcrumb li:last-child:after
@@ -962,7 +990,7 @@ div#BRzoombtn {
     background-color: transparent;
     background-image: url(images/BRicons.png);
     background-repeat: no-repeat;
-	margin-left: 10px;
+    margin-left: 10px;
 }
 .BRhelp.info {background-position:-40px 0;}
 .BRhelp.share {background-position:-120px 0;}

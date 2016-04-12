@@ -36,6 +36,10 @@ This file is part of BookReader.
 // You must also add a numLeafs property before calling init().
 
 function BookReader() {
+    
+    $.getScript("/openseadragon/openseadragon.min.js", function() {
+        console.log('OpenSeaDragon Started');
+    });
 
     // Mode constants
     this.constMode1up = 1;
@@ -264,8 +268,8 @@ BookReader.prototype.init = function() {
         });
 
         $('.BRicon.share').hide();
-		
-		$('.BRicon.question').hide();
+        
+        $('.BRicon.question').hide();
     }
 
     $('.BRpagediv1up').bind('mousedown', this, function(e) {
@@ -284,7 +288,7 @@ BookReader.prototype.init = function() {
         this.firstIndex = startIndex;
         this.prepareThumbnailView();
         this.jumpToIndex(startIndex);
-    } else {    	
+    } else {        
         this.displayedIndices=[0];
         this.firstIndex = startIndex;
         this.displayedIndices = [this.firstIndex];
@@ -1396,40 +1400,38 @@ BookReader.prototype.switchMode = function(mode) {
  
     // XXX maybe better to preserve zoom in each mode
     if (1 == mode) {
-    	
-    	$("[title='Zoom in disabled in two-page mode']").attr('title','Zoom in');
-    	$("[title='Zoom out disabled in two-page mode']").attr('title','Zoom out');
-    	
-    	$("[title='Zoom in']").removeAttr('disabled');
-    	$("[title='Zoom out']").removeAttr('disabled');
-    	
+        
+        $("[title='Zoom in']").hide();
+        $("[title='Zoom out']").hide();
+        $("[title='Show OpenSeaDragon Zoom']").show();
+        
         this.onePageCalculateReductionFactors( $('#BRcontainer').attr('clientWidth'), $('#BRcontainer').attr('clientHeight'));
         this.reduce = this.quantizeReduce(this.reduce, this.onePage.reductionFactors);
         this.prepareOnePageView();
-    } else if (3 == mode) {
-    	    	
-    	$("[title='Zoom in disabled in two-page mode']").attr('title','Zoom in');
-    	$("[title='Zoom out disabled in two-page mode']").attr('title','Zoom out');
-    	
-    	$("[title='Zoom in']").removeAttr('disabled');
-    	$("[title='Zoom out']").removeAttr('disabled');
-    	    	
-        this.reduce = this.quantizeReduce(this.reduce, this.reductionFactors);
-        this.prepareThumbnailView();
-    } else {
-    	    	
-    	$("[title='Zoom in']").attr('disabled','disabled');
-    	$("[title='Zoom out']").attr('disabled','disabled');
-    	
-    	$("[title='Zoom in']").attr('title','Zoom in disabled in two-page mode');
-    	$("[title='Zoom out']").attr('title','Zoom out disabled in two-page mode');
-    	
+        
+    } else if (2 == mode) {
+        
+        $("[title='Zoom in']").hide();
+        $("[title='Zoom out']").hide();
+        $("[title='Show OpenSeaDragon Zoom']").show();
+        
         // $$$ why don't we save autofit?
         // this.twoPage.autofit = null; // Take zoom level from other mode
         this.twoPageCalculateReductionFactors();
         this.reduce = this.quantizeReduce(this.reduce, this.twoPage.reductionFactors);
         this.prepareTwoPageView();
         this.twoPageCenterView(0.5, 0.5); // $$$ TODO preserve center
+        
+        
+    } else if (3 == mode) {
+        
+        $("[title='Zoom in']").show();
+        $("[title='Zoom out']").show();
+        $("[title='Show OpenSeaDragon Zoom']").hide();
+                
+        this.reduce = this.quantizeReduce(this.reduce, this.reductionFactors);
+        this.prepareThumbnailView();
+        
     }
 
 }
@@ -2480,7 +2482,8 @@ BookReader.prototype.setMouseHandlers2UP = function() {
                 return true;
             }
 
-             if (! e.data.self.twoPageIsZoomedIn()) {
+             if (! e.data.self.twoPageIsZoomedIn() && !br.zoomSelect) {
+                 console.log('left')
                 e.data.self.ttsStop();
                 e.data.self.left();
             }
@@ -2499,7 +2502,8 @@ BookReader.prototype.setMouseHandlers2UP = function() {
                 return true;
             }
 
-            if (! e.data.self.twoPageIsZoomedIn()) {
+            if (!e.data.self.twoPageIsZoomedIn() && !br.zoomSelect) {
+                console.log('right')
                 e.data.self.ttsStop();
                 e.data.self.right();
             }
@@ -2800,9 +2804,9 @@ BookReader.prototype.BRSearchCallback = function(results) {
         cancel.appendChild(text);
 
         cancel.onclick = function() {
-        	br.removeSearchResults();
-        	br.removeProgressPopup();
-    	};
+            br.removeSearchResults();
+            br.removeProgressPopup();
+        };
 
         $(br.popup).append(cancel);
 
@@ -2816,9 +2820,9 @@ BookReader.prototype.BRSearchCallback = function(results) {
 
     var i;
     for (i=0; i<results.matches.length; i++) {
-	if(results.matches[i].par[0] != null) {
+    if(results.matches[i].par[0] != null) {
             br.addSearchResult(results.matches[i].text, br.leafNumToIndex(results.matches[i].par[0].page));
-	}
+    }
     }
     br.updateSearchHilites();
     br.removeProgressPopup();
@@ -3008,7 +3012,7 @@ BookReader.prototype.updateSearchHilites2UP = function() {
     for (i=0; i<results.matches.length; i++) {
         //console.log(results.matches[i].par[0]);
         //TODO: loop over all par objects
-	if(results.matches[i].par[0] != null) {
+    if(results.matches[i].par[0] != null) {
         var pageIndex = this.leafNumToIndex(results.matches[i].par[0].page);
         for (j=0; j<results.matches[i].par[0].boxes.length; j++) {
             var box = results.matches[i].par[0].boxes[j];
@@ -3028,7 +3032,7 @@ BookReader.prototype.updateSearchHilites2UP = function() {
                 }
             }
         }
-	}
+    }
     }
 
 }
@@ -3069,7 +3073,7 @@ BookReader.prototype.removeSearchHilites = function() {
     if (null == results) return;
     var i, j;
     for (i=0; i<results.matches.length; i++) {
-	if(results.matches[i].par[0] != null) {
+    if(results.matches[i].par[0] != null) {
         for (j=0; j<results.matches[i].par[0].boxes.length; j++) {
             var box = results.matches[i].par[0].boxes[j];
             if (null != box.div) {
@@ -3077,7 +3081,7 @@ BookReader.prototype.removeSearchHilites = function() {
                 box.div=null;
             }
         }
-	}
+    }
     }
 }
 
@@ -3370,6 +3374,7 @@ BookReader.prototype.initNavbar = function() {
         //+         '<button class="BRicon fit"></button>'
         +         '<button class="BRicon zoom_in"></button>'
         +         '<button class="BRicon zoom_out"></button>'
+        +         '<button class="BRicon full"></button>'
         +         '<button class="BRicon book_left"></button>'
         +         '<button class="BRicon book_right"></button>'
         +     '</div>'
@@ -3673,52 +3678,52 @@ BookReader.prototype.initToolbar = function(mode, ui) {
         readIcon = "<button class='BRicon read modal'></button>";
     }
 
-	if ($('meta[name=searchenabled]').attr("content") == 1) {
-		$("#BookReader").append(
-			  "<div id='BRtoolbar'>"
-			+   "<span id='BRtoolbarbuttons'>"
-			+     "<form action='javascript:br.search($(\"#textSrch\").val());' id='booksearch'><input type='search' id='textSrch' name='textSrch' val='' placeholder='Search inside'/><button type='submit' id='btnSrch' name='btnSrch'>GO</button></form>"
-			+     "<button class='BRicon play'></button>"
-			+     "<button class='BRicon pause'></button>"
-			+     "<button class='BRicon info'></button>"
-			+     "<button class='BRicon share'></button>"
-			+     "<button class='BRicon question'></button>"
-			//+     readIcon
-			+   "</span>"
-			
-//			+   "<span><a href='" + this.logoURL + "'>Yearbook Collection</a></span>"
-//			+   "<span><a class='logo' href='" + this.logoURL + "'></a></span>"
-//			+   "<span id='BRreturn'><a></a></span>"
-		
-		
+    if ($('meta[name=searchenabled]').attr("content") == 1) {
+        $("#BookReader").append(
+              "<div id='BRtoolbar'>"
+            +   "<span id='BRtoolbarbuttons'>"
+            +     "<form action='javascript:br.search($(\"#textSrch\").val());' id='booksearch'><input type='search' id='textSrch' name='textSrch' val='' placeholder='Search inside' onclick='$(this).focus()'/><button type='submit' id='btnSrch' name='btnSrch'>GO</button></form>"
+            +     "<button class='BRicon play'></button>"
+            +     "<button class='BRicon pause'></button>"
+            +     "<button class='BRicon info'></button>"
+            +     "<button class='BRicon share'></button>"
+            +     "<button class='BRicon question'></button>"
+            //+     readIcon
+            +   "</span>"
+            
+//          +   "<span><a href='" + this.logoURL + "'>Yearbook Collection</a></span>"
+//          +   "<span><a class='logo' href='" + this.logoURL + "'></a></span>"
+//          +   "<span id='BRreturn'><a></a></span>"
+        
+        
 + "<span><a class='logotamu' href='http://www.tamu.edu/'></a><a class='logo' href='" + this.logoURL + "'></a><ul class='breadcrumb'><li><a href='http://library.tamu.edu/yearbooks'>Yearbook Collection</a></li><li>" + this.bookTitle + " " + this.bookId.replace('yb', '') + "</li></ul></span>"
 
-			+   "<div id='BRnavCntlTop' class='BRnabrbuvCntl'></div>"
-			+ "</div>"
-			);
-	} else {
-		$("#BookReader").append(
-			  "<div id='BRtoolbar'>"
-			+   "<span id='BRtoolbarbuttons'>"
-			+     "<button class='BRicon play'></button>"
-			+     "<button class='BRicon pause'></button>"
-			+     "<button class='BRicon info'></button>"
-			+     "<button class='BRicon share'></button>"
-			+     "<button class='BRicon question'></button>"			
-			//+     readIcon
-			+   "</span>"
-			+   "<span><a href='http://library.tamu.edu/yearbooks/'>Yearbook Collection</a>" + this.logoURL + "'></a></span>"
-			+   "<span id='BRreturn'><a></a></span>"
-			+   "<div id='BRnavCntlTop' class='BRnabrbuvCntl'></div>"
-			+ "</div>"
-			);	
-	}
-		
+            +   "<div id='BRnavCntlTop' class='BRnabrbuvCntl'></div>"
+            + "</div>"
+            );
+    } else {
+        $("#BookReader").append(
+              "<div id='BRtoolbar'>"
+            +   "<span id='BRtoolbarbuttons'>"
+            +     "<button class='BRicon play'></button>"
+            +     "<button class='BRicon pause'></button>"
+            +     "<button class='BRicon info'></button>"
+            +     "<button class='BRicon share'></button>"
+            +     "<button class='BRicon question'></button>"           
+            //+     readIcon
+            +   "</span>"
+            +   "<span><a href='http://library.tamu.edu/yearbooks/'>Yearbook Collection</a>" + this.logoURL + "'></a></span>"
+            +   "<span id='BRreturn'><a></a></span>"
+            +   "<div id='BRnavCntlTop' class='BRnabrbuvCntl'></div>"
+            + "</div>"
+            );  
+    }
+        
     // Browser hack - bug with colorbox on iOS 3 see https://bugs.launchpad.net/bookreader/+bug/686220
     if ( navigator.userAgent.match(/ipad/i) && $.browser.webkit && (parseInt($.browser.version, 10) <= 531) ) {
        $('#BRtoolbarbuttons .info').hide();
        $('#BRtoolbarbuttons .share').hide();
-	    $('#BRtoolbarbuttons .question').hide();
+        $('#BRtoolbarbuttons .question').hide();
     }
 // navigation dch
     $('#BRreturn a').attr('href', this.bookUrl).text(this.bookTitle);
@@ -3759,13 +3764,13 @@ BookReader.prototype.initToolbar = function(mode, ui) {
     jToolbar.find('.question').colorbox({inline: true, opacity: "0.5", href: "#BRquestion", onLoad: function() { self.autoStop(); self.ttsStop(); } });
 
     $('<div style="display: none;"></div>').append(this.blankShareDiv()).append(this.blankInfoDiv()).appendTo($('body'));
-	$('<div style="display: none;"></div>').append(this.blankQuestionDiv()).append(this.blankInfoDiv()).appendTo($('body'));
+    $('<div style="display: none;"></div>').append(this.blankQuestionDiv()).append(this.blankInfoDiv()).appendTo($('body'));
     $('#BRinfo .BRfloatTitle a').attr( {'href': this.bookUrl} ).text(this.bookTitle).addClass('title');
 
     // These functions can be overridden
     this.buildInfoDiv($('#BRinfo'));
     this.buildShareDiv($('#BRshare'));
-	this.buildQuestionDiv($('#BRquestion'));
+    this.buildQuestionDiv($('#BRquestion'));
 
     // Switch to requested mode -- binds other click handlers
     //this.switchToolbarMode(mode);
@@ -4637,7 +4642,7 @@ BookReader.prototype.searchHighlightVisible = function() {
     var i, j;
     for (i=0; i<results.matches.length; i++) {
         //console.log(results.matches[i].par[0]);
-	if(results.matches[i].par[0] != null) {
+    if(results.matches[i].par[0] != null) {
         for (j=0; j<results.matches[i].par[0].boxes.length; j++) {
             var box = results.matches[i].par[0].boxes[j];
             var pageIndex = this.leafNumToIndex(box.page);
@@ -4645,7 +4650,7 @@ BookReader.prototype.searchHighlightVisible = function() {
                 return true;
             }
         }
-	}
+    }
     }
 
     return false;
@@ -4724,7 +4729,7 @@ BookReader.prototype.gotOpenLibraryRecord = function(self, olObject) {
 
         $('#BRinfo').remove();
         $('#BRshare').after(self.blankInfoDiv());
-		$('#BRquestion').after(self.blankInfoDiv());
+        $('#BRquestion').after(self.blankInfoDiv());
         self.buildInfoDiv($('#BRinfo'));
 
         // Check for borrowed book
@@ -4924,8 +4929,8 @@ BookReader.prototype.showProgressPopup = function(msg, xhr) {
 
     this.popup = document.createElement("div");
     $(this.popup).css({
-        top:      ($('#BookReader').height()*0.5-100) + 'px',
-        left:     ($('#BookReader').width()-300)*0.5 + 'px'
+        top:      (($('#BookReader').height() / 2) - 75) + 'px',
+        left:     (($('#BookReader').width() / 2) - 250) + 'px'
     }).attr('className', 'BRprogresspopup');
 
     var bar = document.createElement("div");
@@ -4949,11 +4954,11 @@ BookReader.prototype.showProgressPopup = function(msg, xhr) {
 
     cancel.onclick = function() {
         
-		br.removeSearchResults();
-		
-		xhr.abort();
-		
-		br.removeProgressPopup();
+        br.removeSearchResults();
+        
+        xhr.abort();
+        
+        br.removeProgressPopup();
 
     };
 
@@ -4968,6 +4973,107 @@ BookReader.prototype.removeProgressPopup = function() {
     $(this.popup).remove();
     this.popup=null;
 }
+
+
+
+
+//showZoomSelection
+//______________________________________________________________________________
+BookReader.prototype.showZoomSelection = function(mode) {
+    if(mode == 2) {
+        br.zoomSelect = true;
+        
+        $('#BRtwopageview').children('img').each(function() {
+            
+            $(this).css({"border": "yellow", "border-style": "solid", "opacity": ".6"});
+            $(this).mouseenter(function() {
+                $(this).css({"opacity": "1"});
+            });
+            $(this).mouseleave(function() {
+                $(this).css({"opacity": ".6"});
+            });
+            
+            $(this).click(function(event) {
+                event.preventDefault();             
+                br.zoomSelect = false;
+                br.showOpenSeaDragon($(this).context.currentSrc);   
+                
+                br.setMouseHandlers2UP();               
+            });
+        });
+    }   
+}
+
+//removeZoomSelection
+//______________________________________________________________________________
+BookReader.prototype.removeZoomSelection = function() {
+    
+}
+
+
+
+//showOpenSeaDragon
+//______________________________________________________________________________
+BookReader.prototype.showOpenSeaDragon = function(page) {
+  if (this.popup) return;
+ 
+  this.popup = document.createElement("div");
+  
+  $(this.popup).attr('class', 'BRopenseadragon');
+    
+  $(this.popup).attr('id', 'openseadragon');
+  
+  var url = isNaN(page) ? page : 'http://bookreader.library.tamu.edu/BookReader/BookReaderImages.php?zip=' + this.zip + '&file=' + this._getPageFile(page) + '&scale=4&rotate=0';
+
+  $("<script type=\"text/javascript\">" +
+            "var viewer = OpenSeadragon({" +
+            "defaultZoomLevel:  0," +
+            "minZoomLevel:  0," +
+            "maxZoomLevel:  10," +
+            "id: 'openseadragon'," +
+            "prefixUrl: '/openseadragon/images/'," +
+            "tileSources: {" +
+            "type: 'image'," +
+            "url: \"" + url + "\"" + 
+        "}" +
+        "});" +
+    "</script>").appendTo(this.popup);
+  
+  var cancelDiv = document.createElement("div");
+  $(cancelDiv).attr('class', 'closeopenseadragon');
+  var cancel = document.createElement("a");
+  $(cancel).attr('class', 'floatShut');
+  cancel.style.float = 'right';
+  
+  cancel.onclick = function() {
+      br.removeOpenSeaDragon();
+  };
+  
+  $(cancelDiv).append(cancel);
+  
+  $(this.popup).append(cancelDiv);
+  
+  $(this.popup).appendTo('#BookReader');
+}
+
+//removeOpenSeaDragon
+//______________________________________________________________________________
+BookReader.prototype.removeOpenSeaDragon = function() {
+  $(this.popup).remove();
+  
+  $('#BRtwopageview').children('img').each(function() {
+        $(this).css({"border": "", "border-style": "", "opacity": ""});
+        $(this).mouseenter(function() {});
+        $(this).mouseleave(function() {});                  
+    });
+  
+  this.popup=null;
+}
+
+
+
+
+
 
 // ttsNextPageCB
 //______________________________________________________________________________
@@ -5338,12 +5444,13 @@ BookReader.prototype.buildQuestionDiv = function(jQuestionDiv)
         '<div class="BRhelp book_right" title="Help with the Book Reader"></div><br/>',
         '<div class="BRhelp zoom_out" title="Help with the Book Reader"></div><br/>',
         '<div class="BRhelp zoom_in" title="Help with the Book Reader"></div><br/>',
+        '<div class="BRhelp full" title="Help with the Book Reader"></div><br/>',
         '<div class="BRhelp play" title="Help with the Book Reader"></div><br/>',
         '<div class="BRhelp pause" title="Help with the Book Reader"></div><br/>',
         '<div class="BRhelp twopg" title="Help with the Book Reader"></div><br/>',
         '<div class="BRhelp onepg" title="Help with the Book Reader"></div><br/>',
         '<div class="BRhelp thumb" title="Help with the Book Reader"></div><br/>'
-		].join('\n'));
+        ].join('\n'));
 
     jForm.appendTo(jQuestionDiv);
 
@@ -5395,9 +5502,9 @@ BookReader.prototype.initUIStrings = function()
                    '.bookmark': 'Bookmark this page',
                    '.read': 'Read this book aloud',
                    '.share': 'Share this book',
-				   '.question': 'Help with this book',
+                   '.question': 'Help with this book',
                    '.info': 'About this book',
-                   '.full': 'Show fullscreen',
+                   '.full': 'Show OpenSeaDragon Zoom',
                    '.book_left': 'Flip left',
                    '.book_right': 'Flip right',
                    '.book_up': 'Page up',
@@ -5422,32 +5529,38 @@ BookReader.prototype.initUIStrings = function()
             $('#BookReader').find(icon).attr('title', titles[icon]);
         }
     }
-	
+    
     if (1 == this.mode) {
-    	
-    	$("[title='Zoom in disabled in two-page mode']").attr('title','Zoom in');
-    	$("[title='Zoom out disabled in two-page mode']").attr('title','Zoom out');
-    	
-    	$("[title='Zoom in']").removeAttr('disabled');
-    	$("[title='Zoom out']").removeAttr('disabled');
-    	
+        
+        $("[title='Zoom in']").hide();      
+        $("[title='Zoom out']").hide();
+        $("[title='Show OpenSeaDragon Zoom']").show();
+        
+    } else if (2 == this.mode) {
+
+        $("[title='Zoom in']").hide();
+        $("[title='Zoom out']").hide();
+        $("[title='Show OpenSeaDragon Zoom']").show();
+        
     } else if (3 == this.mode) {
-    	    	
-    	$("[title='Zoom in disabled in two-page mode']").attr('title','Zoom in');
-    	$("[title='Zoom out disabled in two-page mode']").attr('title','Zoom out');
-    	
-    	$("[title='Zoom in']").removeAttr('disabled');
-    	$("[title='Zoom out']").removeAttr('disabled');    	
-    	    	
-    } else {
-    	    	
-    	$("[title='Zoom in']").attr('disabled','disabled');
-    	$("[title='Zoom out']").attr('disabled','disabled');
-    	
-    	$("[title='Zoom in']").attr('title','Zoom in disabled in two-page mode');
-    	$("[title='Zoom out']").attr('title','Zoom out disabled in two-page mode');
-    	
+                
+        $("[title='Zoom in']").show();
+        $("[title='Zoom out']").show();
+        $("[title='Show OpenSeaDragon Zoom']").hide();
+        
     }
-	
+    
+    $("[title='Show OpenSeaDragon Zoom']").click(function() {
+        if (1 == br.mode) {
+            br.showOpenSeaDragon(br.firstIndex);
+        } else if (2 == br.mode) {
+            br.showZoomSelection(2);
+        } else {
+            // do nothing
+        }
+        
+            
+    })
+    
 }
 })(jQuery);
