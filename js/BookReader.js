@@ -5063,8 +5063,8 @@ BookReader.prototype.removeOpenSeaDragon = function() {
   
   $('#BRtwopageview').children('img').each(function() {
         $(this).css({"border": "", "border-style": "", "opacity": ""});
-        $(this).mouseenter(function() {});
-        $(this).mouseleave(function() {});                  
+        $(this).unbind("mouseenter");
+        $(this).unbind("mouseleave");
     });
   
   this.popup=null;
