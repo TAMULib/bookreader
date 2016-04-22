@@ -1,4 +1,5 @@
 /*
+/*
 Copyright(c)2008-2009 Internet Archive. Software license AGPL version 3.
 
 This file is part of BookReader.
@@ -74,19 +75,19 @@ function BookReader() {
 
     this.searchTerm = '';
     this.searchResults = null;
-
+    
     this.firstIndex = null;
 
     this.lastDisplayableIndex2up = null;
 
     // Should be overriden (before init) by custom implmentations.
-    this.logoURL = 'https://www.archive.org';
+    this.logoURL = 'http://library.tamu.edu';
 
     // Base URL for UI images - should be overriden (before init) by
     // custom implementations.
     // $$$ This is the same directory as the images referenced by relative
     //     path in the CSS.  Would be better to automagically find that path.
-    this.imagesBaseURL = '/bookreader/images/';
+    this.imagesBaseURL = '/style/images/';
 
 
     // Zoom levels
@@ -139,7 +140,7 @@ function BookReader() {
     this.ttsBuffering   = false;
     this.ttsPoller      = null;
     this.ttsFormat      = null;
-
+    
     return this;
 };
 
@@ -263,6 +264,8 @@ BookReader.prototype.init = function() {
         });
 
         $('.BRicon.share').hide();
+		
+		$('.BRicon.question').hide();
     }
 
     $('.BRpagediv1up').bind('mousedown', this, function(e) {
@@ -281,7 +284,7 @@ BookReader.prototype.init = function() {
         this.firstIndex = startIndex;
         this.prepareThumbnailView();
         this.jumpToIndex(startIndex);
-    } else {
+    } else {    	
         this.displayedIndices=[0];
         this.firstIndex = startIndex;
         this.displayedIndices = [this.firstIndex];
@@ -1390,16 +1393,37 @@ BookReader.prototype.switchMode = function(mode) {
 
     // $$$ TODO preserve center of view when switching between mode
     //     See https://bugs.edge.launchpad.net/gnubook/+bug/416682
-
+ 
     // XXX maybe better to preserve zoom in each mode
     if (1 == mode) {
+    	
+    	$("[title='Zoom in disabled in two-page mode']").attr('title','Zoom in');
+    	$("[title='Zoom out disabled in two-page mode']").attr('title','Zoom out');
+    	
+    	$("[title='Zoom in']").removeAttr('disabled');
+    	$("[title='Zoom out']").removeAttr('disabled');
+    	
         this.onePageCalculateReductionFactors( $('#BRcontainer').attr('clientWidth'), $('#BRcontainer').attr('clientHeight'));
         this.reduce = this.quantizeReduce(this.reduce, this.onePage.reductionFactors);
         this.prepareOnePageView();
     } else if (3 == mode) {
+    	    	
+    	$("[title='Zoom in disabled in two-page mode']").attr('title','Zoom in');
+    	$("[title='Zoom out disabled in two-page mode']").attr('title','Zoom out');
+    	
+    	$("[title='Zoom in']").removeAttr('disabled');
+    	$("[title='Zoom out']").removeAttr('disabled');
+    	    	
         this.reduce = this.quantizeReduce(this.reduce, this.reductionFactors);
         this.prepareThumbnailView();
     } else {
+    	    	
+    	$("[title='Zoom in']").attr('disabled','disabled');
+    	$("[title='Zoom out']").attr('disabled','disabled');
+    	
+    	$("[title='Zoom in']").attr('title','Zoom in disabled in two-page mode');
+    	$("[title='Zoom out']").attr('title','Zoom out disabled in two-page mode');
+    	
         // $$$ why don't we save autofit?
         // this.twoPage.autofit = null; // Take zoom level from other mode
         this.twoPageCalculateReductionFactors();
@@ -2718,47 +2742,70 @@ BookReader.prototype.getPageWidth2UP = function(index) {
     // We return the width based on the dominant height
     var height  = this._getPageHeight(index);
     var width   = this._getPageWidth(index);
+
     return Math.floor(this.twoPage.height*width/height); // $$$ we assume width is relative to current spread
 }
 
 // search()
 //______________________________________________________________________________
 BookReader.prototype.search = function(term) {
-    //console.log('search called with term=' + term);
+    //console.log('Search called with term = ' + term);
 
     $('#textSrch').blur(); //cause mobile safari to hide the keyboard
 
-    var url = 'https://'+this.server.replace(/:.+/, ''); //remove the port and userdir
-    url    += '/fulltext/inside.php?item_id='+this.bookId;
+    var url = 'http://'+this.server.replace(/:.+/, ''); //remove the port and userdir
+    url    += '/BookReader/inside.php?item_id='+this.bookId;
     url    += '&doc='+this.subPrefix;   //TODO: test with subitem
     url    += '&path='+this.bookPath.replace(new RegExp('/'+this.subPrefix+'$'), ''); //remove subPrefix from end of path
-    url    += '&q='+escape(term);
-    //console.log('search url='+url);
+    url    += '&q="'+escape(term.replace(/ /g, " ")) + '"~1';
+    
+    //console.log('Search url =\n'+url);
 
     term = term.replace(/\//g, ' '); // strip slashes, since this goes in the url
     this.searchTerm = term;
 
     this.removeSearchResults();
-    this.showProgressPopup('<img id="searchmarker" src="'+this.imagesBaseURL + 'marker_srch-on.png'+'"> Search results will appear below...');
-    $.ajax({url:url, dataType:'jsonp', jsonpCallback:'br.BRSearchCallback'});
+
+    var xhr = $.ajax({url:url, dataType:'jsonp', jsonpCallback:'br.BRSearchCallback'});
+    
+    //alert($.fn.jquery);
+    
+    this.showProgressPopup('<img id="searchmarker" src="'+this.imagesBaseURL + 'marker_srch-on.png'+'"> Search results will appear below... <br/><br/>(Search results may be reduced due to the accuracy of OCR)<br/><br/>', xhr);
 }
 
 // BRSearchCallback()
 //______________________________________________________________________________
 BookReader.prototype.BRSearchCallback = function(results) {
-    //console.log('got ' + results.matches.length + ' results');
+    //console.log(results.matches.length + ' results');
+ 
     br.removeSearchResults();
     br.searchResults = results;
+    
     //console.log(br.searchResults);
 
     if (0 == results.matches.length) {
-        var errStr  = 'No matches were found.';
-        var timeout = 1000;
+        var errStr  = 'No matches were found.<br/><br/>(Search results may be reduced due to the accuracy of OCR)<br/><br/>';
+        var timeout = 4000;
         if (false === results.indexed) {
-            errStr  = "<p>This book hasn't been indexed for searching yet. We've just started indexing it, so search should be available soon. Please try again later. Thanks!</p>";
+            errStr  = "<p>This book hasn't been indexed for searching yet. We've just started indexing it, so search should be available soon. Please try again later. Thanks!</p><br/><br/>";
             timeout = 5000;
         }
         $(br.popup).html(errStr);
+
+        var cancel = document.createElement("button");
+
+        cancel.style.float = 'right';
+
+        var text = document.createTextNode("Cancel");
+        cancel.appendChild(text);
+
+        cancel.onclick = function() {
+        	br.removeSearchResults();
+        	br.removeProgressPopup();
+    	};
+
+        $(br.popup).append(cancel);
+
         setTimeout(function(){
             $(br.popup).fadeOut('slow', function() {
                 br.removeProgressPopup();
@@ -2769,7 +2816,9 @@ BookReader.prototype.BRSearchCallback = function(results) {
 
     var i;
     for (i=0; i<results.matches.length; i++) {
-        br.addSearchResult(results.matches[i].text, br.leafNumToIndex(results.matches[i].par[0].page));
+	if(results.matches[i].par[0] != null) {
+            br.addSearchResult(results.matches[i].text, br.leafNumToIndex(results.matches[i].par[0].page));
+	}
     }
     br.updateSearchHilites();
     br.removeProgressPopup();
@@ -2959,6 +3008,7 @@ BookReader.prototype.updateSearchHilites2UP = function() {
     for (i=0; i<results.matches.length; i++) {
         //console.log(results.matches[i].par[0]);
         //TODO: loop over all par objects
+	if(results.matches[i].par[0] != null) {
         var pageIndex = this.leafNumToIndex(results.matches[i].par[0].page);
         for (j=0; j<results.matches[i].par[0].boxes.length; j++) {
             var box = results.matches[i].par[0].boxes[j];
@@ -2978,6 +3028,7 @@ BookReader.prototype.updateSearchHilites2UP = function() {
                 }
             }
         }
+	}
     }
 
 }
@@ -2990,7 +3041,7 @@ BookReader.prototype.setHilightCss2UP = function(div, index, left, right, top, b
     // We calculate the reduction factor for the specific page because it can be different
     // for each page in the spread
     var height = this._getPageHeight(index);
-    var width  = this._getPageWidth(index)
+    var width  = this._getPageWidth(index);
     var reduce = this.twoPage.height/height;
     var scaledW = parseInt(width*reduce);
 
@@ -3002,12 +3053,12 @@ BookReader.prototype.setHilightCss2UP = function(div, index, left, right, top, b
         pageL = gutter;
     }
     var pageT  = this.twoPageTop();
-
+   
     $(div).css({
-        width:  (right-left)*reduce + 'px',
-        height: (bottom-top)*reduce + 'px',
-        left:   pageL+left*reduce + 'px',
-        top:    pageT+top*reduce +'px'
+        width:  ((right-left)*reduce) + 'px',
+        height: ((bottom-top)*reduce) + 'px',
+        left:   (pageL+left*reduce) + 'px',
+        top:    (pageT+top*reduce) +'px'
     });
 }
 
@@ -3018,6 +3069,7 @@ BookReader.prototype.removeSearchHilites = function() {
     if (null == results) return;
     var i, j;
     for (i=0; i<results.matches.length; i++) {
+	if(results.matches[i].par[0] != null) {
         for (j=0; j<results.matches[i].par[0].boxes.length; j++) {
             var box = results.matches[i].par[0].boxes[j];
             if (null != box.div) {
@@ -3025,6 +3077,7 @@ BookReader.prototype.removeSearchHilites = function() {
                 box.div=null;
             }
         }
+	}
     }
 }
 
@@ -3056,7 +3109,7 @@ BookReader.prototype.getPrintURI = function() {
         options += '&title=' + encodeURIComponent(this.shortTitle(50) + ' - Page ' + this.getPageNum(indexToPrint));
     }
 
-    return '/bookreader/print.php?' + options;
+    return '/BookReader/print.php?' + options;
 }
 
 // showEmbedCode()
@@ -3620,41 +3673,54 @@ BookReader.prototype.initToolbar = function(mode, ui) {
         readIcon = "<button class='BRicon read modal'></button>";
     }
 
-    $("#BookReader").append(
-          "<div id='BRtoolbar'>"
-        +   "<span id='BRtoolbarbuttons'>"
-        +     "<form action='javascript:br.search($(\"#textSrch\").val());' id='booksearch'><input type='search' id='textSrch' name='textSrch' val='' placeholder='Search inside'/><button type='submit' id='btnSrch' name='btnSrch'>GO</button></form>"
-        +     "<button class='BRicon play'></button>"
-        +     "<button class='BRicon pause'></button>"
-        +     "<button class='BRicon info'></button>"
-        +     "<button class='BRicon share'></button>"
-        +     readIcon
-        //+     "<button class='BRicon full'></button>"
-        +   "</span>"
-        +   "<span><a class='logo' href='" + this.logoURL + "'></a></span>"
-        +   "<span id='BRreturn'><a></a></span>"
-        +   "<div id='BRnavCntlTop' class='BRnabrbuvCntl'></div>"
-        + "</div>"
-        /*
-        + "<div id='BRzoomer'>"
-        +   "<div id='BRzoompos'>"
-        +     "<button class='BRicon zoom_out'></button>"
-        +     "<div id='BRzoomcontrol'>"
-        +       "<div id='BRzoomstrip'></div>"
-        +       "<div id='BRzoombtn'></div>"
-        +     "</div>"
-        +     "<button class='BRicon zoom_in'></button>"
-        +   "</div>"
-        + "</div>"
-        */
-        );
+	if ($('meta[name=searchenabled]').attr("content") == 1) {
+		$("#BookReader").append(
+			  "<div id='BRtoolbar'>"
+			+   "<span id='BRtoolbarbuttons'>"
+			+     "<form action='javascript:br.search($(\"#textSrch\").val());' id='booksearch'><input type='search' id='textSrch' name='textSrch' val='' placeholder='Search inside'/><button type='submit' id='btnSrch' name='btnSrch'>GO</button></form>"
+			+     "<button class='BRicon play'></button>"
+			+     "<button class='BRicon pause'></button>"
+			+     "<button class='BRicon info'></button>"
+			+     "<button class='BRicon share'></button>"
+			+     "<button class='BRicon question'></button>"
+			//+     readIcon
+			+   "</span>"
+			
+//			+   "<span><a href='" + this.logoURL + "'>Yearbook Collection</a></span>"
+//			+   "<span><a class='logo' href='" + this.logoURL + "'></a></span>"
+//			+   "<span id='BRreturn'><a></a></span>"
+		
+		
++ "<span><a class='logotamu' href='http://www.tamu.edu/'></a><a class='logo' href='" + this.logoURL + "'></a><ul class='breadcrumb'><li><a href='http://library.tamu.edu/yearbooks'>Yearbook Collection</a></li><li>" + this.bookTitle + " " + this.bookId.replace('yb', '') + "</li></ul></span>"
 
+			+   "<div id='BRnavCntlTop' class='BRnabrbuvCntl'></div>"
+			+ "</div>"
+			);
+	} else {
+		$("#BookReader").append(
+			  "<div id='BRtoolbar'>"
+			+   "<span id='BRtoolbarbuttons'>"
+			+     "<button class='BRicon play'></button>"
+			+     "<button class='BRicon pause'></button>"
+			+     "<button class='BRicon info'></button>"
+			+     "<button class='BRicon share'></button>"
+			+     "<button class='BRicon question'></button>"			
+			//+     readIcon
+			+   "</span>"
+			+   "<span><a href='http://library.tamu.edu/yearbooks/'>Yearbook Collection</a>" + this.logoURL + "'></a></span>"
+			+   "<span id='BRreturn'><a></a></span>"
+			+   "<div id='BRnavCntlTop' class='BRnabrbuvCntl'></div>"
+			+ "</div>"
+			);	
+	}
+		
     // Browser hack - bug with colorbox on iOS 3 see https://bugs.launchpad.net/bookreader/+bug/686220
     if ( navigator.userAgent.match(/ipad/i) && $.browser.webkit && (parseInt($.browser.version, 10) <= 531) ) {
        $('#BRtoolbarbuttons .info').hide();
        $('#BRtoolbarbuttons .share').hide();
+	    $('#BRtoolbarbuttons .question').hide();
     }
-
+// navigation dch
     $('#BRreturn a').attr('href', this.bookUrl).text(this.bookTitle);
 
     $('#BRtoolbar .BRnavCntl').addClass('BRup');
@@ -3690,14 +3756,16 @@ BookReader.prototype.initToolbar = function(mode, ui) {
     var self = this;
     jToolbar.find('.share').colorbox({inline: true, opacity: "0.5", href: "#BRshare", onLoad: function() { self.autoStop(); self.ttsStop(); } });
     jToolbar.find('.info').colorbox({inline: true, opacity: "0.5", href: "#BRinfo", onLoad: function() { self.autoStop(); self.ttsStop(); } });
+    jToolbar.find('.question').colorbox({inline: true, opacity: "0.5", href: "#BRquestion", onLoad: function() { self.autoStop(); self.ttsStop(); } });
 
     $('<div style="display: none;"></div>').append(this.blankShareDiv()).append(this.blankInfoDiv()).appendTo($('body'));
-
+	$('<div style="display: none;"></div>').append(this.blankQuestionDiv()).append(this.blankInfoDiv()).appendTo($('body'));
     $('#BRinfo .BRfloatTitle a').attr( {'href': this.bookUrl} ).text(this.bookTitle).addClass('title');
 
     // These functions can be overridden
     this.buildInfoDiv($('#BRinfo'));
     this.buildShareDiv($('#BRshare'));
+	this.buildQuestionDiv($('#BRquestion'));
 
     // Switch to requested mode -- binds other click handlers
     //this.switchToolbarMode(mode);
@@ -3737,6 +3805,16 @@ BookReader.prototype.blankShareDiv = function() {
     );
 }
 
+BookReader.prototype.blankQuestionDiv = function() {
+    return $([
+        '<div class="BRfloat" id="BRquestion">',
+            '<div class="BRfloatHead">',
+                'Help',
+                '<a class="floatShut" href="javascript:;" onclick="$.fn.colorbox.close();"><span class="shift">Close</span></a>',
+            '</div>',
+        '</div>'].join('\n')
+    );
+}
 
 // switchToolbarMode
 //______________________________________________________________________________
@@ -4559,6 +4637,7 @@ BookReader.prototype.searchHighlightVisible = function() {
     var i, j;
     for (i=0; i<results.matches.length; i++) {
         //console.log(results.matches[i].par[0]);
+	if(results.matches[i].par[0] != null) {
         for (j=0; j<results.matches[i].par[0].boxes.length; j++) {
             var box = results.matches[i].par[0].boxes[j];
             var pageIndex = this.leafNumToIndex(box.page);
@@ -4566,6 +4645,7 @@ BookReader.prototype.searchHighlightVisible = function() {
                 return true;
             }
         }
+	}
     }
 
     return false;
@@ -4587,6 +4667,7 @@ BookReader.prototype._getPageWidth = function(index) {
 // Returns the page height for the given index, or first or last page if out of range
 BookReader.prototype._getPageHeight= function(index) {
     index = BookReader.util.clamp(index, 0, this.numLeafs - 1);
+
     return this.getPageHeight(index);
 }
 
@@ -4643,6 +4724,7 @@ BookReader.prototype.gotOpenLibraryRecord = function(self, olObject) {
 
         $('#BRinfo').remove();
         $('#BRshare').after(self.blankInfoDiv());
+		$('#BRquestion').after(self.blankInfoDiv());
         self.buildInfoDiv($('#BRinfo'));
 
         // Check for borrowed book
@@ -4767,9 +4849,9 @@ BookReader.prototype.ttsStart = function () {
     //this.ttsPlaying = true; //set this in ttsToggle()
     this.ttsIndex = this.currentIndex();
     this.ttsFormat = 'mp3';
-    if ($.browser.mozilla) {
-        this.ttsFormat = 'ogg';
-    }
+    //if ($.browser.mozilla) {
+    //    this.ttsFormat = 'ogg';
+    //}
     this.ttsGetText(this.ttsIndex, 'ttsStartCB');
 }
 
@@ -4794,7 +4876,7 @@ BookReader.prototype.ttsStop = function () {
 // ttsGetText()
 //______________________________________________________________________________
 BookReader.prototype.ttsGetText = function(index, callback) {
-    var url = 'https://'+this.server+'/BookReader/BookReaderGetTextWrapper.php?path='+this.bookPath+'_djvu.xml&page='+index;
+    var url = 'http://'+this.server+'/BookReader/BookReaderGetTextWrapper.php?path='+this.bookPath+'_djvu.xml&page='+index;
     this.ttsAjax = $.ajax({url:url, dataType:'jsonp', jsonpCallback:callback});
 }
 
@@ -4824,7 +4906,7 @@ BookReader.prototype.ttsStartCB = function (data) {
     this.ttsPosition = -1;
     var snd = soundManager.createSound({
      id: 'chunk'+this.ttsIndex+'-0',
-     url: 'https://'+this.server+'/BookReader/BookReaderGetTTS.php?string=' + escape(data[0][0]) + '&format=.'+this.ttsFormat, //the .ogg is to trick SoundManager2 to use the HTML5 audio player
+     url: 'http://'+this.server+'/BookReader/BookReaderGetTTS.php?string=' + escape(data[0][0]) + '&format=.'+this.ttsFormat, //the .ogg is to trick SoundManager2 to use the HTML5 audio player
      onload: function(){this.br.removeProgressPopup();}, //fires in safari...
      onbufferchange: function(){if (false == this.isBuffering) this.br.removeProgressPopup();} //fires in FF and IE9
     });
@@ -4836,7 +4918,7 @@ BookReader.prototype.ttsStartCB = function (data) {
 
 // showProgressPopup
 //______________________________________________________________________________
-BookReader.prototype.showProgressPopup = function(msg) {
+BookReader.prototype.showProgressPopup = function(msg, xhr) {
     //if (soundManager.debugMode) console.log('showProgressPopup index='+this.ttsIndex+' pos='+this.ttsPosition);
     if (this.popup) return;
 
@@ -4857,6 +4939,25 @@ BookReader.prototype.showProgressPopup = function(msg) {
         msgdiv.innerHTML = msg;
         $(this.popup).append(msgdiv);
     }
+
+    var cancel = document.createElement("button");
+
+    cancel.style.float = 'right';
+
+    var text = document.createTextNode("Cancel");
+    cancel.appendChild(text);
+
+    cancel.onclick = function() {
+        
+		br.removeSearchResults();
+		
+		xhr.abort();
+		
+		br.removeProgressPopup();
+
+    };
+
+    $(this.popup).append(cancel);
 
     $(this.popup).appendTo('#BookReader');
 }
@@ -4885,7 +4986,7 @@ BookReader.prototype.ttsNextPageCB = function (data) {
 BookReader.prototype.ttsLoadChunk = function (page, pos, string) {
     var snd = soundManager.createSound({
      id: 'chunk'+page+'-'+pos,
-     url: 'https://'+this.server+'/BookReader/BookReaderGetTTS.php?string=' + escape(string) + '&format=.'+this.ttsFormat //the .ogg is to trick SoundManager2 to use the HTML5 audio player
+     url: 'http://'+this.server+'/BookReader/BookReaderGetTTS.php?string=' + escape(string) + '&format=.'+this.ttsFormat //the .ogg is to trick SoundManager2 to use the HTML5 audio player
     });
     snd.br = this;
     snd.load()
@@ -5108,7 +5209,7 @@ BookReader.prototype.ttsHilite1UP = function(chunk) {
             width:  (r-l)/this.reduce + 'px',
             height: (b-t)/this.reduce + 'px',
             left:   l/this.reduce + 'px',
-            top:    t/this.reduce +'px'
+            top:    t/this.reduce + 'px'
         });
     }
 
@@ -5223,6 +5324,52 @@ BookReader.prototype.buildShareDiv = function(jShareDiv)
 
 }
 
+BookReader.prototype.buildQuestionDiv = function(jQuestionDiv)
+{
+    var pageView = document.location + '';
+    var bookView = (pageView + '').replace(/#.*/,'');
+    var self = this;
+
+    var jForm = $([
+        '<p>Help with the Bookreader.</p>',
+        '<div class="BRhelp info" title="Help with the Book Reader"></div><br/>',
+        '<div class="BRhelp share" title="Help with the Book Reader"></div><br/>',
+        '<div class="BRhelp book_left" title="Help with the Book Reader"></div><br/>',
+        '<div class="BRhelp book_right" title="Help with the Book Reader"></div><br/>',
+        '<div class="BRhelp zoom_out" title="Help with the Book Reader"></div><br/>',
+        '<div class="BRhelp zoom_in" title="Help with the Book Reader"></div><br/>',
+        '<div class="BRhelp play" title="Help with the Book Reader"></div><br/>',
+        '<div class="BRhelp pause" title="Help with the Book Reader"></div><br/>',
+        '<div class="BRhelp twopg" title="Help with the Book Reader"></div><br/>',
+        '<div class="BRhelp onepg" title="Help with the Book Reader"></div><br/>',
+        '<div class="BRhelp thumb" title="Help with the Book Reader"></div><br/>'
+		].join('\n'));
+
+    jForm.appendTo(jQuestionDiv);
+
+    jForm.find('input').bind('change', function() {
+        var form = $(this).parents('form:first');
+        var params = {};
+        params.mode = $(form.find('input[name=pages]:checked')).val();
+        if (form.find('input[name=thispage]').attr('checked')) {
+            params.page = self.getPageNum(self.currentIndex());
+        }
+
+        // $$$ changeable width/height to be added to share UI
+        var frameWidth = "480px";
+        var frameHeight = "430px";
+        form.find('.BRframeEmbed').val(self.getEmbedCode(frameWidth, frameHeight, params));
+    })
+    jForm.find('input[name=thispage]').trigger('change');
+    jForm.find('input, textarea').bind('focus', function() {
+        this.select();
+    });
+
+    jForm.appendTo(jQuestionDiv);
+    jForm = ''; // closure
+
+}
+
 // Should be overridden
 BookReader.prototype.buildInfoDiv = function(jInfoDiv)
 {
@@ -5236,7 +5383,7 @@ BookReader.prototype.initUIStrings = function()
     // the toolbar and nav bar easier
 
     // Setup tooltips -- later we could load these from a file for i18n
-    var titles = { '.logo': 'Go to Archive.org', // $$$ update after getting OL record
+    var titles = { '.logo': 'Go to library.tamu.edu', // $$$ update after getting OL record
                    '.zoom_in': 'Zoom in',
                    '.zoom_out': 'Zoom out',
                    '.onepg': 'One-page view',
@@ -5248,6 +5395,7 @@ BookReader.prototype.initUIStrings = function()
                    '.bookmark': 'Bookmark this page',
                    '.read': 'Read this book aloud',
                    '.share': 'Share this book',
+				   '.question': 'Help with this book',
                    '.info': 'About this book',
                    '.full': 'Show fullscreen',
                    '.book_left': 'Flip left',
@@ -5274,5 +5422,32 @@ BookReader.prototype.initUIStrings = function()
             $('#BookReader').find(icon).attr('title', titles[icon]);
         }
     }
+	
+    if (1 == this.mode) {
+    	
+    	$("[title='Zoom in disabled in two-page mode']").attr('title','Zoom in');
+    	$("[title='Zoom out disabled in two-page mode']").attr('title','Zoom out');
+    	
+    	$("[title='Zoom in']").removeAttr('disabled');
+    	$("[title='Zoom out']").removeAttr('disabled');
+    	
+    } else if (3 == this.mode) {
+    	    	
+    	$("[title='Zoom in disabled in two-page mode']").attr('title','Zoom in');
+    	$("[title='Zoom out disabled in two-page mode']").attr('title','Zoom out');
+    	
+    	$("[title='Zoom in']").removeAttr('disabled');
+    	$("[title='Zoom out']").removeAttr('disabled');    	
+    	    	
+    } else {
+    	    	
+    	$("[title='Zoom in']").attr('disabled','disabled');
+    	$("[title='Zoom out']").attr('disabled','disabled');
+    	
+    	$("[title='Zoom in']").attr('title','Zoom in disabled in two-page mode');
+    	$("[title='Zoom out']").attr('title','Zoom out disabled in two-page mode');
+    	
+    }
+	
 }
 })(jQuery);
