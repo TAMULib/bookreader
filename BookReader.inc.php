@@ -120,7 +120,11 @@ class BookReader
     $metaURL = BookReader::jsMetadataURL($server, $identifier, $mainDir, $subPrefix);
     $metaURL .= "&version=" . $version;
     $locateURL = BookReader::jsLocateURL($identifier, $subPrefix);
-    $coverThumb = 'http://bookreader.library.tamu.edu/' . $identifier . '/'. $subPrefix . '/page/cover_w114.jpg';
+ //   $coverThumb = 'http://bookreader.library.tamu.edu/' . $identifier . '/'. $subPrefix . '/page/cover_w114.jpg';
+	
+
+	$coverThumb = 'http://bookreader.library.tamu.edu/items/' . $identifier . '/' . $identifier . '_cover_image.jpg';
+	
     // startup-up-image must be exactly 320x460
     //$startupImage = 'http://archive.org/download/' . $identifier . '/'. $subPrefix . '/page/cover_w512.jpg';
 ?>

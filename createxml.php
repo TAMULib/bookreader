@@ -1,32 +1,26 @@
 <?php
-// Check out 1984
-// Check out 1985, 1988, 1990, 1991 - 2000
 
 set_time_limit(0);
-ini_set("memory_limit","512M");
+ini_set("memory_limit","1024M");
 date_default_timezone_set('US/Central');
 
-global $linefeed; 
 $linefeed = PHP_EOL;
-$linefeed = "\r\n";
+$space = " ";
 
 echo "Begin:" . $linefeed;
 
 $counter = 0;
 $totalcount = 0;
 
-$startNum = 94;  //71 = 1962
-//110 = 2001
-// 89 = 1980
-// With mis files in directory yearbooks start ~12
-$endCount = 300;  // Number of yearbooks to process
+$startNum = 99;  //71 = 1962
+$endCount = 10;  // Number of yearbooks to process
 
 //$dirf    			= 'c:/zz/';
 //$genericimageloc    = 'c:/zz/';
 //$tmpfolder 			= 'c:/tmp/';
 
 $dirf    			= '/mnt/yearbooks/';
-$genericimageloc    = '/mnt/yearbooks/';
+$genericimageloc    = '/tmp/';
 $tmpfolder 			= '/tmp/';
 
 $dir = scandir($dirf);
@@ -43,27 +37,27 @@ $dir = scandir($dirf);
 					
 					mkdir($tmpfolder . $file, 0700);
 				
-					echo "  Processing Yearbook:  " . $file . $linefeed;
+					echo "$space$spaceProcessing Yearbook:  " . $file . $linefeed;
 					$dir2 = scandir($dirf . "/" . $file);
-					echo "   Deleting Previous Files:" . $linefeed;
+					echo "$space$space$spaceDeleting Previous Files:" . $linefeed;
 						foreach($dir2 as $file2) {
 							if ( ($file2 != $file . "_abbyy.gz") && ($file2 != $file . "_abbyy.xml") && ($file2 != ".") && ($file2 != "..") && ($file2 != $file . "_jp2.zip") && ($file2 != $file . "_raw_jp2.zip") ) {
 
-								echo "    File is:  " . $file2 . $linefeed;
+								echo "$space$space$space$spaceFile is:  " . $file2 . $linefeed;
 
 								if (file_exists($dirf . "/" . $file . "/" . $file2)) {
 									unlink($dirf . "/" . $file . "/" . $file2);
-									echo "     $file2 Deleted" . $linefeed;
+									echo "$space$space$space$space$space$file2$spaceDeleted" . $linefeed;
 								}					
 							}
 						}
 					
-					echo "Looking for zip file: " . $dirf . $file . '/' . $file . "_jp2.zip" . $linefeed;
+					echo "$linefeed$space$spaceLooking for zip file: " . $dirf . $file . '/' . $file . "_jp2.zip" . $linefeed;
 					
 					$zip = new ZipArchive;
 					$res = $zip->open($dirf . "/" . $file . "/" . $file . "_jp2.zip");
 						if ($res === TRUE) {
-							echo "    Zip is Open with "; 
+							echo "$space$space$space$spaceZip is Open with "; 
 							echo $zip->numFiles . " files" . $linefeed;
 							$counter = $zip->numFiles;
 
@@ -76,7 +70,7 @@ $dir = scandir($dirf);
 
 							fwrite( $ofp, $im_string );
 							fclose($ofp); 
-							echo "  Cover Image extracted" . $linefeed;
+							echo "$space$spaceCover Image extracted" . $linefeed;
 							$zip->close();
 						} else {
 							echo 'failed cover image with code:' . $res . $linefeed;
@@ -84,34 +78,33 @@ $dir = scandir($dirf);
 						
 					
 
-					echo "  Create XML" . $linefeed;
+					echo "$space$spaceCreate XML" . $linefeed;
 					$xml = CreateXML($dirf . $file . "/" . $file . "_abbyy.xml", $file, $counter);
 			//		file_put_contents($dirf . $file . '/scandata.xml', $xml);
 					file_put_contents($tmpfolder . $file . '/scandata.xml', $xml);
 					
-					echo "  Create CreateFilesXML" . $linefeed;
+					echo "$space$spaceCreate CreateFilesXML" . $linefeed;
 					$xml = CreateFilesXML($file, $dirf);
 			//		file_put_contents($dirf . $file . '/' . $file . '_files.xml', $xml);
 					file_put_contents($tmpfolder . $file . '/' . $file . '_files.xml', $xml);
 					
-					echo "  Create CreateMetadataFilesXML" . $linefeed;
+					echo "$space$spaceCreate CreateMetadataFilesXML" . $linefeed;
 					$xml = CreateMetadataFilesXML($file);
 			//		file_put_contents($dirf . $file . '/' . $file . '_meta.xml', $xml);			
 					file_put_contents($tmpfolder . $file . '/' . $file . '_meta.xml', $xml);	
 					
-					echo "  Create CreateImageCMD" . $linefeed;
+					echo "$space$spaceCreate CreateImageCMD" . $linefeed;
 					CreateImageCMD($file, $dirf, $tmpfolder);
 					
 //					CreateImage($file, $dirf);
 			
-					echo "  Create CreateZip" . $linefeed;
-//					CreateZip($file, $dirf, $genericimageloc);
-					CreateZip($file, $tmpfolder, $genericimageloc);
+					echo "$space$spaceCreate CreateZip" . $linefeed;
+					CreateZip($file, $dirf, $genericimageloc);
 					
-					echo "  Create CreateAbbyygz" . $linefeed;
+					echo "$space$spaceCreate CreateAbbyygz" . $linefeed;
 					CreateAbbyygz($file, $dirf, $tmpfolder);
 					
-					echo "\r\n";
+					echo $linefeed;
 				}
 				
 				$totalcount = $totalcount + 1;
@@ -119,7 +112,7 @@ $dir = scandir($dirf);
 					
 			} else {
 				$totalcount = $totalcount + 1;
-			//	echo "     Skipping Directory" . $linefeed;
+			//	echo "$space$space$space$space$spaceSkipping Directory" . $linefeed;
 			}
 		
 		$counter = 0;
@@ -144,14 +137,13 @@ function CreateXML($file, $bookid, $counter)
 	$xml = $xml . '</bookData>' . "\r\n";
 	$xml = $xml . '<pageData>' . "\r\n";
 	
-	echo "Looking for file: " .  $file . "\r\n";;
+	echo "Looking for file: " .  $file;
 	
 		if (file_exists($file)) {
 			$backupplan = false;
-			echo "    Found Abbyy XML" . "\r\n";
+			echo "$space$space$space$spaceFound Abbyy XML" . $linefeed;
 			
 				try {
-				echo "    Load Abbyy XML" . "\r\n";
 				$abbyy = new SimpleXMLElement($file, NULL, TRUE);
 					$xmlpage = 1;
 					
@@ -189,19 +181,19 @@ function CreateXML($file, $bookid, $counter)
 
 						$xmlpage = $xmlpage + 1;
 					}
-					echo "    Total XML Page elements processed for Abbyy: " . ($xmlpage - 1) . "\r\n";
-				}	catch (Exception $e) {
-					echo "Error Loading Abbyy" . "\r\n";;
+					echo "$space$space$space$spaceTotal XML Page elements processed for Abbyy: " . ($xmlpage - 1) . $linefeed;
+				}	catch(Exception $e) {
+				
+					echo "Error Loading Abbyy";
 					$backupplan = true;
 				}	
 			
 			} else {
-				echo "Abbyy Not Found";
 				$backupplan = true;
 			}
 			
 			if ($backupplan) {
-				echo "    Abbyy xml not found or corrupt going to do it the hard way." . $linefeed;
+				echo "$space$space$space$spaceAbbyy xml not found or corrupt going to do it the hard way." . $linefeed;
 			
 				for ($i=1; $i<=$counter; $i++)
 					  {
@@ -335,9 +327,9 @@ function CreateImage($bookid, $dir, $tmpfolder)
 		echo $tmpfolder . $bookid . '/' . $bookid . '_0001.jp2' . $linefeed;
 		echo $tmpfolder . $bookid . '/' . $bookid . '_cover_image.jpg'. $linefeed;
 		
-		echo "x" . "\r\n"; 
+		echo "x";
 		$image = new Imagick();
-		echo "y" . "\r\n"; 
+		echo "y";
 		//$image->readImage( $dir . '/' . $bookid . '/' . $bookid . '_0001.jp2' );
 		$image->readImage( $tmpfolder . $bookid . '/' . $bookid . '_0001.jp2' );		
 		$image->setImageFormat('jpg');
@@ -366,7 +358,7 @@ function CreateImageCMD($bookid, $dir, $tmpfolder)
 		exec($thecmd, $info);
 		
 		//echo $linefeed;
-		echo "   Cover Created" . "\r\n"; 
+		echo "$space$space$spaceCover Created" . $linefeed;
 		return;
 	}
 	catch(Exception $e) {
@@ -378,10 +370,10 @@ function CreateZip($bookid, $dir, $imageloc)
 {
 	$zip = new ZipArchive();
 	
-	$filename = $dir . '/' . $bookid . '/scandata.zip';
-	//$filename = '/tmp' . '/' . $bookid . '/scandata.zip';
+	//$filename = $dir . '/' . $bookid . '/scandata.zip';
+	$filename = '/tmp' . '/' . $bookid . '/scandata.zip';
 
-	echo "      " . $dir . $bookid . '/scandata.zip' . "\r\n"; 
+	echo "$space$space$space$space$space$space" . $dir . $bookid . '/scandata.zip' . $linefeed;
 	
 		if ($zip->open($filename, ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE)!==TRUE) {
 			exit("cannot open <$filename>\n");
@@ -390,18 +382,12 @@ function CreateZip($bookid, $dir, $imageloc)
 //	echo $imageloc . "l.jpg" . $linefeed;	
 //	echo $imageloc . "r.jpg" . $linefeed;	
 	
-	echo $imageloc . "l.jpg" . "\r\n"; 
 	$zip->addFile($imageloc . "l.jpg", "l.jpg");
-	
-	echo $imageloc . "r.jpg" . "\r\n"; 
 	$zip->addFile($imageloc . "r.jpg", "r.jpg");
-	
-	echo $dir . $bookid . '/' . $bookid . '_cover_image.jpg' . "\r\n"; 
 	$zip->addFile($dir . $bookid . '/' . $bookid . '_cover_image.jpg', '' . $bookid . '_cover_image.jpg');
-
 	$zip->addFile($dir . $bookid . '/scandata.xml', 'scandata.xml');
 
-	echo "      Number of Files added to zip: " . $zip->numFiles . $linefeed;
+	echo "$space$space$space$space$space$spaceNumber of Files added to zip: " . $zip->numFiles . $linefeed;
 	//echo "status:" . $zip->status . $linefeed;
 	echo $linefeed;
 	$zip->close();
@@ -420,8 +406,8 @@ function CreateAbbyygz($bookid, $dir, $tmpfolder)
 	
 	$abbyxmlfile = $dir . $bookid . '/' . $bookid . '_abbyy.xml';
 	
-	echo "    gz Location " . $filename . $linefeed;
-	echo "    XML Location " . $abbyxmlfile . $linefeed;
+	echo "$space$space$space$spacegz Location " . $filename . $linefeed;
+	echo "$space$space$space$spaceXML Location " . $abbyxmlfile . $linefeed;
 
 	if (file_exists($abbyxmlfile)) {
 	
@@ -451,7 +437,7 @@ function CreateAbbyygz($bookid, $dir, $tmpfolder)
 		}
 		
 	} else {
-		echo "    No _Abbyy.XML found" . $linefeed;
+		echo "$space$space$space$spaceNo _Abbyy.XML found" . $linefeed;
 	}
 	
 	return;

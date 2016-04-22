@@ -1397,8 +1397,8 @@ BookReader.prototype.switchMode = function(mode) {
     // XXX maybe better to preserve zoom in each mode
     if (1 == mode) {
     	
-    	$("[title='Zoom in disabled in two-page mode']").attr('title','Zoom in');
-    	$("[title='Zoom out disabled in two-page mode']").attr('title','Zoom out');
+    	$("[title='Zoom in *Disabled in two-page view']").attr('title','Zoom in');
+    	$("[title='Zoom out *Disabled in two-page view']").attr('title','Zoom out');
     	
     	$("[title='Zoom in']").removeAttr('disabled');
     	$("[title='Zoom out']").removeAttr('disabled');
@@ -1408,8 +1408,8 @@ BookReader.prototype.switchMode = function(mode) {
         this.prepareOnePageView();
     } else if (3 == mode) {
     	    	
-    	$("[title='Zoom in disabled in two-page mode']").attr('title','Zoom in');
-    	$("[title='Zoom out disabled in two-page mode']").attr('title','Zoom out');
+    	$("[title='Zoom in *Disabled in two-page view']").attr('title','Zoom in');
+    	$("[title='Zoom out *Disabled in two-page view']").attr('title','Zoom out');
     	
     	$("[title='Zoom in']").removeAttr('disabled');
     	$("[title='Zoom out']").removeAttr('disabled');
@@ -1421,8 +1421,8 @@ BookReader.prototype.switchMode = function(mode) {
     	$("[title='Zoom in']").attr('disabled','disabled');
     	$("[title='Zoom out']").attr('disabled','disabled');
     	
-    	$("[title='Zoom in']").attr('title','Zoom in disabled in two-page mode');
-    	$("[title='Zoom out']").attr('title','Zoom out disabled in two-page mode');
+    	$("[title='Zoom in']").attr('title','Zoom in *Disabled in two-page view');
+    	$("[title='Zoom out']").attr('title','Zoom out *Disabled in two-page view');
     	
         // $$$ why don't we save autofit?
         // this.twoPage.autofit = null; // Take zoom level from other mode
@@ -2790,10 +2790,10 @@ BookReader.prototype.BRSearchCallback = function(results) {
     //console.log(br.searchResults);
 
     if (0 == results.matches.length) {
-        var errStr  = 'No matches were found.<br/><br/>(Search results may be reduced due to the accuracy of OCR)<br/><br/>';
+        var errStr  = 'No matches were found.<br/><br/>(Search results may be reduced due to the accuracy of OCR)';
         var timeout = 4000;
         if (false === results.indexed) {
-            errStr  = "<p>This book hasn't been indexed for searching yet. We've just started indexing it, so search should be available soon. Please try again later. Thanks!</p><br/><br/>";
+            errStr  = "<p>This book hasn't been indexed for searching yet. We've just started indexing it, so search should be available soon. Please try again later. Thanks!</p>";
             timeout = 5000;
         }
         $(br.popup).html(errStr);
@@ -3713,8 +3713,14 @@ BookReader.prototype.initToolbar = function(mode, ui) {
 			+     "<button class='BRicon question'></button>"			
 			//+     readIcon
 			+   "</span>"
-			+   "<span><a href='http://library.tamu.edu/yearbooks/'>Yearbook Collection</a>" + this.logoURL + "'></a></span>"
-			+   "<span id='BRreturn'><a></a></span>"
+			
++ "<span><a class='logotamu' href='http://www.tamu.edu/'></a><a class='logo' href='" + this.logoURL + "'></a><ul class='breadcrumb'><li>" + this.bookTitle + " " + "</li></ul></span>"
+
+
+//			+   "<span><a href='http://library.tamu.edu/yearbooks/'>xYearbook Collection</a>" + this.logoURL + "'></a></span>"
+//			+   "<span id='BRreturn'><a></a></span>"
+			
+			
 			+   "<div id='BRnavCntlTop' class='BRnabrbuvCntl'></div>"
 			+ "</div>"
 			);	
@@ -5338,17 +5344,17 @@ BookReader.prototype.buildQuestionDiv = function(jQuestionDiv)
 
     var jForm = $([
         '<p>Help with the Bookreader.</p>',
-        '<div class="BRhelp info" title="Help with the Book Reader"></div><br/>',
-        '<div class="BRhelp share" title="Help with the Book Reader"></div><br/>',
-        '<div class="BRhelp book_left" title="Help with the Book Reader"></div><br/>',
-        '<div class="BRhelp book_right" title="Help with the Book Reader"></div><br/>',
-        '<div class="BRhelp zoom_out" title="Help with the Book Reader"></div><br/>',
-        '<div class="BRhelp zoom_in" title="Help with the Book Reader"></div><br/>',
-        '<div class="BRhelp play" title="Help with the Book Reader"></div><br/>',
-        '<div class="BRhelp pause" title="Help with the Book Reader"></div><br/>',
-        '<div class="BRhelp twopg" title="Help with the Book Reader"></div><br/>',
-        '<div class="BRhelp onepg" title="Help with the Book Reader"></div><br/>',
-        '<div class="BRhelp thumb" title="Help with the Book Reader"></div><br/>'
+        '<div class="BRhelp info" title="Help with the Book Reader"></div><div class="Helptext">Show additional information about the book</div>',
+        '<div class="BRhelp share" title="Help with the Book Reader"></div><div class="Helptext">Linking options for this book</div>',
+        '<div class="BRhelp book_left" title="Help with the Book Reader"></div><div class="Helptext">Turn the page Left</div>',
+        '<div class="BRhelp book_right" title="Help with the Book Reader"></div><div class="Helptext">Turn the page Right</div>',
+        '<div class="BRhelp zoom_out" title="Help with the Book Reader"></div><div class="Helptext">Zoom out of the page *Disabled in two page view</div>',
+        '<div class="BRhelp zoom_in" title="Help with the Book Reader"></div><div class="Helptext">Zoom in to the page *Disabled in two page view</div>',
+        '<div class="BRhelp play" title="Help with the Book Reader"></div><div class="Helptext">Automatically flip the pages</div>',
+        '<div class="BRhelp pause" title="Help with the Book Reader"></div><div class="Helptext">Stop fliping the pages</div>',
+        '<div class="BRhelp twopg" title="Help with the Book Reader"></div><div class="Helptext">Display the book in Two-page view</div>',
+        '<div class="BRhelp onepg" title="Help with the Book Reader"></div><div class="Helptext">Display the book in One-page view</div>',
+        '<div class="BRhelp thumb" title="Help with the Book Reader"></div><div class="Helptext">Display the book in Thumbnail view</div>'
 		].join('\n'));
 
     jForm.appendTo(jQuestionDiv);
@@ -5431,16 +5437,16 @@ BookReader.prototype.initUIStrings = function()
 	
     if (1 == this.mode) {
     	
-    	$("[title='Zoom in disabled in two-page mode']").attr('title','Zoom in');
-    	$("[title='Zoom out disabled in two-page mode']").attr('title','Zoom out');
+    	$("[title='Zoom in *Disabled in two-page view']").attr('title','Zoom in');
+    	$("[title='Zoom out *Disabled in two-page view']").attr('title','Zoom out');
     	
     	$("[title='Zoom in']").removeAttr('disabled');
     	$("[title='Zoom out']").removeAttr('disabled');
     	
     } else if (3 == this.mode) {
     	    	
-    	$("[title='Zoom in disabled in two-page mode']").attr('title','Zoom in');
-    	$("[title='Zoom out disabled in two-page mode']").attr('title','Zoom out');
+    	$("[title='Zoom in *Disabled in two-page view']").attr('title','Zoom in');
+    	$("[title='Zoom out *Disabled in two-page view']").attr('title','Zoom out');
     	
     	$("[title='Zoom in']").removeAttr('disabled');
     	$("[title='Zoom out']").removeAttr('disabled');    	
@@ -5450,8 +5456,8 @@ BookReader.prototype.initUIStrings = function()
     	$("[title='Zoom in']").attr('disabled','disabled');
     	$("[title='Zoom out']").attr('disabled','disabled');
     	
-    	$("[title='Zoom in']").attr('title','Zoom in disabled in two-page mode');
-    	$("[title='Zoom out']").attr('title','Zoom out disabled in two-page mode');
+    	$("[title='Zoom in']").attr('title','Zoom in *Disabled in two-page view');
+    	$("[title='Zoom out']").attr('title','Zoom out *Disabled in two-page view');
     	
     }
 	
