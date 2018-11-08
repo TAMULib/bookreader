@@ -5049,7 +5049,7 @@ BookReader.prototype.showOpenSeaDragon = function(page) {
     
   $(this.popup).attr('id', 'openseadragon');
   
-  var url = isNaN(page) ? page : 'http://osd146.library.tamu.edu/BookReader/BookReaderImages.php?zip=' + this.zip + '&file=' + this._getPageFile(page) + '&scale=4&rotate=0';
+  var url = isNaN(page) ? page : 'http://bookreader.library.tamu.edu/BookReader/BookReaderImages.php?zip=' + this.zip + '&file=' + this._getPageFile(page) + '&scale=4&rotate=0';
 
   $("<script type=\"text/javascript\">" +
             "var viewer = OpenSeadragon({" +
@@ -5515,8 +5515,8 @@ BookReader.prototype.buildQuestionDiv = function(jQuestionDiv)
         '<div class="BRhelp share" title="Help with the Book Reader"></div><div class="Helptext">Linking options for this book</div>',
         '<div class="BRhelp book_left" title="Help with the Book Reader"></div><div class="Helptext">Turn the page Left</div>',
         '<div class="BRhelp book_right" title="Help with the Book Reader"></div><div class="Helptext">Turn the page Right</div>',
-        '<div class="BRhelp zoom_out" title="Help with the Book Reader"></div><div class="Helptext">Zoom out of the page *Disabled in two page view</div>',
-        '<div class="BRhelp zoom_in" title="Help with the Book Reader"></div><div class="Helptext">Zoom in to the page *Disabled in two page view</div>',
+        '<div class="BRhelp zoom_out" title="Help with the Book Reader"></div><div class="Helptext">Zoom out of the page</div>',
+        '<div class="BRhelp zoom_in" title="Help with the Book Reader"></div><div class="Helptext">Zoom in to the page</div>',
         '<div class="BRhelp play" title="Help with the Book Reader"></div><div class="Helptext">Automatically flip the pages</div>',
         '<div class="BRhelp pause" title="Help with the Book Reader"></div><div class="Helptext">Stop fliping the pages</div>',
         '<div class="BRhelp twopg" title="Help with the Book Reader"></div><div class="Helptext">Display the book in Two-page view</div>',

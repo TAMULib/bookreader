@@ -485,7 +485,7 @@ br.buildInfoDiv = function(jInfoDiv) {
 
     jInfoDiv.find('.BRfloatFoot').append([
                 '<span>|</span>',
-                '<a href="http://guides.library.tamu.edu/askus" class="problem">Chat/Questions</a>',
+                '<a href="http://askus.library.tamu.edu/" class="problem">Chat/Questions</a>',
     ].join('\n'));
 
     if (domain == 'library.tamu.edu') {
@@ -496,7 +496,7 @@ br.buildInfoDiv = function(jInfoDiv) {
 
     jInfoDiv.find('.BRfloatTitle a').attr({'href': this.bookUrl, 'alt': this.bookTitle}).text(this.bookTitle);
     var bookPath = (window.location + '').replace('#','%23');
-    jInfoDiv.find('a.problem').attr('href','http://guides.library.tamu.edu/askus?path=' + bookPath);
+    jInfoDiv.find('a.problem').attr('href','http://askus.library.tamu.edu/');
 
 }
 
