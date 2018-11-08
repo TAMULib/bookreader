@@ -36,6 +36,10 @@ This file is part of BookReader.
 // You must also add a numLeafs property before calling init().
 
 function BookReader() {
+    
+    $.getScript("/openseadragon/openseadragon.min.js", function() {
+        console.log('OpenSeaDragon Started');
+    });
 
     // Mode constants
     this.constMode1up = 1;
@@ -264,8 +268,8 @@ BookReader.prototype.init = function() {
         });
 
         $('.BRicon.share').hide();
-		
-		$('.BRicon.question').hide();
+        
+        $('.BRicon.question').hide();
     }
 
     $('.BRpagediv1up').bind('mousedown', this, function(e) {
@@ -284,7 +288,7 @@ BookReader.prototype.init = function() {
         this.firstIndex = startIndex;
         this.prepareThumbnailView();
         this.jumpToIndex(startIndex);
-    } else {    	
+    } else {        
         this.displayedIndices=[0];
         this.firstIndex = startIndex;
         this.displayedIndices = [this.firstIndex];
@@ -1396,40 +1400,35 @@ BookReader.prototype.switchMode = function(mode) {
  
     // XXX maybe better to preserve zoom in each mode
     if (1 == mode) {
-    	
-    	$("[title='Zoom in *Disabled in two-page view']").attr('title','Zoom in');
-    	$("[title='Zoom out *Disabled in two-page view']").attr('title','Zoom out');
-    	
-    	$("[title='Zoom in']").removeAttr('disabled');
-    	$("[title='Zoom out']").removeAttr('disabled');
-    	
+        
+        $("[title='Zoom in']").show();
+        $("[title='Zoom out']").hide();
+        
         this.onePageCalculateReductionFactors( $('#BRcontainer').attr('clientWidth'), $('#BRcontainer').attr('clientHeight'));
         this.reduce = this.quantizeReduce(this.reduce, this.onePage.reductionFactors);
         this.prepareOnePageView();
-    } else if (3 == mode) {
-    	    	
-    	$("[title='Zoom in *Disabled in two-page view']").attr('title','Zoom in');
-    	$("[title='Zoom out *Disabled in two-page view']").attr('title','Zoom out');
-    	
-    	$("[title='Zoom in']").removeAttr('disabled');
-    	$("[title='Zoom out']").removeAttr('disabled');
-    	    	
-        this.reduce = this.quantizeReduce(this.reduce, this.reductionFactors);
-        this.prepareThumbnailView();
-    } else {
-    	    	
-    	$("[title='Zoom in']").attr('disabled','disabled');
-    	$("[title='Zoom out']").attr('disabled','disabled');
-    	
-    	$("[title='Zoom in']").attr('title','Zoom in *Disabled in two-page view');
-    	$("[title='Zoom out']").attr('title','Zoom out *Disabled in two-page view');
-    	
+        
+    } else if (2 == mode) {
+        
+        $("[title='Zoom in']").show();
+        $("[title='Zoom out']").hide();
+        
         // $$$ why don't we save autofit?
         // this.twoPage.autofit = null; // Take zoom level from other mode
         this.twoPageCalculateReductionFactors();
         this.reduce = this.quantizeReduce(this.reduce, this.twoPage.reductionFactors);
         this.prepareTwoPageView();
         this.twoPageCenterView(0.5, 0.5); // $$$ TODO preserve center
+        
+        
+    } else if (3 == mode) {
+        
+        $("[title='Zoom in']").show();
+        $("[title='Zoom out']").show();
+                
+        this.reduce = this.quantizeReduce(this.reduce, this.reductionFactors);
+        this.prepareThumbnailView();
+        
     }
 
 }
@@ -2480,7 +2479,7 @@ BookReader.prototype.setMouseHandlers2UP = function() {
                 return true;
             }
 
-             if (! e.data.self.twoPageIsZoomedIn()) {
+             if (!e.data.self.twoPageIsZoomedIn() && !br.zoomSelect) {
                 e.data.self.ttsStop();
                 e.data.self.left();
             }
@@ -2488,7 +2487,7 @@ BookReader.prototype.setMouseHandlers2UP = function() {
         }
     );
 
-    this.setClickHandler2UP( this.prefetchedImgs[this.twoPage.currentIndexR],
+    this.setClickHandler2UP(this.prefetchedImgs[this.twoPage.currentIndexR],
         { self: this },
         function(e) {
             if (e.which == 3) {
@@ -2499,7 +2498,7 @@ BookReader.prototype.setMouseHandlers2UP = function() {
                 return true;
             }
 
-            if (! e.data.self.twoPageIsZoomedIn()) {
+            if (!e.data.self.twoPageIsZoomedIn() && !br.zoomSelect) {
                 e.data.self.ttsStop();
                 e.data.self.right();
             }
@@ -2765,14 +2764,14 @@ BookReader.prototype.search = function(term) {
     this.searchTerm = term;
 
     this.removeSearchResults();
-
+    
     var xhr = $.ajax({
-	  dataType: "json",
-	  url: url,
-	  success: function(results) {
-		  br.BRSearchCallback(results);
-	  }
-	});
+      dataType: "json",
+      url: url,
+      success: function(results) {
+          br.BRSearchCallback(results);
+      }
+    });
     
     //alert($.fn.jquery);
     
@@ -2806,9 +2805,9 @@ BookReader.prototype.BRSearchCallback = function(results) {
         cancel.appendChild(text);
 
         cancel.onclick = function() {
-        	br.removeSearchResults();
-        	br.removeProgressPopup();
-    	};
+            br.removeSearchResults();
+            br.removeProgressPopup();
+        };
 
         $(br.popup).append(cancel);
 
@@ -2822,9 +2821,9 @@ BookReader.prototype.BRSearchCallback = function(results) {
 
     var i;
     for (i=0; i<results.matches.length; i++) {
-	if(results.matches[i].par[0] != null) {
+    if(results.matches[i].par[0] != null) {
             br.addSearchResult(results.matches[i].text, br.leafNumToIndex(results.matches[i].par[0].page));
-	}
+    }
     }
     br.updateSearchHilites();
     br.removeProgressPopup();
@@ -3014,7 +3013,7 @@ BookReader.prototype.updateSearchHilites2UP = function() {
     for (i=0; i<results.matches.length; i++) {
         //console.log(results.matches[i].par[0]);
         //TODO: loop over all par objects
-	if(results.matches[i].par[0] != null) {
+    if(results.matches[i].par[0] != null) {
         var pageIndex = this.leafNumToIndex(results.matches[i].par[0].page);
         for (j=0; j<results.matches[i].par[0].boxes.length; j++) {
             var box = results.matches[i].par[0].boxes[j];
@@ -3034,7 +3033,7 @@ BookReader.prototype.updateSearchHilites2UP = function() {
                 }
             }
         }
-	}
+    }
     }
 
 }
@@ -3075,7 +3074,7 @@ BookReader.prototype.removeSearchHilites = function() {
     if (null == results) return;
     var i, j;
     for (i=0; i<results.matches.length; i++) {
-	if(results.matches[i].par[0] != null) {
+    if(results.matches[i].par[0] != null) {
         for (j=0; j<results.matches[i].par[0].boxes.length; j++) {
             var box = results.matches[i].par[0].boxes[j];
             if (null != box.div) {
@@ -3083,7 +3082,7 @@ BookReader.prototype.removeSearchHilites = function() {
                 box.div=null;
             }
         }
-	}
+    }
     }
 }
 
@@ -3717,7 +3716,7 @@ BookReader.prototype.initToolbar = function(mode, ui) {
 + "<span><a class='logotamu' href='http://www.tamu.edu/'></a><a class='logo' href='" + this.logoURL + "'></a><ul class='breadcrumb'><li>" + this.bookTitle + " " + "</li></ul></span>"
 
 
-//			+   "<span><a href='http://library.tamu.edu/yearbooks/'>xYearbook Collection</a>" + this.logoURL + "'></a></span>"
+//			+   "<span><a href='http://library.tamu.edu/yearbooks/'>Yearbook Collection</a>" + this.logoURL + "'></a></span>"
 //			+   "<span id='BRreturn'><a></a></span>"
 			
 			
@@ -3730,7 +3729,7 @@ BookReader.prototype.initToolbar = function(mode, ui) {
     if ( navigator.userAgent.match(/ipad/i) && $.browser.webkit && (parseInt($.browser.version, 10) <= 531) ) {
        $('#BRtoolbarbuttons .info').hide();
        $('#BRtoolbarbuttons .share').hide();
-	    $('#BRtoolbarbuttons .question').hide();
+        $('#BRtoolbarbuttons .question').hide();
     }
 // navigation dch
     $('#BRreturn a').attr('href', this.bookUrl).text(this.bookTitle);
@@ -3771,13 +3770,13 @@ BookReader.prototype.initToolbar = function(mode, ui) {
     jToolbar.find('.question').colorbox({inline: true, opacity: "0.5", href: "#BRquestion", onLoad: function() { self.autoStop(); self.ttsStop(); } });
 
     $('<div style="display: none;"></div>').append(this.blankShareDiv()).append(this.blankInfoDiv()).appendTo($('body'));
-	$('<div style="display: none;"></div>').append(this.blankQuestionDiv()).append(this.blankInfoDiv()).appendTo($('body'));
+    $('<div style="display: none;"></div>').append(this.blankQuestionDiv()).append(this.blankInfoDiv()).appendTo($('body'));
     $('#BRinfo .BRfloatTitle a').attr( {'href': this.bookUrl} ).text(this.bookTitle).addClass('title');
 
     // These functions can be overridden
     this.buildInfoDiv($('#BRinfo'));
     this.buildShareDiv($('#BRshare'));
-	this.buildQuestionDiv($('#BRquestion'));
+    this.buildQuestionDiv($('#BRquestion'));
 
     // Switch to requested mode -- binds other click handlers
     //this.switchToolbarMode(mode);
@@ -3986,8 +3985,16 @@ BookReader.prototype.bindNavigationHandlers = function() {
     });
 
     jIcons.filter('.zoom_in').bind('click', function() {
-        self.ttsStop();
-        self.zoom(1);
+        
+        if (1 == br.mode) {
+            br.showOpenSeaDragon(br.firstIndex);
+        } else if (2 == br.mode) {
+            br.showZoomSelection(2);
+        } else {
+            self.ttsStop();
+            self.zoom(1);
+        }       
+        
         return false;
     });
 
@@ -4649,7 +4656,7 @@ BookReader.prototype.searchHighlightVisible = function() {
     var i, j;
     for (i=0; i<results.matches.length; i++) {
         //console.log(results.matches[i].par[0]);
-	if(results.matches[i].par[0] != null) {
+    if(results.matches[i].par[0] != null) {
         for (j=0; j<results.matches[i].par[0].boxes.length; j++) {
             var box = results.matches[i].par[0].boxes[j];
             var pageIndex = this.leafNumToIndex(box.page);
@@ -4657,7 +4664,7 @@ BookReader.prototype.searchHighlightVisible = function() {
                 return true;
             }
         }
-	}
+    }
     }
 
     return false;
@@ -4736,7 +4743,7 @@ BookReader.prototype.gotOpenLibraryRecord = function(self, olObject) {
 
         $('#BRinfo').remove();
         $('#BRshare').after(self.blankInfoDiv());
-		$('#BRquestion').after(self.blankInfoDiv());
+        $('#BRquestion').after(self.blankInfoDiv());
         self.buildInfoDiv($('#BRinfo'));
 
         // Check for borrowed book
@@ -4961,11 +4968,11 @@ BookReader.prototype.showProgressPopup = function(msg, xhr) {
 
     cancel.onclick = function() {
         
-		br.removeSearchResults();
-		
-		xhr.abort();
-		
-		br.removeProgressPopup();
+        br.removeSearchResults();
+        
+        xhr.abort();
+        
+        br.removeProgressPopup();
 
     };
 
@@ -4980,6 +4987,166 @@ BookReader.prototype.removeProgressPopup = function() {
     $(this.popup).remove();
     this.popup=null;
 }
+
+
+
+
+//showZoomSelection
+//______________________________________________________________________________
+BookReader.prototype.showZoomSelection = function(mode) {
+    if(mode == 2) {
+        
+        if (br.zoomSelect) {
+            br.zoomSelect = false;
+            br.removeOpenSeaDragon();
+            br.setMouseHandlers2UP();
+            return;
+        }
+        
+        br.zoomSelect = true;
+        
+        br.disableNavControls();
+        
+        $('#BRtwopageview').children('img').each(function() {
+            
+            $(this).css({"border": "yellow", "border-style": "solid", "opacity": ".6"});
+            $(this).mouseenter(function() {
+                $(this).css({"opacity": "1"});
+            });
+            $(this).mouseleave(function() {
+                $(this).css({"opacity": ".6"});
+            });
+            
+            $(this).click(function(event) {
+                event.preventDefault();             
+                br.zoomSelect = false;
+                br.showOpenSeaDragon($(this).context.currentSrc);   
+                
+                br.setMouseHandlers2UP();               
+            });
+        });
+    }   
+}
+
+//removeZoomSelection
+//______________________________________________________________________________
+BookReader.prototype.removeZoomSelection = function() {
+    
+}
+
+
+
+//showOpenSeaDragon
+//______________________________________________________________________________
+BookReader.prototype.showOpenSeaDragon = function(page) {
+  if (this.popup) return;
+  
+  br.disableNavControls();
+  
+  this.popup = document.createElement("div");
+  
+  $(this.popup).attr('class', 'BRopenseadragon');
+    
+  $(this.popup).attr('id', 'openseadragon');
+  
+  var url = isNaN(page) ? page : 'http://osd146.library.tamu.edu/BookReader/BookReaderImages.php?zip=' + this.zip + '&file=' + this._getPageFile(page) + '&scale=4&rotate=0';
+
+  $("<script type=\"text/javascript\">" +
+            "var viewer = OpenSeadragon({" +
+            "defaultZoomLevel:  0," +
+            "minZoomLevel:  0," +
+            "maxZoomLevel:  10," +
+            "id: 'openseadragon'," +
+            "prefixUrl: '/openseadragon/images/'," +
+            "tileSources: {" +
+            "type: 'image'," +
+            "url: \"" + url + "\"" + 
+        "}" +
+        "});" +
+    "</script>").appendTo(this.popup);
+  
+  var cancelDiv = document.createElement("div");
+  $(cancelDiv).attr('class', 'closeopenseadragon');
+  var cancel = document.createElement("a");
+  $(cancel).attr('class', 'floatShut');
+  cancel.style.float = 'right';
+  
+  cancel.onclick = function() {
+      br.removeOpenSeaDragon();
+  };
+  
+  $(cancelDiv).append(cancel);
+  
+  $(this.popup).append(cancelDiv);
+  
+  $(this.popup).appendTo('#BookReader');
+}
+
+//removeOpenSeaDragon
+//______________________________________________________________________________
+BookReader.prototype.removeOpenSeaDragon = function() {
+  $(this.popup).remove();
+  
+  br.enableNavControls();
+  
+  $('#BRtwopageview').children('img').each(function() {
+        $(this).css({"border": "", "border-style": "", "opacity": ""});
+        $(this).unbind("mouseenter");
+        $(this).unbind("mouseleave");
+    });
+  
+  this.popup=null;
+}
+
+
+//disableNavControls
+//______________________________________________________________________________
+BookReader.prototype.disableNavControls = function() {
+    $("#textSrch").attr('disabled','disabled');
+    $("#btnSrch").attr('disabled','disabled');
+    $("[title='Play']").attr('disabled','disabled');
+    
+    $("[title='Zoom out']").attr('disabled','disabled');
+    $("[title='One-page view']").attr('disabled','disabled');
+    $("[title='Two-page view']").attr('disabled','disabled');
+    $("[title='Thumbnail view']").attr('disabled','disabled');
+    
+    $("#textSrch").css({"opacity": ".4"});
+    $("#btnSrch").css({"opacity": ".4"});
+    $("[title='Play']").css({"opacity": ".4"});
+    
+    $("[title='Zoom out']").css({"opacity": ".4"});
+    $("[title='One-page view']").css({"opacity": ".4"});
+    $("[title='Two-page view']").css({"opacity": ".4"});
+    $("[title='Thumbnail view']").css({"opacity": ".4"});
+}
+
+//enableNavControls
+//______________________________________________________________________________
+BookReader.prototype.enableNavControls = function() {
+    $("#textSrch").removeAttr('disabled');
+    $("#btnSrch").removeAttr('disabled');
+    $("[title='Play']").removeAttr('disabled');
+  
+    $("[title='Zoom in']").removeAttr('disabled');
+    $("[title='Zoom out']").removeAttr('disabled');
+    $("[title='One-page view']").removeAttr('disabled');
+    $("[title='Two-page view']").removeAttr('disabled');
+    $("[title='Thumbnail view']").removeAttr('disabled');
+  
+    $("#textSrch").css({"opacity": ""});
+    $("#btnSrch").css({"opacity": ""});
+    $("[title='Play']").css({"opacity": ""});
+  
+    $("[title='Zoom in']").css({"opacity": ""});
+    $("[title='Zoom out']").css({"opacity": ""});
+    $("[title='One-page view']").css({"opacity": ""});
+    $("[title='Two-page view']").css({"opacity": ""});
+    $("[title='Thumbnail view']").css({"opacity": ""});
+}
+
+
+
 
 // ttsNextPageCB
 //______________________________________________________________________________
@@ -5434,32 +5601,23 @@ BookReader.prototype.initUIStrings = function()
             $('#BookReader').find(icon).attr('title', titles[icon]);
         }
     }
-	
+    
     if (1 == this.mode) {
-    	
-    	$("[title='Zoom in *Disabled in two-page view']").attr('title','Zoom in');
-    	$("[title='Zoom out *Disabled in two-page view']").attr('title','Zoom out');
-    	
-    	$("[title='Zoom in']").removeAttr('disabled');
-    	$("[title='Zoom out']").removeAttr('disabled');
-    	
+        
+        $("[title='Zoom in']").show();      
+        $("[title='Zoom out']").hide();
+        
+    } else if (2 == this.mode) {
+
+        $("[title='Zoom in']").show();
+        $("[title='Zoom out']").hide();
+        
     } else if (3 == this.mode) {
-    	    	
-    	$("[title='Zoom in *Disabled in two-page view']").attr('title','Zoom in');
-    	$("[title='Zoom out *Disabled in two-page view']").attr('title','Zoom out');
-    	
-    	$("[title='Zoom in']").removeAttr('disabled');
-    	$("[title='Zoom out']").removeAttr('disabled');    	
-    	    	
-    } else {
-    	    	
-    	$("[title='Zoom in']").attr('disabled','disabled');
-    	$("[title='Zoom out']").attr('disabled','disabled');
-    	
-    	$("[title='Zoom in']").attr('title','Zoom in *Disabled in two-page view');
-    	$("[title='Zoom out']").attr('title','Zoom out *Disabled in two-page view');
-    	
+                
+        $("[title='Zoom in']").show();
+        $("[title='Zoom out']").show();
+        
     }
-	
+    
 }
 })(jQuery);
