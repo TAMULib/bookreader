@@ -26,8 +26,8 @@ $subPrefix = $_REQUEST['subPrefix'];
 $server = $_REQUEST['server'];
 
 $SQLIPAddress = 'mssql-prod2';
-$UserName = 'ezpeditor';
-$Password = 'eZpEd1t0r';
+$UserName = 'ybeditor';
+$Password = 'hIkhLCu$iHBCwt6c';
 $db = 'ybeditor';
 
 $con = mssql_connect($SQLIPAddress,$UserName,$Password) or 
