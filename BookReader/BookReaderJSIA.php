@@ -25,7 +25,7 @@ $itemPath = $_REQUEST['itemPath'];
 $subPrefix = $_REQUEST['subPrefix'];
 $server = $_REQUEST['server'];
 
-$SQLIPAddress = 'mssql-dev3';
+$SQLIPAddress = 'mssql-prod2';
 $UserName = 'ezpeditor';
 $Password = 'eZpEd1t0r';
 $db = 'ybeditor';
