@@ -5049,7 +5049,7 @@ BookReader.prototype.showOpenSeaDragon = function(page) {
     
   $(this.popup).attr('id', 'openseadragon');
   
-  var url = isNaN(page) ? page : 'http://bookreader.library.tamu.edu/BookReader/BookReaderImages.php?zip=' + this.zip + '&file=' + this._getPageFile(page) + '&scale=4&rotate=0';
+  var url = isNaN(page) ? page : 'https://bookreader.library.tamu.edu/BookReader/BookReaderImages.php?zip=' + this.zip + '&file=' + this._getPageFile(page) + '&scale=4&rotate=0';
 
   $("<script type=\"text/javascript\">" +
             "var viewer = OpenSeadragon({" +

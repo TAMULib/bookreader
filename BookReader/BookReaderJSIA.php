@@ -589,7 +589,7 @@ foreach ($metaData->xpath('//collection') as $collection) {
     }
 }
 
-echo "br.olHost = 'http://bookreader.library.tamu.edu';\n";
+echo "br.olHost = 'https://bookreader.library.tamu.edu';\n";
 echo "br.olAuthUrl = null;\n";
 
 if ($useOLAuth) {

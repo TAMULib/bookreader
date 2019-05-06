@@ -120,10 +120,10 @@ class BookReader
     $metaURL = BookReader::jsMetadataURL($server, $identifier, $mainDir, $subPrefix);
     $metaURL .= "&version=" . $version;
     $locateURL = BookReader::jsLocateURL($identifier, $subPrefix);
- //   $coverThumb = 'http://bookreader.library.tamu.edu/' . $identifier . '/'. $subPrefix . '/page/cover_w114.jpg';
+ //   $coverThumb = 'https://bookreader.library.tamu.edu/' . $identifier . '/'. $subPrefix . '/page/cover_w114.jpg';
 	
 
-	$coverThumb = 'http://bookreader.library.tamu.edu/items/' . $identifier . '/' . $identifier . '_cover_image.jpg';
+	$coverThumb = 'https://bookreader.library.tamu.edu/items/' . $identifier . '/' . $identifier . '_cover_image.jpg';
 	
     // startup-up-image must be exactly 320x460
     //$startupImage = 'http://archive.org/download/' . $identifier . '/'. $subPrefix . '/page/cover_w512.jpg';
@@ -275,7 +275,7 @@ class BookReader
     <link rel="stylesheet" type="text/css" href="style/ie7/touch/BookReaderTouch.css?v=<?php echo($version); ?>">
 <?php } /* uiMode */ ?>
     <script src="js/jquery-1.4.2.min.js" type="text/javascript"></script>
-    <script type="text/javascript" src="http://bookreader.library.tamu.edu/includes/analytics.js?v=52515"></script>
+    <script type="text/javascript" src="https://bookreader.library.tamu.edu/includes/analytics.js?v=52515"></script>
     <script type="text/javascript" src="js/ie7/jquery-ui-1.8.1.custom.min.js?v=<?php echo($version); ?>"></script>
     <script type="text/javascript" src="js/ie7/dragscrollable.js?v=<?php echo($version); ?>"></script>
     <script type="text/javascript" src="js/ie7/BookReader.js?v=<?php echo($version); ?>"></script>
@@ -415,7 +415,7 @@ class BookReader
   // on the item's server.
   public static function jsLocateURL($identifier, $subPrefix = '')
   {
-    //$locateURL = 'http://bookreader.library.tamu.edu/bookreader/BookReaderJSLocate.php?id=' . $identifier;
+    //$locateURL = 'https://bookreader.library.tamu.edu/bookreader/BookReaderJSLocate.php?id=' . $identifier;
     
     $locateURL = '/BookReader/BookReaderJSLocate.php?id=' . $identifier;
     
