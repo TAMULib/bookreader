@@ -1,0 +1,673 @@
+    1  05/06/19 - 10:21:58 ping 8.8.8.8
+    2  05/06/19 - 10:21:58 ifconfig
+    3  05/06/19 - 10:21:58 sestatus
+    4  05/06/19 - 10:21:58 vi /etc/selinux/config 
+    5  05/06/19 - 10:21:58 yum search open
+    6  05/06/19 - 10:21:58 yum install open-vm-tools
+    7  05/06/19 - 10:21:58 ip help
+    8  05/06/19 - 10:21:58 systemctl
+    9  05/06/19 - 10:21:58 linuxconf
+   10  05/06/19 - 10:21:58 nmutil
+   11  05/06/19 - 10:21:58 nmtui
+   12  05/06/19 - 10:21:58 ping 8.8.8.8
+   13  05/06/19 - 10:21:58 ping yahoo.com
+   14  05/06/19 - 10:21:58 yum install open-vm-tools
+   15  05/06/19 - 10:21:58 nslookup
+   16  05/06/19 - 10:21:58 ifconfig
+   17  05/06/19 - 10:21:58 cd /etc/udev/rules.d/
+   18  05/06/19 - 10:21:58 ll
+   19  05/06/19 - 10:21:58 less 70-persistent-ipoib.rules 
+   20  05/06/19 - 10:21:58 cd /etc/sysconfig/network-scripts/
+   21  05/06/19 - 10:21:58 ll
+   22  05/06/19 - 10:21:58 ls
+   23  05/06/19 - 10:21:58 mc ifcfg-ens160 ~
+   24  05/06/19 - 10:21:58 mv ifcfg-ens160 ~
+   25  05/06/19 - 10:21:58 ll
+   26  05/06/19 - 10:21:58 ping 8.8.8.8
+   27  05/06/19 - 10:21:58 cd
+   28  05/06/19 - 10:21:58 ll
+   29  05/06/19 - 10:21:58 halt
+   30  05/06/19 - 10:21:58 cd
+   31  05/06/19 - 10:21:58 ll
+   32  05/06/19 - 10:21:58 cp ifcfg-ens160 /etc/sysconfig/network-scripts/
+   33  05/06/19 - 10:21:58 ping 8.8.8.8
+   34  05/06/19 - 10:21:58 ifup ens160
+   35  05/06/19 - 10:21:58 ping 8.8.8.8
+   36  05/06/19 - 10:21:58 yum install deploypkg
+   37  05/06/19 - 10:21:58 cd /etc/yum
+   38  05/06/19 - 10:21:58 ll
+   39  05/06/19 - 10:21:58 pwd
+   40  05/06/19 - 10:21:58 cd ../yum.repos.d/
+   41  05/06/19 - 10:21:58 ll
+   42  05/06/19 - 10:21:58 less public-yum-ol7.repo 
+   43  05/06/19 - 10:21:58 cd /etc/pki/rpm-gpg/
+   44  05/06/19 - 10:21:58 ll
+   45  05/06/19 - 10:21:58 less RPM-GPG-KEY
+   46  05/06/19 - 10:21:58 wget
+   47  05/06/19 - 10:21:58 yum instal wget
+   48  05/06/19 - 10:21:58 yum install wget
+   49  05/06/19 - 10:21:58 wget http://packages.vmware.com/tools/keys/
+   50  05/06/19 - 10:21:58 ll
+   51  05/06/19 - 10:21:58 rm index.html 
+   52  05/06/19 - 10:21:58 wget http://packages.vmware.com/tools/keys/*
+   53  05/06/19 - 10:21:58 ll
+   54  05/06/19 - 10:21:58 wget -r --no-parent http://packages.vmware.com/tools/keys/
+   55  05/06/19 - 10:21:58 lll
+   56  05/06/19 - 10:21:58 ll
+   57  05/06/19 - 10:21:58 l packages.vmware.com/
+   58  05/06/19 - 10:21:58 ll packages.vmware.com/
+   59  05/06/19 - 10:21:58 ll packages.vmware.com/tools/keys/
+   60  05/06/19 - 10:21:58 mv packages.vmware.com/tools/keys/VMWARE-PACKAGING-GPG-* .
+   61  05/06/19 - 10:21:58 ll
+   62  05/06/19 - 10:21:58 rm -rf packages.vmware.com/
+   63  05/06/19 - 10:21:58 ll
+   64  05/06/19 - 10:21:58 rpm --import /etc/pki/rpm-gpg/VMWARE-PACKAGING-GPG-DSA-KEY.pub 
+   65  05/06/19 - 10:21:58 rpm --import /etc/pki/rpm-gpg/VMWARE-PACKAGING-GPG-RSA-KEY.pub 
+   66  05/06/19 - 10:21:58 vi /etc/yum.repos.d/vmware-tools.repo
+   67  05/06/19 - 10:21:58 yum install open-vm-tools-deploypkg
+   68  05/06/19 - 10:21:58 systemtl restart vmtoolsd
+   69  05/06/19 - 10:21:58 systemctl restart vmtoolsd
+   70  05/06/19 - 10:21:58 cd
+   71  05/06/19 - 10:21:58 ll
+   72  05/06/19 - 10:21:58 rm /etc/sysconfig/network-scripts/ifcfg-ens160 
+   73  05/06/19 - 10:21:58 yum install open-vm-tools-desktop
+   74  05/06/19 - 10:21:58 systemtl restart vmtoolsd
+   75  05/06/19 - 10:21:58 systemctl restart vmtoolsd
+   76  05/06/19 - 10:21:58 halt
+   77  05/06/19 - 10:21:58 ping 8.8.8.8
+   78  05/06/19 - 10:21:58 cp ~/ifcfg-ens160 /etc/sysconfig/network-scripts/
+   79  05/06/19 - 10:21:58 ping 8.8.8.8
+   80  05/06/19 - 10:21:58 ifup ens160
+   81  05/06/19 - 10:21:58 ping 8.8.8.8
+   82  05/06/19 - 10:21:58 yum install perl
+   83  05/06/19 - 10:21:58 which perl
+   84  05/06/19 - 10:21:58 rm /etc/sysconfig/network-scripts/ifcfg-ens160 
+   85  05/06/19 - 10:21:58 shutdown now
+   86  05/06/19 - 10:21:58 ip addr
+   87  05/06/19 - 10:21:58 cat /etc/passwd
+   88  05/06/19 - 10:21:58 groupadd -g 2300 sysadmin
+   89  05/06/19 - 10:21:58 vi /etc/sudoers.d/syysadmin
+   90  05/06/19 - 10:21:58 mv /etc/sudoers.d/syysadmin /etc/sudoers.d/sysadmin
+   91  05/06/19 - 10:21:58 ll /etc/sudoers.d/sysadmin 
+   92  05/06/19 - 10:21:58 useradd -u 2000 -m -s /bin/bash/ -G sysadmin bootstrap
+   93  05/06/19 - 10:21:58 id bootstrap
+   94  05/06/19 - 10:21:58 su - bootstrap
+   95  05/06/19 - 10:21:58 mkdir .ssh;chmod 700 .ssh
+   96  05/06/19 - 10:21:58 rmdir .ssh
+   97  05/06/19 - 10:21:58 su - bootstrap
+   98  05/06/19 - 10:21:58 cat /etc/passwd
+   99  05/06/19 - 10:21:58 which su
+  100  05/06/19 - 10:21:58 su - bootstrap
+  101  05/06/19 - 10:21:58 exit
+  102  05/06/19 - 10:21:58 id bootstrap
+  103  05/06/19 - 10:21:58 su - bootstrap
+  104  05/06/19 - 10:21:58 which bash
+  105  05/06/19 - 10:21:58 su - 2000
+  106  05/06/19 - 10:21:58 su - bootstrap
+  107  05/06/19 - 10:21:58 exit
+  108  05/06/19 - 10:21:58 su bootstrap
+  109  05/06/19 - 10:21:58 which bash
+  110  05/06/19 - 10:21:58 exit
+  111  05/06/19 - 10:21:58 su - bootstrap
+  112  05/06/19 - 10:21:58 less /etc/passwd
+  113  05/06/19 - 10:21:58 vi /etc/passwd
+  114  05/06/19 - 10:21:58 su 
+  115  05/06/19 - 10:21:58 vi /etc/passwd
+  116  05/06/19 - 10:21:58 su - bootstrap
+  117  05/06/19 - 10:21:58 exit
+  118  05/06/19 - 10:21:58 ll
+  119  05/06/19 - 10:21:58 cd /etc/sysconfig/network-scripts/
+  120  05/06/19 - 10:21:58 ll
+  121  05/06/19 - 10:21:58 ls -a
+  122  05/06/19 - 10:21:58 mv /root/ifcfg-ens160 .
+  123  05/06/19 - 10:21:58 ifup ens160
+  124  05/06/19 - 10:21:58 ip addr
+  125  05/06/19 - 10:21:58 ping www.google.com
+  126  05/06/19 - 10:21:58 su - bootstrap
+  127  05/06/19 - 10:21:58 ifdown ens160
+  128  05/06/19 - 10:21:58 mv ifcfg-ens160 /root/
+  129  05/06/19 - 10:21:58 ll /root/
+  130  05/06/19 - 10:21:58 vi /etc/udev/rules.d/70-persistent-ipoib.rules 
+  131  05/06/19 - 10:21:58 ip addr
+  132  05/06/19 - 10:21:58 exit
+  133  05/06/19 - 10:21:58 cat /etc/udev/rules.d/70-persistent-ipoib.rules
+  134  05/06/19 - 10:21:58 ip addr
+  135  05/06/19 - 10:21:58 cd /etc/sysconfig/network-scripts/
+  136  05/06/19 - 10:21:58 ll
+  137  05/06/19 - 10:21:58 ls
+  138  05/06/19 - 10:21:58 ip addr
+  139  05/06/19 - 10:21:58 cp ifcfg-lo ifcfg-ens160
+  140  05/06/19 - 10:21:58 vim ifcfg-ens160
+  141  05/06/19 - 10:21:58 vi ifcfg-ens160
+  142  05/06/19 - 10:21:58 ifdown ens160
+  143  05/06/19 - 10:21:58 ifup ens160
+  144  05/06/19 - 10:21:58 ip addr
+  145  05/06/19 - 10:21:58 ping google.com
+  146  05/06/19 - 10:21:58 yum earse open-vm-tools-deploypkg
+  147  05/06/19 - 10:21:58 yum erase open-vm-tools-deploypkg
+  148  05/06/19 - 10:21:58 yum upgrade
+  149  05/06/19 - 10:21:58 ifdown ens160
+  150  05/06/19 - 10:21:58 ifdown esn160
+  151  05/06/19 - 10:21:58 ll
+  152  05/06/19 - 10:21:58 ls
+  153  05/06/19 - 10:21:58 ip addr
+  154  05/06/19 - 10:21:58 rm ifcfg-ens160
+  155  05/06/19 - 10:21:58 reboot
+  156  05/06/19 - 10:21:58 ip addr
+  157  05/06/19 - 10:21:58 history
+  158  05/06/19 - 10:21:58 history | less
+  159  05/06/19 - 10:21:58 shutdown now
+  160  05/06/19 - 10:21:58 yum upgrade
+  161  05/06/19 - 10:21:58 ip addr
+  162  05/06/19 - 10:21:58 cd /etc/sysconfig/network-scripts/
+  163  05/06/19 - 10:21:58 ip addr
+  164  05/06/19 - 10:21:58 cp ifcfg-lo ifcfg-ens160
+  165  05/06/19 - 10:21:58 vim ifcfg-ens160 
+  166  05/06/19 - 10:21:58 vm ifcfg-ens160 
+  167  05/06/19 - 10:21:58 vi ifcfg-ens160 
+  168  05/06/19 - 10:21:58 ifup enx160
+  169  05/06/19 - 10:21:58 ifup ens160
+  170  05/06/19 - 10:21:58 ll end*
+  171  05/06/19 - 10:21:58 ll ens*
+  172  05/06/19 - 10:21:58 vi ifcfg-ens160 
+  173  05/06/19 - 10:21:58 ifup ens160
+  174  05/06/19 - 10:21:58 ping 8.8.8.8
+  175  05/06/19 - 10:21:58 route
+  176  05/06/19 - 10:21:58 vim ifcfg-ens160 
+  177  05/06/19 - 10:21:58 vi ifcfg-ens160 
+  178  05/06/19 - 10:21:58 ping 10.20.1.0
+  179  05/06/19 - 10:21:58 vi ifcfg-ens160 
+  180  05/06/19 - 10:21:58 ifup ens160
+  181  05/06/19 - 10:21:58 ping 8.8.8.8
+  182  05/06/19 - 10:21:58 vi ../network
+  183  05/06/19 - 10:21:58 vi ifcfg-ens160 
+  184  05/06/19 - 10:21:58 ifdown ens160
+  185  05/06/19 - 10:21:58 ifup ens160
+  186  05/06/19 - 10:21:58 ping 8.8.8.8
+  187  05/06/19 - 10:21:58 route
+  188  05/06/19 - 10:21:58 :q
+  189  05/06/19 - 10:21:58 vi ifcfg-ens160 
+  190  05/06/19 - 10:21:58 ifdown ens160
+  191  05/06/19 - 10:21:58 ifup ens160
+  192  05/06/19 - 10:21:58 ping 8.8.8.8
+  193  05/06/19 - 10:21:58 route
+  194  05/06/19 - 10:21:58 vi ifcfg-ens160 
+  195  05/06/19 - 10:21:58 ifdown ens160
+  196  05/06/19 - 10:21:58 ifup ens160
+  197  05/06/19 - 10:21:58 route
+  198  05/06/19 - 10:21:58 ping 10.20.2.32
+  199  05/06/19 - 10:21:58 vi ifcfg-ens160 
+  200  05/06/19 - 10:21:58 ifdown ens160
+  201  05/06/19 - 10:21:58 ifup ens160
+  202  05/06/19 - 10:21:58 route
+  203  05/06/19 - 10:21:58 ping 10.20.2.32
+  204  05/06/19 - 10:21:58 ping 4.2.2.2
+  205  05/06/19 - 10:21:58 ping 128.194.154.202
+  206  05/06/19 - 10:21:58 iptables
+  207  05/06/19 - 10:21:58 iptables -L
+  208  05/06/19 - 10:21:58 traceroute 4.2.2.2
+  209  05/06/19 - 10:21:58 ip addr
+  210  05/06/19 - 10:21:58 route
+  211  05/06/19 - 10:21:58 vi ifcfg-lo 
+  212  05/06/19 - 10:21:58 vi ifcfg-ens160 
+  213  05/06/19 - 10:21:58 route
+  214  05/06/19 - 10:21:58 route --help
+  215  05/06/19 - 10:21:58 servie iptables stop
+  216  05/06/19 - 10:21:58 service iptables stop
+  217  05/06/19 - 10:21:58 ping 4.2.2.2
+  218  05/06/19 - 10:21:58 ip addr
+  219  05/06/19 - 10:21:58 ls
+  220  05/06/19 - 10:21:58 ll
+  221  05/06/19 - 10:21:58 ll |less
+  222  05/06/19 - 10:21:58 vim ifcfg-ens160
+  223  05/06/19 - 10:21:58 vi ifcfg-ens160
+  224  05/06/19 - 10:21:58 reboot
+  225  05/06/19 - 10:21:58 ping 4.2.2.2
+  226  05/06/19 - 10:21:58 yum insyall vim
+  227  05/06/19 - 10:21:58 yum install vim
+  228  05/06/19 - 10:21:58 ping 4.2.2.2
+  229  05/06/19 - 10:21:58 vim /etc/sysconfig/network-scripts/ife
+  230  05/06/19 - 10:21:58 vim /etc/sysconfig/network-scripts/ifcfg-ens160 
+  231  05/06/19 - 10:21:58 vi /etc/sysconfig/network-scripts/ifcfg-ens160 
+  232  05/06/19 - 10:21:58 yum install vim
+  233  05/06/19 - 10:21:58 ifdown ens160
+  234  05/06/19 - 10:21:58 ifup ens160
+  235  05/06/19 - 10:21:58 yum install vim
+  236  05/06/19 - 10:21:58 yum install traceroute
+  237  05/06/19 - 10:21:58 yum upgrade
+  238  05/06/19 - 10:21:58 pwd
+  239  05/06/19 - 10:21:58 cd /etc/sysconfig/network-scripts/
+  240  05/06/19 - 10:21:58 rm ifcfg-ens160 
+  241  05/06/19 - 10:21:58 cd ../../udev/
+  242  05/06/19 - 10:21:58 ll
+  243  05/06/19 - 10:21:58 cd rules.d/
+  244  05/06/19 - 10:21:58 ll
+  245  05/06/19 - 10:21:58 halt
+  246  05/06/19 - 10:21:58 ipa
+  247  05/06/19 - 10:21:58 ip a
+  248  05/06/19 - 10:21:58 ll
+  249  05/06/19 - 10:21:58 ll /etc/sysconfig/network-scripts/
+  250  05/06/19 - 10:21:58 ll /etc/sysconfig/network-scripts/ | less
+  251  05/06/19 - 10:21:58 mv ifcfg-ens160 /etc/sysconfig/network-scripts/
+  252  05/06/19 - 10:21:58 cat /etc/sysconfig/network-scripts/ifcfg-ens160 
+  253  05/06/19 - 10:21:58 ifup /etc/sysconfig/network-scripts/ifcfg-ens160 
+  254  05/06/19 - 10:21:58 ip ad
+  255  05/06/19 - 10:21:58 yum updateinfo list sec
+  256  05/06/19 - 10:21:58 yum update --security
+  257  05/06/19 - 10:21:58 yum update kernel-uek-firmware-3.8.13-118.7.1.el6uek
+  258  05/06/19 - 10:21:58 yum update kernel-uek-firmware-3.8.13-118.7.1.el7uek
+  259  05/06/19 - 10:21:58 yum update --security
+  260  05/06/19 - 10:21:58 reboot
+  261  05/06/19 - 10:21:58 ifdown /etc/sysconfig/network-scripts/ifcfg-ens160 
+  262  05/06/19 - 10:21:58 mv /etc/sysconfig/network-scripts/ifcfg-ens160 .
+  263  05/06/19 - 10:21:58 ll
+  264  05/06/19 - 10:21:58 shutdown -h now
+  265  05/06/19 - 10:21:58 ll
+  266  05/06/19 - 10:21:58 history
+  267  05/06/19 - 10:21:58 ip a
+  268  05/06/19 - 10:21:58 history
+  269  05/06/19 - 10:21:58 cp ifcfg-ens160 /etc/sysconfig/network-scripts/
+  270  05/06/19 - 10:21:58 ifup ens160
+  271  05/06/19 - 10:21:58 ip a
+  272  05/06/19 - 10:21:58 history
+  273  05/06/19 - 10:21:58 yum updateinfo list sec
+  274  05/06/19 - 10:21:58 history
+  275  05/06/19 - 10:21:58 yum update --security
+  276  05/06/19 - 10:21:58 yum update kernel-uek-firmware-3.8.13-118.13.3
+  277  05/06/19 - 10:21:58 yum update kernel-uek-firmware-3.8.13-118.13.3.el7uek
+  278  05/06/19 - 10:21:58 yum update --security
+  279  05/06/19 - 10:21:58 exit
+  280  05/06/19 - 10:21:58 history
+  281  05/06/19 - 10:21:58 yum update --security
+  282  05/06/19 - 10:21:58 yum update kernel-uek-firmware
+  283  05/06/19 - 10:21:58 yum update kernel-uek
+  284  05/06/19 - 10:21:58 yum update kernel-uek-debug
+  285  05/06/19 - 10:21:58 yum list installed | grep kernel-uek
+  286  05/06/19 - 10:21:58 yum erase kernel-uek.3.8.13.55.1.6.el7uek
+  287  05/06/19 - 10:21:58 yum erase kernel-uek.3.8.13-55.1.6.el7uek
+  288  05/06/19 - 10:21:58 yum erase kernel-uek-3.8.13-55.1.6.el7uek
+  289  05/06/19 - 10:21:58 yum update kernel-uek
+  290  05/06/19 - 10:21:58 yum update --security
+  291  05/06/19 - 10:21:58 reboot
+  292  05/06/19 - 10:21:58 uname -r
+  293  05/06/19 - 10:21:58 history
+  294  05/06/19 - 10:21:58 ifdown ens160
+  295  05/06/19 - 10:21:58 ip a
+  296  05/06/19 - 10:21:58 rm /etc/sysconfig/network-scripts/ifcfg-ens160 
+  297  05/06/19 - 10:21:58 shutdown -h now
+  298  05/06/19 - 10:21:58 history | less
+  299  05/06/19 - 10:21:58 cp ifcfg-ens160 /etc/sysconfig/network-scripts/
+  300  05/06/19 - 10:21:58 ifup ens160
+  301  05/06/19 - 10:21:58 yum update --security
+  302  05/06/19 - 10:21:58 yum list installed | grep vm
+  303  05/06/19 - 10:21:58 yum update open-vm-tools
+  304  05/06/19 - 10:21:58 ifdown ens160
+  305  05/06/19 - 10:21:58 rm /etc/sysconfig/network-scripts/ifcfg-ens160 
+  306  05/06/19 - 10:21:58 history | less
+  307  05/06/19 - 10:21:58 shutdown -h now
+  308  05/06/19 - 10:21:58 history 
+  309  05/06/19 - 10:21:58 history | less
+  310  05/06/19 - 10:21:58 cp ifcfg-ens160 /etc/sysconfig/network-scripts/
+  311  05/06/19 - 10:21:58 ifup ens160
+  312  05/06/19 - 10:21:58 yum updateinfo list sec
+  313  05/06/19 - 10:21:58 yum update --security
+  314  05/06/19 - 10:21:58 history | less
+  315  05/06/19 - 10:21:58 reboot
+  316  05/06/19 - 10:21:58 history | less
+  317  05/06/19 - 10:21:58 ifdown ens160
+  318  05/06/19 - 10:21:58 ip a
+  319  05/06/19 - 10:21:58 rm /etc/sysconfig/network-scripts/ifcfg-ens160 
+  320  05/06/19 - 10:21:58 shutdown -h now
+  321  05/06/19 - 10:21:58 history | less
+  322  05/06/19 - 10:21:58 cp ifcfg-ens160 /etc/sysconfig/network-scripts/
+  323  05/06/19 - 10:21:58 ifup ens160
+  324  05/06/19 - 10:21:58 yum upgrade
+  325  05/06/19 - 10:21:58 yum upgrade | less
+  326  05/06/19 - 10:21:58 yum upgrade
+  327  05/06/19 - 10:21:58 reboot
+  328  05/06/19 - 10:21:58 uname -r
+  329  05/06/19 - 10:21:58 cat /etc/redhat-release 
+  330  05/06/19 - 10:21:58 history | less
+  331  05/06/19 - 10:21:58 ifdown ens160
+  332  05/06/19 - 10:21:58 ip a
+  333  05/06/19 - 10:21:58 rm /etc/sysconfig/network-scripts/ifcfg-ens160 
+  334  05/06/19 - 10:21:58 shutdown -h now
+  335  05/06/19 - 10:21:58 reboot
+  336  05/06/19 - 10:21:58  ip a
+  337  05/06/19 - 10:21:58 shutdown -h now
+  338  05/06/19 - 10:21:58 history | less
+  339  05/06/19 - 10:21:58 vim ifcfg-ens160 
+  340  05/06/19 - 10:21:58 history
+  341  05/06/19 - 10:21:58 cp ifcfg-ens160 /etc/sysconfig/network-scripts/
+  342  05/06/19 - 10:21:58 ifup ens160
+  343  05/06/19 - 10:21:58 vim ifcfg-ens160 
+  344  05/06/19 - 10:21:58 cp ifcfg-ens160 /etc/sysconfig/network-scripts/
+  345  05/06/19 - 10:21:58 ifup ens160
+  346  05/06/19 - 10:21:58 history
+  347  05/06/19 - 10:21:58 yum update --security
+  348  05/06/19 - 10:21:58 uname -a
+  349  05/06/19 - 10:21:58 history
+  350  05/06/19 - 10:21:58 reboot
+  351  05/06/19 - 10:21:58 uname -r
+  352  05/06/19 - 10:21:58 yum list installed kernel
+  353  05/06/19 - 10:21:58 yum list installed kernel-uek
+  354  05/06/19 - 10:21:58 yum erase kernel-uek.x86
+  355  05/06/19 - 10:21:58 yum info kernel-uek
+  356  05/06/19 - 10:21:58 yum erase kernel-uek-4.1.12-94.3.6.el7uek.x86_64
+  357  05/06/19 - 10:21:58 yum search kernel-uek
+  358  05/06/19 - 10:21:58 cd /etc/yum.repos.d/
+  359  05/06/19 - 10:21:58 ll
+  360  05/06/19 - 10:21:58 vim public-yum-ol7.repo 
+  361  05/06/19 - 10:21:58 yum search kernel-uek
+  362  05/06/19 - 10:21:58 yum info kernel-uek
+  363  05/06/19 - 10:21:58 yum install kernel-uek
+  364  05/06/19 - 10:21:58 reboot
+  365  05/06/19 - 10:21:58 yum erase kernel-uek-4.1.12-94.3.6.el7uek.x86_64
+  366  05/06/19 - 10:21:58 yum update --security
+  367  05/06/19 - 10:21:58 history
+  368  05/06/19 - 10:21:58 history | less
+  369  05/06/19 - 10:21:58 ifdown ens160
+  370  05/06/19 - 10:21:58 ip a
+  371  05/06/19 - 10:21:58 rm /etc/sysconfig/network-scripts/ifcfg-ens160 
+  372  05/06/19 - 10:21:58 history | less
+  373  05/06/19 - 10:21:58 shutdown -h now
+  374  05/06/19 - 10:21:58 history
+  375  05/06/19 - 10:21:58 cp ifcfg-ens160 /etc/sysconfig/network-scripts/.
+  376  05/06/19 - 10:21:58 ifup ens160
+  377  05/06/19 - 10:21:58 ping www.google.com
+  378  05/06/19 - 10:21:58 yum update open-vmtools
+  379  05/06/19 - 10:21:58 yum list installed | grep open
+  380  05/06/19 - 10:21:58 yum update open-vm-tools open-vm-tools-desktop
+  381  05/06/19 - 10:21:58 yum update --security
+  382  05/06/19 - 10:21:58 history | less
+  383  05/06/19 - 10:21:58 ifdown ens160
+  384  05/06/19 - 10:21:58 ip a
+  385  05/06/19 - 10:21:58 rm /etc/sysconfig/network-scripts/ifcfg-ens160 
+  386  05/06/19 - 10:21:58 shutdown -h now
+  387  01/09/18 - 07:53:57 mkdir /data
+  388  01/09/18 - 07:53:59 cd /data/
+  389  01/09/18 - 07:54:00 ls -la
+  390  01/09/18 - 07:54:04 mkdir www_root
+  391  01/09/18 - 07:54:06 cd www_root/
+  392  01/09/18 - 07:54:08 ls -la
+  393  01/09/18 - 07:58:31 sudo chef-client
+  394  01/09/18 - 08:21:18 clear
+  395  01/09/18 - 08:27:28 sudo chef-client
+  396  01/09/18 - 08:36:25 cd /mnt/
+  397  01/09/18 - 08:36:26 ls -la
+  398  01/09/18 - 08:36:29 cd yearbooks/
+  399  01/09/18 - 08:36:30 ls -la
+  400  01/09/18 - 08:36:33 cd ../
+  401  01/09/18 - 08:36:35 ls -la
+  402  01/09/18 - 08:42:54 sudo chef-client
+  403  01/09/18 - 08:44:30 cd /etc/
+  404  01/09/18 - 08:44:38 sudo chef-client
+  405  01/09/18 - 08:51:42 cd /mnt/
+  406  01/09/18 - 08:51:44 ls -la
+  407  01/09/18 - 08:51:46 cd yearbooks/
+  408  01/09/18 - 08:51:47 ls -la
+  409  01/09/18 - 08:52:42 sudo chef-client
+  410  01/09/18 - 08:59:44 git
+  411  01/09/18 - 09:04:28 sudo chef-client
+  412  01/09/18 - 09:06:31 cd /data/
+  413  01/09/18 - 09:06:34 ls -la
+  414  01/09/18 - 09:07:17 mkdir bookreader
+  415  01/09/18 - 09:07:19 ls -la
+  416  01/09/18 - 09:07:26 rm -rf www_root/
+  417  01/09/18 - 09:08:05 sudo chef-client
+  418  01/09/18 - 09:08:47 ls -la
+  419  01/09/18 - 09:08:49 cd bookreader/
+  420  01/09/18 - 09:08:50 ls -la
+  421  01/09/18 - 09:09:20 sudo chef-client
+  422  01/09/18 - 09:16:24 git
+  423  01/09/18 - 09:17:10 sudo chef-client
+  424  01/09/18 - 09:43:59 yum_package("java-1.7.0-openjdk-src.x86_64
+  425  01/09/18 - 09:44:30 yum list package-name
+  426  01/09/18 - 09:44:39 yum list open-jdk
+  427  01/09/18 - 09:44:55 yum list java
+  428  01/09/18 - 09:45:42 yum install java-1.7.0-openjdk
+  429  01/09/18 - 09:46:33 sudo chef-client
+  430  01/09/18 - 09:49:45 yum install java-1.7.0-openjdk-src
+  431  01/09/18 - 09:50:11 yum install java-1.7.0-openjdk-src.x86_64
+  432  01/09/18 - 09:59:05 dnf search java | grep openjdk
+  433  01/09/18 - 09:59:21 yum list java | grep openjdk
+  434  01/09/18 - 09:59:31 yum list openjdk | grep openjdk
+  435  01/09/18 - 09:59:37 yum list openjdk
+  436  01/09/18 - 09:59:43 yum list jdk
+  437  01/09/18 - 10:00:09 yum list openjdk*
+  438  01/09/18 - 10:16:05 yum install java-1.7.0-openjdk-src.x86_64
+  439  01/09/18 - 10:21:25 yum install java-1.8.0-openjdk-src.x86_64
+  440  01/09/18 - 10:22:32 yum install java-1.8.0-openjdk-src
+  441  01/09/18 - 10:22:46 yum install java-1.7.0-openjdk-src
+  442  01/09/18 - 10:28:05 yum remove java-1.7.0-openjdk-devel.x86_64
+  443  01/09/18 - 10:28:30 yum remove java-1.7.0-openjdk.x86_64
+  444  01/09/18 - 10:30:52 sudo chef-client
+  445  01/09/18 - 10:46:28 mkdir BookReader
+  446  01/09/18 - 10:46:30 sudo chef-client
+  447  01/09/18 - 10:49:57 /etc/init.d/httpd restart
+  448  01/09/18 - 10:50:09 /etc/init.d/solr restart
+  449  01/09/18 - 10:53:33 sudo chef-client
+  450  01/09/18 - 11:11:29  yum_package[rhn-client-tools]
+  451  01/09/18 - 11:11:38 yum install 
+  452  01/09/18 - 11:11:44 yum install rhn-client-tools
+  453  01/09/18 - 11:13:00 cd /etc
+  454  01/09/18 - 11:13:01 ls -la
+  455  01/09/18 - 11:13:10 cd yum.repos.d/
+  456  01/09/18 - 11:13:11 ls -la
+  457  01/09/18 - 11:13:23 vim cd ..
+  458  01/09/18 - 11:13:28 cd ..
+  459  01/09/18 - 11:13:32 vim yum.conf 
+  460  01/09/18 - 11:14:56 cd yum.repos.d/
+  461  01/09/18 - 11:14:58 ls -la
+  462  01/09/18 - 11:15:09 vim atrpms.repo 
+  463  01/09/18 - 11:16:22 sudo chef-client
+  464  01/09/18 - 11:18:32 yum install rhn-client-tools
+  465  01/09/18 - 11:19:52 vim atrpms.repo 
+  466  01/09/18 - 13:07:26 yum install rhn-client-tools
+  467  01/09/18 - 13:07:58 vim atrpms.repo 
+  468  01/09/18 - 13:08:14 yum install rhn-client-tools
+  469  01/09/18 - 13:09:14 vim atrpms.repo 
+  470  01/09/18 - 13:10:17 yum install rhn-client-tools
+  471  01/09/18 - 13:12:35 ls -la
+  472  01/09/18 - 13:12:41 rm -rf atrpms.repo 
+  473  01/09/18 - 13:12:47 sudo chef-client
+  474  01/09/18 - 13:18:33 yum install ffmpeg
+  475  01/09/18 - 13:21:32 sudo chef-client
+  476  01/09/18 - 13:22:48 yum install epel-release
+  477  01/09/18 - 13:25:48 yum -y install epel-release && rpm -Uvh http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-5.el7.nux.noarch.rpm
+  478  01/09/18 - 13:26:08 ls -la
+  479  01/09/18 - 13:26:19 vim atrpms.repo 
+  480  01/09/18 - 13:26:27 rm -rf atrpms.repo 
+  481  01/09/18 - 13:26:28 cd ..
+  482  01/09/18 - 13:26:31 ls -la yum
+  483  01/09/18 - 13:26:38 ls -la
+  484  01/09/18 - 13:26:45 vim yum.conf 
+  485  01/09/18 - 13:27:31 yum -y install epel-release && rpm -Uvh http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-5.el7.nux.noarch.rpm
+  486  01/09/18 - 13:27:49 yum install ffmpeg
+  487  01/09/18 - 13:28:24 yum install ffmpeg --skip-broken
+  488  01/09/18 - 13:28:34 yum install ffmpeg
+  489  01/09/18 - 13:29:17 yum -y --skip-broken install ffmpeg
+  490  01/09/18 - 13:29:35 sudo chef-client
+  491  01/09/18 - 13:30:49 yum install kakadu
+  492  01/09/18 - 13:30:57 yum install kdu_expand
+  493  01/09/18 - 13:31:29 sudo chef-client
+  494  01/09/18 - 13:32:39 cd /tmp/
+  495  01/09/18 - 13:32:41 ls -la
+  496  01/09/18 - 13:32:46 unzip
+  497  01/09/18 - 13:32:49 yum install unzip
+  498  01/09/18 - 13:32:57 sudo chef-client
+  499  01/09/18 - 13:34:20 cd /var/chef/cache/
+  500  01/09/18 - 13:34:21 ls -la
+  501  01/09/18 - 13:35:00 wget http://ftp.de.debian.org/debian/pool/main/libi/libimage-exiftool-perl/libimage-exiftool-perl_9.74.orig.tar.gz
+  502  01/09/18 - 13:35:06 ls -la
+  503  01/09/18 - 13:35:10 sudo chef-client
+  504  01/09/18 - 13:37:50 cd /tmp/
+  505  01/09/18 - 13:37:51 ls -la
+  506  01/09/18 - 13:38:05 wget http://ftp.de.debian.org/debian/pool/main/libi/libimage-info-perl/libimage-info-perl_1.28.orig.tar.gz
+  507  01/09/18 - 13:38:15 tar -zxf libimage-info-perl_1.28.orig.tar.gz
+  508  01/09/18 - 13:38:19 ls -la
+  509  01/09/18 - 13:38:28 tar -zxf libimage-info-perl_1.28.orig.tar.gz 
+  510  01/09/18 - 13:38:37 cd Image-Info-1.28
+  511  01/09/18 - 13:38:54 perl Makefile.PL
+  512  01/09/18 - 13:39:24 yum install perl
+  513  01/09/18 - 13:39:32 perl Makefile.PL
+  514  01/09/18 - 13:40:07 yum install libimage
+  515  01/09/18 - 13:40:12 yum install libimage-info
+  516  01/09/18 - 13:40:20 perl Makefile.PL
+  517  01/09/18 - 13:41:56 yum install libimage-info-perl
+  518  01/09/18 - 13:42:56 yum install “perl(libimage-info-perl)
+  519  01/09/18 - 13:43:00 yum install perl(libimage-info-perl)
+  520  01/09/18 - 13:43:12 yum install "perl(libimage-info-perl)"
+  521  01/09/18 - 13:44:22 service httpd restart
+  522  01/09/18 - 13:51:49 perl Makefile.PL
+  523  01/09/18 - 13:52:09 make test
+  524  01/09/18 - 13:52:38 make install
+  525  01/09/18 - 13:53:05 cd /data/
+  526  01/09/18 - 13:53:06 ls -la
+  527  01/09/18 - 13:53:10 cd bookreader/
+  528  01/09/18 - 13:53:11 ls -la
+  529  01/09/18 - 13:53:14 cd BookReader/
+  530  01/09/18 - 13:53:15 ls -la
+  531  01/09/18 - 13:53:44 cd /mnt/
+  532  01/09/18 - 13:53:47 ls -la
+  533  01/09/18 - 13:53:52 cd web_php/
+  534  01/09/18 - 13:53:53 ls -la
+  535  01/09/18 - 13:54:02 cd bookreader/
+  536  01/09/18 - 13:54:03 ls -la
+  537  01/09/18 - 13:54:11 python index.py
+  538  01/09/18 - 14:06:31 shutdown -r now
+  539  01/09/18 - 14:22:14 sudo chef-client
+  540  01/09/18 - 14:35:01 cd /mnt/
+  541  01/09/18 - 14:35:02 ls -la
+  542  01/09/18 - 14:35:05 cd web_php/
+  543  01/09/18 - 14:35:07 cd bookreader/
+  544  01/09/18 - 14:35:08 ls -la
+  545  01/09/18 - 14:35:19 python index.py
+  546  01/09/18 - 16:32:17 ls -la
+  547  01/09/18 - 16:35:07 sudo chef-client
+  548  01/09/18 - 16:37:24 wget public.library.tamu.edu
+  549  01/09/18 - 16:37:49 ftp public.library.tamu.edu:
+  550  01/09/18 - 16:39:28 wget public.library.tamu.edu:21
+  551  01/09/18 - 16:39:35 cd /tmp/
+  552  01/09/18 - 16:39:37 wget public.library.tamu.edu:21
+  553  01/09/18 - 17:11:37 cd /opt/
+  554  01/09/18 - 17:11:39 ls -la
+  555  01/09/18 - 17:12:03 cd speech_tools
+  556  01/09/18 - 17:12:09 ./configure
+  557  01/09/18 - 17:12:14 make
+  558  01/09/18 - 17:12:31 make install
+  559  01/09/18 - 17:12:37 cd ..
+  560  01/09/18 - 17:13:12 gzip -d festvox_kallpc16k.tar.gz
+  561  01/09/18 - 17:13:34 ls -la
+  562  01/09/18 - 17:13:45 gzip -d festvox_kallpc16k.tar.gz
+  563  01/09/18 - 17:13:50 gzip 
+  564  01/09/18 - 17:14:13 13:50 01/09/18)
+  565  01/09/18 - 17:14:13 ::gzip festvox_kallpc16k.tar
+  566  01/09/18 - 17:14:19 tar -xvf festvox_kallpc16k.tar
+  567  01/09/18 - 17:15:00 tar -xvf festlex_POSLEX.tar
+  568  01/09/18 - 17:15:14 tar -xvf festlex_CMU.tar
+  569  01/09/18 - 17:15:24 tar -xvf festival-2.1-release.tar
+  570  01/09/18 - 17:15:30 cd festival
+  571  01/09/18 - 17:15:35 ./configure
+  572  01/09/18 - 17:15:39 make
+  573  01/09/18 - 17:15:46 make install
+  574  01/09/18 - 17:27:56 cd /tmp/Image-Info-1.28/
+  575  01/09/18 - 17:28:02 perl Makefile.PL
+  576  01/09/18 - 17:28:39 make install
+  577  01/09/18 - 17:41:10 cd /opt/kakadu/
+  578  01/09/18 - 17:41:13 ls -la
+  579  01/09/18 - 17:41:39 cd /opt/cd Image-ExifTool-9.74
+  580  01/09/18 - 17:41:51 cd /opt/Image-ExifTool-9.74
+  581  01/09/18 - 17:42:19 cd /tmp/
+  582  01/09/18 - 17:42:22 ls -la
+  583  01/09/18 - 17:44:43 wget http://ftp.de.debian.org/debian/pool/main/libi/libimage-exiftool-perl/libimage-exiftool-perl_9.74.orig.tar.gz
+  584  01/09/18 - 17:45:00 tar -zxf libimage-exiftool-perl_9.74.orig.tar.gz
+  585  01/09/18 - 17:45:06 cd Image-ExifTool-9.74/
+  586  01/09/18 - 17:45:12 perl Makefile.PL
+  587  01/09/18 - 17:45:17 make test
+  588  01/09/18 - 17:45:46 make install
+  589  01/09/18 - 17:46:14 cd ..
+  590  01/09/18 - 17:46:17 wget http://ftp.de.debian.org/debian/pool/main/libi/libimage-info-perl/libimage-info-perl_1.28.orig.tar.gz
+  591  01/09/18 - 17:46:31 tar -zxf libimage-info-perl_1.28.orig.tar.gz
+  592  01/09/18 - 17:46:38 cd Image-Info-1.28
+  593  01/09/18 - 17:46:44 perl Makefile.PL
+  594  01/09/18 - 17:47:12 make install
+  595  01/09/18 - 17:50:10 /etc/init.d/solr restart
+  596  01/09/18 - 17:51:12 shutdown -r now
+  597  01/09/18 - 17:53:59 cd /mnt/
+  598  01/09/18 - 17:54:05 cd web_php/
+  599  01/09/18 - 17:54:06 cd bookreader/
+  600  01/09/18 - 17:54:08 ls -la
+  601  01/09/18 - 17:54:45 python index.py
+  602  01/09/18 - 18:44:11 /etc/init.d/solr restart
+  603  01/09/18 - 18:49:44 curl http://localhost:8983/solr/update -H "Content-type: text/xml" --data-binary '<optimize />'
+  604  01/09/18 - 18:51:28 cd /mnt/
+  605  01/09/18 - 18:51:30 ls -la
+  606  01/09/18 - 18:51:32 cd web_php/
+  607  01/09/18 - 18:51:33 ls -la
+  608  01/09/18 - 18:51:38 cd bookreader/
+  609  01/09/18 - 18:51:39 ls -la
+  610  01/09/18 - 18:51:43 cd items/
+  611  01/09/18 - 18:52:21 python /mnt/web_php/bookreader/index.py
+  612  01/09/18 - 19:02:50 curl http://localhost:8983/solr/update -H "Content-type: text/xml" --data-binary '<optimize />'
+  613  01/09/18 - 19:03:26 shutdown -r now
+  614  01/11/18 - 08:35:02 ls -la
+  615  01/11/18 - 08:35:19 vim /etc/php.ini
+  616  01/11/18 - 08:35:50 exit
+  617  01/11/18 - 16:08:56 chef-client 
+  618  02/20/18 - 17:11:32 shutdown -c
+  619  02/20/18 - 17:11:43 shutdown
+  620  03/12/18 - 11:32:18  ps aux | grep chef
+  621  03/12/18 - 11:32:23 chef-client
+  622  03/12/18 - 11:32:45 less /var/log/chef.log 
+  623  03/12/18 - 11:34:52 exit
+  624  03/12/18 - 13:49:13 sudo chef-client
+  625  03/12/18 - 13:58:17 shutdown -r now
+  626  06/14/18 - 11:27:57 rm -rf /var/chef/cache/spacewalk-client-repo.rpm 
+  627  06/14/18 - 11:27:59 exit
+  628  12/03/18 - 22:53:00 cd /etc/sysconfig/network-scripts/
+  629  12/03/18 - 22:53:56 vim /etc/hosts
+  630  12/03/18 - 22:59:52 vim ifcfg-ens160 
+  631  12/03/18 - 23:01:06 ll /mnt
+  632  12/03/18 - 23:01:10 cd /m\
+  633  12/03/18 - 23:01:16 uman mount
+  634  12/03/18 - 23:01:21 man mount
+  635  12/03/18 - 23:01:56 umount -a
+  636  12/03/18 - 23:02:00 ll
+  637  12/03/18 - 23:02:02 ll /mnt
+  638  12/03/18 - 23:02:05 ll /mnt/nfstmp/
+  639  12/03/18 - 23:02:10 ll /mnt/web_php/
+  640  12/03/18 - 23:02:14 ll /mnt/yearbooks/
+  641  12/03/18 - 23:02:20 ifdown ens160
+  642  12/03/18 - 23:02:23 ifup ens160
+  643  12/03/18 - 23:02:26 ifdown ens160
+  644  12/03/18 - 23:02:49 ifup ens160
+  645  12/03/18 - 23:02:51 ping 1.1.1.1
+  646  12/03/18 - 23:02:59 ip a
+  647  12/03/18 - 23:07:43 lmount /mnt/nfstmp/
+  648  12/03/18 - 23:07:48 mount /mnt/nfstmp/
+  649  12/03/18 - 23:07:50 ll /mnt
+  650  12/03/18 - 23:09:08 mount -a
+  651  12/03/18 - 23:10:10 exit
+  652  01/08/19 - 14:35:42 php -v
+  653  01/08/19 - 14:35:51 sudo chef-client
+  654  01/08/19 - 14:36:41 php -v
+  655  01/08/19 - 14:38:03 exit
+  656  04/30/19 - 13:50:27 python /mnt/web_php/bookreader/index.py
+  657  04/30/19 - 13:55:07 cd /mnt/
+  658  04/30/19 - 13:55:13 ls -la
+  659  04/30/19 - 13:55:17 cd web_php/
+  660  04/30/19 - 13:55:18 cd bookreader/
+  661  04/30/19 - 13:55:19 ls -la
+  662  04/30/19 - 13:55:49 python /mnt/web_php/bookreader/index.py
+  663  05/06/19 - 09:42:25 service solr restart
+  664  05/06/19 - 09:42:42 shutdown -r now
+  665  05/06/19 - 09:45:23 service solr status
+  666  05/06/19 - 09:45:58 service solr restart
+  667  05/06/19 - 10:20:32 nn
+  668  05/06/19 - 10:20:39 shutdown -r now
+  669  05/06/19 - 10:22:08 history : grep list
+  670  05/06/19 - 10:22:12 histor | grep list
+  671  05/06/19 - 10:22:20 history | grep list
+  672  05/06/19 - 10:22:30 history
+  673  05/06/19 - 10:22:54 history > /tmp/history-list
