@@ -9,7 +9,7 @@ var gSearchText = '';
 
 // Build search URL
 function searchURL(bookReader, term, callback) {
-    var url = 'http://' + bookReader.server
+    var url = 'https://' + bookReader.server
                + '/BookReader/flipbook_search_br.php?url='+escape(bookReader.bookPath + '_djvu.xml')
                +'&term='+escape(term)+'&format=XML&callback=' + callback;
     return url;

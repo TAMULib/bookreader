@@ -398,7 +398,7 @@ br.cleanupMetadata = function() {
 // Returns a URL for an embedded version of the current book
 br.getEmbedURL = function(viewParams) {
     // We could generate a URL hash fragment here but for now we just leave at defaults
-    var url = 'http://' + window.location.host + '/stream/'+this.bookId;
+    var url = 'https://' + window.location.host + '/stream/'+this.bookId;
     if (this.subPrefix != this.bookId) { // Only include if needed
         url += '/' + this.subPrefix;
     }

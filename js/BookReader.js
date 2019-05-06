@@ -2752,7 +2752,7 @@ BookReader.prototype.search = function(term) {
 
     $('#textSrch').blur(); //cause mobile safari to hide the keyboard
 
-    var url = 'http://'+this.server.replace(/:.+/, ''); //remove the port and userdir
+    var url = 'https://'+this.server.replace(/:.+/, ''); //remove the port and userdir
     url    += '/BookReader/inside.php?item_id='+this.bookId;
     url    += '&doc='+this.subPrefix;   //TODO: test with subitem
     url    += '&path='+this.bookPath.replace(new RegExp('/'+this.subPrefix+'$'), ''); //remove subPrefix from end of path
@@ -4895,7 +4895,7 @@ BookReader.prototype.ttsStop = function () {
 // ttsGetText()
 //______________________________________________________________________________
 BookReader.prototype.ttsGetText = function(index, callback) {
-    var url = 'http://'+this.server+'/BookReader/BookReaderGetTextWrapper.php?path='+this.bookPath+'_djvu.xml&page='+index;
+    var url = 'https://'+this.server+'/BookReader/BookReaderGetTextWrapper.php?path='+this.bookPath+'_djvu.xml&page='+index;
     this.ttsAjax = $.ajax({url:url, dataType:'jsonp', jsonpCallback:callback});
 }
 
@@ -4925,7 +4925,7 @@ BookReader.prototype.ttsStartCB = function (data) {
     this.ttsPosition = -1;
     var snd = soundManager.createSound({
      id: 'chunk'+this.ttsIndex+'-0',
-     url: 'http://'+this.server+'/BookReader/BookReaderGetTTS.php?string=' + escape(data[0][0]) + '&format=.'+this.ttsFormat, //the .ogg is to trick SoundManager2 to use the HTML5 audio player
+     url: 'https://'+this.server+'/BookReader/BookReaderGetTTS.php?string=' + escape(data[0][0]) + '&format=.'+this.ttsFormat, //the .ogg is to trick SoundManager2 to use the HTML5 audio player
      onload: function(){this.br.removeProgressPopup();}, //fires in safari...
      onbufferchange: function(){if (false == this.isBuffering) this.br.removeProgressPopup();} //fires in FF and IE9
     });
@@ -5165,7 +5165,7 @@ BookReader.prototype.ttsNextPageCB = function (data) {
 BookReader.prototype.ttsLoadChunk = function (page, pos, string) {
     var snd = soundManager.createSound({
      id: 'chunk'+page+'-'+pos,
-     url: 'http://'+this.server+'/BookReader/BookReaderGetTTS.php?string=' + escape(string) + '&format=.'+this.ttsFormat //the .ogg is to trick SoundManager2 to use the HTML5 audio player
+     url: 'https://'+this.server+'/BookReader/BookReaderGetTTS.php?string=' + escape(string) + '&format=.'+this.ttsFormat //the .ogg is to trick SoundManager2 to use the HTML5 audio player
     });
     snd.br = this;
     snd.load()

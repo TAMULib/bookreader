@@ -371,7 +371,7 @@ class BookReaderMeta {
         
     
         $filePath = $this->imageFilePath($leafNum, $metadata['subPrefix'], $metadata['imageFormat']);
-        $url = 'http://' . $metadata['server'] . '/BookReader/BookReaderImages.php?zip=' . $metadata['zip'] . '&file=' . $filePath;
+        $url = 'https://' . $metadata['server'] . '/BookReader/BookReaderImages.php?zip=' . $metadata['zip'] . '&file=' . $filePath;
         
         if ($scale !== null) {
             $url .= '&scale=' . $scale;
