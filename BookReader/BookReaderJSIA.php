@@ -14,7 +14,7 @@ This file is part of BookReader.
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU Affero General Public License
+    You should have received a copy of the GNU Affero General Public License 
     along with BookReader.  If not, see <http://www.gnu.org/licenses/>.
 */
 
@@ -25,7 +25,7 @@ $itemPath = $_REQUEST['itemPath'];
 $subPrefix = $_REQUEST['subPrefix'];
 $server = $_REQUEST['server'];
 
-$SQLIPAddress = 'mssql-prod2';
+$SQLIPAddress = 'mssql-prod4';
 $UserName = 'ybeditor';
 $Password = 'hIkhLCu$iHBCwt6c';
 $db = 'ybeditor';
@@ -479,7 +479,7 @@ br.buildInfoDiv = function(jInfoDiv) {
         ];
     }
 
-    download_links.push('<p class="moreInfo"><span></span>More information in our catalog <a href="<?php echo $bookrecord; ?>">LibCat</a>  </p>');
+    download_links.push('<p class="moreInfo"><span></span>More information in our catalog <a href="<?php echo $bookrecord; ?>">Libraries Catalog</a>  </p>');
 
     jInfoDiv.find('.BRfloatMeta').append(download_links.join('\n'));
 

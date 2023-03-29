@@ -284,9 +284,9 @@ function CreateFilesXML($bookid, $dir)
 function CreateMetadataFilesXML($bookid)
 {
 
-	$SQLIPAddress = 'mssql-dev3';
-	$UserName = 'ezpeditor';
-	$Password = 'eZpEd1t0r';
+	$SQLIPAddress = 'mssql-prod4';
+	$UserName = 'ybeditor';
+	$Password = '';
 	$db = 'ybeditor';
 
 	$link = mssql_connect($SQLIPAddress,$UserName,$Password) or 

@@ -45,9 +45,9 @@ if ($files = scandir($basedir)) {
 	//								echo "Meta<br>";
 
 	//								echo "The ID: " . $ybid . "<br>";
-									$SQLIPAddress = 'mssql-prod2';
+									$SQLIPAddress = 'mssql-prod4';
 									$UserName = 'ybeditor';
-									$Password = 'hIkhLCu$iHBCwt6c';
+									$Password = '';
 									$db = 'ybeditor';
 									mssql_connect($SQLIPAddress,$UserName,$Password) or die('MSSQL error: ' . mssql_get_last_message());
 									mssql_select_db($db) or die(mssql_error());
