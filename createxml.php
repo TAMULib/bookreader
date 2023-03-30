@@ -1,4 +1,5 @@
 <?php
+require_once ('config.php');
 
 set_time_limit(0);
 ini_set("memory_limit","1024M");
@@ -19,7 +20,7 @@ $endCount = 10;  // Number of yearbooks to process
 //$genericimageloc    = 'c:/zz/';
 //$tmpfolder 			= 'c:/tmp/';
 
-$dirf    			= '/mnt/yearbooks/';
+$dirf    			= DIRF;
 $genericimageloc    = '/tmp/';
 $tmpfolder 			= '/tmp/';
 
@@ -89,7 +90,7 @@ $dir = scandir($dirf);
 					file_put_contents($tmpfolder . $file . '/' . $file . '_files.xml', $xml);
 					
 					echo "$space$spaceCreate CreateMetadataFilesXML" . $linefeed;
-					$xml = CreateMetadataFilesXML($file);
+					$xml = CreateMetadataFilesXML($file, $SQLIPAddress, $UserName, $Password, $db);
 			//		file_put_contents($dirf . $file . '/' . $file . '_meta.xml', $xml);			
 					file_put_contents($tmpfolder . $file . '/' . $file . '_meta.xml', $xml);	
 					
@@ -281,25 +282,18 @@ function CreateFilesXML($bookid, $dir)
 }
 
 
-function CreateMetadataFilesXML($bookid)
+function CreateMetadataFilesXML($bookid, $SQLIPAddress, $UserName, $Password, $db)
 {
 
-	$SQLIPAddress = 'mssql-prod4';
-	$UserName = 'ybeditor';
-	$Password = '';
-	$db = 'ybeditor';
-
-	$link = mssql_connect($SQLIPAddress,$UserName,$Password) or 
+	$link = mysqli_connect($SQLIPAddress,$UserName,$Password) or 
 		die("Couldn't connect to SQL Server on $SQLIPAddress"); 
 
-	mssql_select_db($db, $link) or 
+	mssqli_select_db($db, $link) or 
 		die("Couldn't connect to database on $db"); 
 		
 	$query = "SELECT id, yb_id, title, year, creator, [description] as descrip, bookrecord, users_id, last_update, status FROM yb_metadata where yb_id = '" . $bookid . "'";
 
-	$rs = mssql_query($query) or die("SQL errror");
-
-	 while($row = mssql_fetch_array( $rs )) { 
+	foreach ($mssqlconnection->query($query) as $row) { 
 			
 		$xml = '<?xml version="1.0" encoding="UTF-8"?>' . "\r\n";
 		$xml = $xml . '<metadata>' . "\r\n";

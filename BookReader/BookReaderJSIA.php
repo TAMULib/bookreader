@@ -1,4 +1,6 @@
 <?php
+require_once ('../config.php');
+
 /*
 Copyright(c)2008 Internet Archive. Software license AGPL version 3.
 
@@ -25,27 +27,15 @@ $itemPath = $_REQUEST['itemPath'];
 $subPrefix = $_REQUEST['subPrefix'];
 $server = $_REQUEST['server'];
 
-$SQLIPAddress = 'mssql-prod4';
-$UserName = 'ybeditor';
-$Password = 'hIkhLCu$iHBCwt6c';
-$db = 'ybeditor';
-
-$con = mssql_connect($SQLIPAddress,$UserName,$Password) or 
-	die("Couldn't connect to SQL Server on $SQLIPAddress"); 
-
-mssql_select_db($db, $con) or 
-	die("Couldn't connect to database on $db"); 
-
 $sqlresources = "SELECT * FROM yb_metadata where yb_id = '" . $id  . "'";
-$rs = mssql_query($sqlresources, $con) or die("Error with Query");
 
-if ($row = mssql_fetch_array($rs)) {
-	$book_description = preg_replace('/[^a-zA-Z0-9<>@_ %\[\]\.\(\)%&-\/]/s', '', $row['description']);
-	$bookrecord = $row['bookrecord'];
-} else {
-	$book_description = "";
-	$bookrecord = "";
-}	
+$book_description = "";
+$bookrecord = "";
+
+	foreach ($mssqlconnection->query($sqlresources) as $row) {
+		$book_description = preg_replace('/[^a-zA-Z0-9<>@_ %\[\]\.\(\)%&-\/]/s', '', $row['description']);
+		$bookrecord = $row['bookrecord'];
+	}
 
 //needs work!!
 
@@ -459,7 +449,7 @@ br.buildInfoDiv = function(jInfoDiv) {
 
     // $$$ cover looks weird before it loads
     jInfoDiv.find('.BRfloatCover').append([
-                    '<div style="height: 140px; min-width: 80px; padding: 0; margin: 0;"><a href="', this.bookUrl, '"><img src="//bookreader.library.tamu.edu/items/', this.bookId, '/' , this.bookId, '_cover_image.jpg" alt="' + escapedTitle + '" height="140px" /></a></div>'].join('')
+                    '<div style="height: 140px; min-width: 80px; padding: 0; margin: 0;"><a href="', this.bookUrl, '"><img src="//<?php echo BOOKREADER_HOSTNAME;?>/items/', this.bookId, '/' , this.bookId, '_cover_image.jpg" alt="' + escapedTitle + '" height="140px" /></a></div>'].join('')
     );
 
     var download_links = [];
@@ -469,11 +459,11 @@ br.buildInfoDiv = function(jInfoDiv) {
                 '<?php echo $book_description; ?>',
             '<!-- <h3>Other Formats</h3>',
             '<ul class="links">',
-                '<li><a href="//bookreader.library.tamu.edu/items/', this.bookId, '/', this.subPrefix, '.pdf">PDF</a><span>|</span></li>',
-                '<li><a href="//bookreader.library.tamu.edu/items/', this.bookId, '/', this.subPrefix, '_djvu.txt">Plain Text</a><span>|</span></li>',
-                '<li><a href="//bookreader.library.tamu.edu/items/', this.bookId, '/', this.subPrefix, '_daisy.zip">DAISY</a><span>|</span></li>',
-                '<li><a href="//bookreader.library.tamu.edu/items/', this.bookId, '/', this.subPrefix, '.epub">ePub</a></li>',
-             <!--dch    '<li><a href="//bookreader.library.tamu.edu/items/', this.bookId, '/', this.subPrefix, '.epub">ePub</a><span>|</span></li>', -->
+                '<li><a href="//<?php echo BOOKREADER_HOSTNAME;?>/items/', this.bookId, '/', this.subPrefix, '.pdf">PDF</a><span>|</span></li>',
+                '<li><a href="//<?php echo BOOKREADER_HOSTNAME;?>/items/', this.bookId, '/', this.subPrefix, '_djvu.txt">Plain Text</a><span>|</span></li>',
+                '<li><a href="//<?php echo BOOKREADER_HOSTNAME;?>/items/', this.bookId, '/', this.subPrefix, '_daisy.zip">DAISY</a><span>|</span></li>',
+                '<li><a href="//<?php echo BOOKREADER_HOSTNAME;?>/items/', this.bookId, '/', this.subPrefix, '.epub">ePub</a></li>',
+             <!--dch    '<li><a href="//<?php echo BOOKREADER_HOSTNAME;?>/items/', this.bookId, '/', this.subPrefix, '.epub">ePub</a><span>|</span></li>', -->
              <!--dch    '<li><a href="https://www.amazon.com/gp/digital/fiona/web-to-kindle?clientid=IA&itemid=', this.bookId, '&docid=', this.subPrefix, '">Send to Kindle</a></li>', -->
             '</ul> -->'
         ];
@@ -485,18 +475,18 @@ br.buildInfoDiv = function(jInfoDiv) {
 
     jInfoDiv.find('.BRfloatFoot').append([
                 '<span>|</span>',
-                '<a href="http://askus.library.tamu.edu/" class="problem">Chat/Questions</a>',
+                '<a href="https://askus.library.tamu.edu/" class="problem">Chat/Questions</a>',
     ].join('\n'));
 
     if (domain == 'library.tamu.edu') {
         jInfoDiv.find('.BRfloatMeta p.moreInfo span').css(
-            {'background': 'url(http://library.tamu.edu/favicon.ico) no-repeat', 'width': 22, 'height': 18 }
+            {'background': 'url(https://library.tamu.edu/favicon.ico) no-repeat', 'width': 22, 'height': 18 }
         );
     }
 
     jInfoDiv.find('.BRfloatTitle a').attr({'href': this.bookUrl, 'alt': this.bookTitle}).text(this.bookTitle);
     var bookPath = (window.location + '').replace('#','%23');
-    jInfoDiv.find('a.problem').attr('href','http://askus.library.tamu.edu/');
+    jInfoDiv.find('a.problem').attr('href','https://askus.library.tamu.edu/');
 
 }
 
@@ -589,7 +579,7 @@ foreach ($metaData->xpath('//collection') as $collection) {
     }
 }
 
-echo "br.olHost = 'https://bookreader.library.tamu.edu';\n";
+echo "br.olHost = 'https://" . BOOKREADER_HOSTNAME . "';\n";
 echo "br.olAuthUrl = null;\n";
 
 if ($useOLAuth) {
@@ -661,7 +651,7 @@ function OLAuth() {
     }
 
     if (br.olAuthUrl == null) {
-        br.olAuthUrl = 'https://bookreader.library.tamu.edu/bookreader/BookReaderAuthProxy.php?id=XXX';
+        br.olAuthUrl = 'https://<?php echo BOOKREADER_HOSTNAME; ?>/bookreader/BookReaderAuthProxy.php?id=XXX';
     }
 
     this.authUrl = br.olAuthUrl.replace("XXX", br.bookId);

@@ -36,7 +36,7 @@ $results = $locator->locateUDP($id, 1, false);
 $server = $results[0][0];
 $serverBaseURL = BookReader::serverBaseURL($server);
 
-$url = "http://{$serverBaseURL}/BookReader/BookReaderJSIA.php?id=" . urlencode($id) . "&itemPath={$results[0][1]}&server={$server}";
+$url = "https://{$serverBaseURL}/BookReader/BookReaderJSIA.php?id=" . urlencode($id) . "&itemPath={$results[0][1]}&server={$server}";
 if ($subPrefix) {
     $url .= "&subPrefix=" . urlencode($subPrefix);
 } else if ($book) {

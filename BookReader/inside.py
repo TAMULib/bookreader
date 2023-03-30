@@ -11,7 +11,7 @@ from subprocess import Popen, PIPE
 ns = '{http://www.abbyy.com/FineReader_xml/FineReader6-schema-v1.xml}'
 page_tag = ns + 'page'
 
-solr_inside = 'http://localhost:8983/solr/select?rows=1&wt=json&fl=ia,body_length,page_count&hl=true&hl.fl=body&hl.fragsize=0&hl.maxAnalyzedChars=-1&hl.usePhraseHighlighter=true&hl.simple.pre={{{&hl.simple.post=}}}&q.op=AND&q='
+solr_inside = 'http://bookreader-solr:8983/solr/select?rows=1&wt=json&fl=ia,body_length,page_count&hl=true&hl.fl=body&hl.fragsize=0&hl.maxAnalyzedChars=-1&hl.usePhraseHighlighter=true&hl.simple.pre={{{&hl.simple.post=}}}&q.op=AND&q='
 
 class Space():
     text = ' '

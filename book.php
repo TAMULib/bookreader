@@ -1,7 +1,9 @@
 <?php
+require_once ('config.php');
+
 require_once('BookReader.inc.php');	
 
-$dirf = '/mnt/yearbooks/';
+$dirf = DIRF;
 $id = $_GET['id'];
 $first_letter = $id[0];
 
@@ -18,7 +20,7 @@ $first_letter = $id[0];
 		$search = 0;
 	}
 
-BookReader::draw('bookreader.library.tamu.edu', 
+BookReader::draw(BOOKREADER_HOSTNAME, 
 	$dirf . $id,
 	$id,
 	'',

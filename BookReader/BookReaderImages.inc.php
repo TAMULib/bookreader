@@ -66,7 +66,7 @@ class BookReaderImages
     );
     
     // Paths to command-line tools
-    var $exiftool = '/usr/local/bin/exiftool';
+    var $exiftool = '/usr/bin/exiftool';
     var $kduExpand = '/opt/kakadu/kdu_expand';
     
     // Name of temporary files, to be cleaned at exit

@@ -399,7 +399,7 @@ class BookReader
 
     $keys = array_keys($params);
     $lastParam = end($keys);
-    $url = "http://{$serverBaseURL}/BookReader/ie7/BookReaderJSIA.php?";
+    $url = "https://{$serverBaseURL}/BookReader/ie7/BookReaderJSIA.php?";
     foreach($params as $param=>$value) {
         $url .= $param . '=' . $value;
         if ($param != $lastParam) {

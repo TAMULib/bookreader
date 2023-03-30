@@ -1,11 +1,13 @@
 <?php
+require_once ('config.php');
+
 error_reporting(E_ALL ^ E_NOTICE);
 ini_set('display_errors','stdout');
 
 //the tail end of the XML filename + an array of its xml elements to use
 $xmlpostfix = array("meta"=>array('title'=>'title','creator'=>'creator','description'=>'description','year'=>'year'),"files"=>array('cover'=>'Book Cover Image'));
 
-$basedir = "/mnt/yearbooks/";
+$basedir = DIRF;
 
 if ($files = scandir($basedir)) {
 	$files = array_diff($files, array('..', '.'));
@@ -45,36 +47,33 @@ if ($files = scandir($basedir)) {
 	//								echo "Meta<br>";
 
 	//								echo "The ID: " . $ybid . "<br>";
-									$SQLIPAddress = 'mssql-prod4';
-									$UserName = 'ybeditor';
-									$Password = '';
-									$db = 'ybeditor';
-									mssql_connect($SQLIPAddress,$UserName,$Password) or die('MSSQL error: ' . mssql_get_last_message());
-									mssql_select_db($db) or die(mssql_error());
+									$link = mysqli_connect($SQLIPAddress,$UserName,$Password) or or die('MSSQL error: ' . mssqli_get_last_message());
+									
+									mssqli_select_db($db) or die(mssqli_error());
 
 									$sqlresources = "SELECT * FROM yb_metadata where yb_id = '" . $ybid  . "'";
 			//						echo $sqlresources;
-									$rs = mssql_query($sqlresources) or die('MSSQL error: ' . mssql_get_last_message());
-									$row = mssql_fetch_array( $rs );
-
-									foreach ($elements as $tag=>$item) {
-	//									echo "<br>$tag<br>";
-										if ($tag == 'description') {
-											$xml_content .= "<{$tag}>" . str_replace('<br>', '<br/>', str_replace('&', '&amp;', $row['description'])) . "</{$tag}>";
+									
+									foreach ($mssqlconnection->query($sqlresources) as $row) { 								
+									
+										foreach ($elements as $tag=>$item) {
+		//									echo "<br>$tag<br>";
+											if ($tag == 'description') {
+												$xml_content .= "<{$tag}>" . str_replace('<br>', '<br/>', str_replace('&', '&amp;', $row['description'])) . "</{$tag}>";
+											}
+											elseif ($tag == 'title') {
+												$xml_content .= "<{$tag}>" . str_replace('&', '&amp;', $row['title']) . "</{$tag}>";
+											}
+											elseif ($tag == 'year') {
+												$xml_content .= "<{$tag}>" . str_replace('&', '&amp;', $row['year']) . "</{$tag}>";
+											}
+											elseif ($tag == 'creator') {
+												$xml_content .= "<{$tag}>" . str_replace('&', '&amp;', $row['creator']) . "</{$tag}>";
+											}										
+											else {
+												$xml_content .= "<{$tag}>" . str_replace('&', '&amp;', $xml->$item) . "</{$tag}>";
+											}
 										}
-										elseif ($tag == 'title') {
-											$xml_content .= "<{$tag}>" . str_replace('&', '&amp;', $row['title']) . "</{$tag}>";
-										}
-										elseif ($tag == 'year') {
-											$xml_content .= "<{$tag}>" . str_replace('&', '&amp;', $row['year']) . "</{$tag}>";
-										}
-										elseif ($tag == 'creator') {
-											$xml_content .= "<{$tag}>" . str_replace('&', '&amp;', $row['creator']) . "</{$tag}>";
-										}										
-										else {
-											$xml_content .= "<{$tag}>" . str_replace('&', '&amp;', $xml->$item) . "</{$tag}>";
-										}
-									}
 
 									$xml_content .= "<showcover>" . str_replace('&', '&amp;', $row['showcover']) . "</showcover>";
 									$xml_content .= "<showyearbook>" . str_replace('&', '&amp;', $row['showyearbook']) . "</showyearbook>";
