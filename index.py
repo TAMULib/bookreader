@@ -11,7 +11,7 @@ def add_field(doc, name, value):
     field.text = normalize('NFC', unicode(value))
     doc.append(field)
 
-solr_host = 'localhost:8983'
+solr_host = 'bookreader-solr:8983'
 
 item_queue = Queue(maxsize=10000)
 item_and_host_queue = Queue(maxsize=10000)
@@ -117,6 +117,7 @@ def index_items():
 
 def build_doc(ia, body, page_count):
 
+    print ia
     doc = Element('doc')
     add_field(doc, 'ia', ia)
     add_field(doc, 'id', ia)
