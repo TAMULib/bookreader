@@ -12,7 +12,8 @@ $mssqlconnection = new PDO("dblib:host=" . $SQLIPAddress . ";dbname=" . $db, $Us
 		exit;
 	}	
 
-define('DIRF', '/mnt/yearbooks/'); 
+define('DIRF', '/mnt/yearbooks'); 
 define('BOOKREADER_HOSTNAME', 'dhahn.library.tamu.edu'); 
+define('DIRECTORY_IDENTIFIER', 'yellbooks_'); 
 
 ?>

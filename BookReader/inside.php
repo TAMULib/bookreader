@@ -40,17 +40,18 @@ if ($callback) {
 header('Content-type: ' . $contentType . ';charset=UTF-8');
 header('Access-Control-Allow-Origin: *'); // allow cross-origin requests
 
-//$item_id = escapeshellarg($item_id);
-//$doc = escapeshellarg($doc);
-//$path = escapeshellarg($path);
+$item_id = escapeshellarg($item_id);
+$doc = escapeshellarg($doc);
+$path = escapeshellarg($path);
 //$q = escapeshellarg($q);
 
-$item_id = $item_id;
-$doc = $doc;
-$path = $path;
-$q = $q;
+//$item_id = ($item_id);
+//$doc = ($doc);
+//$path = ($path);
+$q = ($q);
 
 set_time_limit(120);
+
 passthru("python inside.py $item_id $doc $path $q $callback 2>&1");
 ?>
 
