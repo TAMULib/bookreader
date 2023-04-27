@@ -3680,8 +3680,8 @@ BookReader.prototype.initToolbar = function(mode, ui) {
 
 	if ($('meta[name=searchenabled]').attr("content") == 1) {
 		if (this.bookId.indexOf("yellbooks") == 0) {
-		alert (this.bookTitle);
-		alert (this.bookId)
+	//		alert (this.bookTitle);
+	//		alert (this.bookId)
 		
 			$("#BookReader").append(
 				  "<div id='BRtoolbar'>"
@@ -3724,8 +3724,7 @@ BookReader.prototype.initToolbar = function(mode, ui) {
 	//			+   "<span><a href='" + this.logoURL + "'>Yearbook Collection</a></span>"
 	//			+   "<span><a class='logo' href='" + this.logoURL + "'></a></span>"
 	//			+   "<span id='BRreturn'><a></a></span>"
-			
-			
+		
 				+ "<span><a class='logotamu' href='http://www.tamu.edu/'></a><a class='logo' href='" + this.logoURL + "'></a><ul class='breadcrumb'>"
 				+ "<li><a href='http://library.tamu.edu/yearbooks'>Yearbook Collection</a></li>"
 				+ "<li>" + this.bookTitle + " " + this.bookId.replace('yb', '').replace('yellbooks_', '') + "</li></ul></span>"
