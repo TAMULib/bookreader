@@ -3700,7 +3700,7 @@ BookReader.prototype.initToolbar = function(mode, ui) {
 	//			+   "<span id='BRreturn'><a></a></span>"
 			
 				+ "<span><a class='logotamu' href='http://www.tamu.edu/'></a><a class='logo' href='" + this.logoURL + "'></a><ul class='breadcrumb'>"
-				+ "<li><a href=' https://library.tamu.edu/collections/digital-library/yell_books.php'>Yellbook Collection</a></li>"
+				+ "<li><a href=' https://library.tamu.edu/collections/digital-library/yell_books.php'>Yell Book Collection</a></li>"
 				+ "<li>" + this.bookTitle + " " + this.bookId.replace('yb', '').replace('yellbooks_', '') + "</li></ul></span>"
 
 				+   "<div id='BRnavCntlTop' class='BRnabrbuvCntl'></div>"
