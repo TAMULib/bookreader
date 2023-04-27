@@ -3679,28 +3679,62 @@ BookReader.prototype.initToolbar = function(mode, ui) {
     }
 
 	if ($('meta[name=searchenabled]').attr("content") == 1) {
-		$("#BookReader").append(
-			  "<div id='BRtoolbar'>"
-			+   "<span id='BRtoolbarbuttons'>"
-			+     "<form action='javascript:br.search($(\"#textSrch\").val());' id='booksearch'><input type='search' id='textSrch' name='textSrch' val='' placeholder='Search inside' onclick='$(this).focus()'/><button type='submit' id='btnSrch' name='btnSrch'>GO</button></form>"
-			+     "<button class='BRicon play'></button>"
-			+     "<button class='BRicon pause'></button>"
-			+     "<button class='BRicon info'></button>"
-			+     "<button class='BRicon share'></button>"
-			+     "<button class='BRicon question'></button>"
-			//+     readIcon
-			+   "</span>"
+		if (this.bookId.indexOf("yellbooks") == 0) {
+		alert (this.bookTitle);
+		alert (this.bookId)
+		
+			$("#BookReader").append(
+				  "<div id='BRtoolbar'>"
+				+   "<span id='BRtoolbarbuttons'>"
+				+     "<form action='javascript:br.search($(\"#textSrch\").val());' id='booksearch'><input type='search' id='textSrch' name='textSrch' val='' placeholder='Search inside' onclick='$(this).focus()'/><button type='submit' id='btnSrch' name='btnSrch'>GO</button></form>"
+				+     "<button class='BRicon play'></button>"
+				+     "<button class='BRicon pause'></button>"
+				+     "<button class='BRicon info'></button>"
+				+     "<button class='BRicon share'></button>"
+				+     "<button class='BRicon question'></button>"
+				//+     readIcon
+				+   "</span>"
+				
+	//			+   "<span><a href='" + this.logoURL + "'>Yearbook Collection</a></span>"
+	//			+   "<span><a class='logo' href='" + this.logoURL + "'></a></span>"
+	//			+   "<span id='BRreturn'><a></a></span>"
 			
-//			+   "<span><a href='" + this.logoURL + "'>Yearbook Collection</a></span>"
-//			+   "<span><a class='logo' href='" + this.logoURL + "'></a></span>"
-//			+   "<span id='BRreturn'><a></a></span>"
-		
-		
-+ "<span><a class='logotamu' href='http://www.tamu.edu/'></a><a class='logo' href='" + this.logoURL + "'></a><ul class='breadcrumb'><li><a href='http://library.tamu.edu/yearbooks'>Yearbook Collection</a></li><li>" + this.bookTitle + " " + this.bookId.replace('yb', '').replace('yellbooks', '') + "</li></ul></span>"
+				+ "<span><a class='logotamu' href='http://www.tamu.edu/'></a><a class='logo' href='" + this.logoURL + "'></a><ul class='breadcrumb'>"
+				+ "<li><a href=' https://library.tamu.edu/collections/digital-library/yell_books.php'>Yellbook Collection</a></li>"
+				+ "<li>" + this.bookTitle + " " + this.bookId.replace('yb', '').replace('yellbooks_', '') + "</li></ul></span>"
 
-			+   "<div id='BRnavCntlTop' class='BRnabrbuvCntl'></div>"
-			+ "</div>"
-			);
+				+   "<div id='BRnavCntlTop' class='BRnabrbuvCntl'></div>"
+				+ "</div>"
+				);
+			
+		} else {
+
+			$("#BookReader").append(
+				  "<div id='BRtoolbar'>"
+				+   "<span id='BRtoolbarbuttons'>"
+				+     "<form action='javascript:br.search($(\"#textSrch\").val());' id='booksearch'><input type='search' id='textSrch' name='textSrch' val='' placeholder='Search inside' onclick='$(this).focus()'/><button type='submit' id='btnSrch' name='btnSrch'>GO</button></form>"
+				+     "<button class='BRicon play'></button>"
+				+     "<button class='BRicon pause'></button>"
+				+     "<button class='BRicon info'></button>"
+				+     "<button class='BRicon share'></button>"
+				+     "<button class='BRicon question'></button>"
+				//+     readIcon
+				+   "</span>"
+				
+	//			+   "<span><a href='" + this.logoURL + "'>Yearbook Collection</a></span>"
+	//			+   "<span><a class='logo' href='" + this.logoURL + "'></a></span>"
+	//			+   "<span id='BRreturn'><a></a></span>"
+			
+			
+				+ "<span><a class='logotamu' href='http://www.tamu.edu/'></a><a class='logo' href='" + this.logoURL + "'></a><ul class='breadcrumb'>"
+				+ "<li><a href='http://library.tamu.edu/yearbooks'>Yearbook Collection</a></li>"
+				+ "<li>" + this.bookTitle + " " + this.bookId.replace('yb', '').replace('yellbooks_', '') + "</li></ul></span>"
+
+				+   "<div id='BRnavCntlTop' class='BRnabrbuvCntl'></div>"
+				+ "</div>"
+				);
+			
+		}
 	} else {
 		$("#BookReader").append(
 			  "<div id='BRtoolbar'>"
@@ -3713,7 +3747,7 @@ BookReader.prototype.initToolbar = function(mode, ui) {
 			//+     readIcon
 			+   "</span>"
 			
-+ "<span><a class='logotamu' href='http://www.tamu.edu/'></a><a class='logo' href='" + this.logoURL + "'></a><ul class='breadcrumb'><li>" + this.bookTitle + " " + "</li></ul></span>"
+			+ "<span><a class='logotamu' href='http://www.tamu.edu/'></a><a class='logo' href='" + this.logoURL + "'></a><ul class='breadcrumb'><li>" + this.bookTitle + " " + "</li></ul></span>"
 
 
 //			+   "<span><a href='http://library.tamu.edu/yearbooks/'>Yearbook Collection</a>" + this.logoURL + "'></a></span>"
@@ -3729,7 +3763,7 @@ BookReader.prototype.initToolbar = function(mode, ui) {
     if ( navigator.userAgent.match(/ipad/i) && $.browser.webkit && (parseInt($.browser.version, 10) <= 531) ) {
        $('#BRtoolbarbuttons .info').hide();
        $('#BRtoolbarbuttons .share').hide();
-        $('#BRtoolbarbuttons .question').hide();
+       $('#BRtoolbarbuttons .question').hide();
     }
 // navigation dch
     $('#BRreturn a').attr('href', this.bookUrl).text(this.bookTitle);
