@@ -9,7 +9,12 @@ $first_letter = $id[0];
 
 	if (file_exists($dirf . "/" . $id . '/' . $id . '_meta.xml')) {
 		$meta = new SimpleXMLElement($dirf . "/" . $id . '/' . $id . '_meta.xml', NULL, TRUE);
-		$title = $meta->title;
+		
+		if (strlen($meta->year) == 0) {
+			$title = $meta->title;
+		} else {
+			$title = $meta->title . " - " . $meta->year;
+		}
 	} else {
 		$title = 'title';
 	}
