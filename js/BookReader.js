@@ -199,7 +199,7 @@ BookReader.prototype.init = function() {
 
     // Set document title -- may have already been set in enclosing html for
     // search engine visibility
-    document.title = this.shortTitle(50);
+    document.title = this.shortTitle(100);
 
     $("#BookReader").empty();
 
