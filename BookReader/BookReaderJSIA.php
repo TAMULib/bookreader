@@ -457,15 +457,15 @@ br.buildInfoDiv = function(jInfoDiv) {
         download_links = [
                 '</br>',
                 '<?php echo $book_description; ?>',
-            '<!-- <h3>Other Formats</h3>',
-            '<ul class="links">',
-                '<li><a href="//<?php echo BOOKREADER_HOSTNAME;?>/items/', this.bookId, '/', this.subPrefix, '.pdf">PDF</a><span>|</span></li>',
-                '<li><a href="//<?php echo BOOKREADER_HOSTNAME;?>/items/', this.bookId, '/', this.subPrefix, '_djvu.txt">Plain Text</a><span>|</span></li>',
-                '<li><a href="//<?php echo BOOKREADER_HOSTNAME;?>/items/', this.bookId, '/', this.subPrefix, '_daisy.zip">DAISY</a><span>|</span></li>',
-                '<li><a href="//<?php echo BOOKREADER_HOSTNAME;?>/items/', this.bookId, '/', this.subPrefix, '.epub">ePub</a></li>',
-             <!--dch    '<li><a href="//<?php echo BOOKREADER_HOSTNAME;?>/items/', this.bookId, '/', this.subPrefix, '.epub">ePub</a><span>|</span></li>', -->
-             <!--dch    '<li><a href="https://www.amazon.com/gp/digital/fiona/web-to-kindle?clientid=IA&itemid=', this.bookId, '&docid=', this.subPrefix, '">Send to Kindle</a></li>', -->
-            '</ul> -->'
+           //  '<h3>Other Formats</h3>',
+           //  '<ul class="links">',
+           //  '<li><a href="//<?php echo BOOKREADER_HOSTNAME;?>/items/', this.bookId, '/', this.subPrefix, '.pdf">PDF</a><span>|</span></li>',
+           //  '<li><a href="//<?php echo BOOKREADER_HOSTNAME;?>/items/', this.bookId, '/', this.subPrefix, '_djvu.txt">Plain Text</a><span>|</span></li>',
+           //  '<li><a href="//<?php echo BOOKREADER_HOSTNAME;?>/items/', this.bookId, '/', this.subPrefix, '_daisy.zip">DAISY</a><span>|</span></li>',
+           //  '<li><a href="//<?php echo BOOKREADER_HOSTNAME;?>/items/', this.bookId, '/', this.subPrefix, '.epub">ePub</a></li>',
+           //  '<li><a href="//<?php echo BOOKREADER_HOSTNAME;?>/items/', this.bookId, '/', this.subPrefix, '.epub">ePub</a><span>|</span></li>',
+           //  '<li><a href="https://www.amazon.com/gp/digital/fiona/web-to-kindle?clientid=IA&itemid=', this.bookId, '&docid=', this.subPrefix, '">Send to Kindle</a></li>', 
+           //  '</ul>'
         ];
     }
 
@@ -866,7 +866,7 @@ function findImageStack($subPrefix, $filesData) {
     // $$$ Currently only return processed images
     $imageStackRegex = "/Single Page (Processed) (${imageGroup}) (${archiveGroup})/";
 
-    foreach ($filesData->file as $file) {
+    foreach ($filesData->file as $file) { 
         if (strpos($file['name'], $subPrefix) === 0) { // subprefix matches beginning
             if (preg_match($imageStackRegex, $file->format, $matches)) {
 
