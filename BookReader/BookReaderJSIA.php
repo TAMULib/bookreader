@@ -536,11 +536,16 @@ br.pageNums = [
             foreach ($scanData->pageData->page as $page) {
                 if (shouldAddPage($page)) {
                     if(0 != $i) echo ",";   //stupid IE
-                    if (array_key_exists('pageNumber', $page) && ('' != $page->pageNumber)) {
-                        echo "'{$page->pageNumber}'";
-                    } else {
-                        echo "null";
-                    }
+						if (is_array($page)) {
+							if (array_key_exists('pageNumber', $page) && ('' != $page->pageNumber)) {
+								echo "'{$page->pageNumber}'";
+							} else {
+								echo "null";
+							}
+						} else {
+							echo "null";
+						}
+					
                     $i++;
                 }
             }
