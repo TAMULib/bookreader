@@ -85,7 +85,7 @@ function BookReader() {
     this.lastDisplayableIndex2up = null;
 
     // Should be overriden (before init) by custom implmentations.
-    this.logoURL = 'http://library.tamu.edu';
+    this.logoURL = 'https://library.tamu.edu';
 
     // Base URL for UI images - should be overriden (before init) by
     // custom implementations.
@@ -3699,9 +3699,36 @@ BookReader.prototype.initToolbar = function(mode, ui) {
 	//			+   "<span><a class='logo' href='" + this.logoURL + "'></a></span>"
 	//			+   "<span id='BRreturn'><a></a></span>"
 			
-				+ "<span><a class='logotamu' href='http://www.tamu.edu/'></a><a class='logo' href='" + this.logoURL + "'></a><ul class='breadcrumb'>"
+				+ "<span><a class='logotamu' href='https://www.tamu.edu/'></a><a class='logo' href='" + this.logoURL + "'></a><ul class='breadcrumb'>"
 				+ "<li><a href=' https://library.tamu.edu/collections/digital-library/yell_books.php'>Yell Book Collection</a></li>"
 				+ "<li>" + this.bookTitle + " " + this.bookId.replace('yb', '').replace('yellbooks_', '') + "</li></ul></span>"
+
+				+   "<div id='BRnavCntlTop' class='BRnabrbuvCntl'></div>"
+				+ "</div>"
+				);
+			
+		} else if (this.bookId.indexOf("ar2") == 0) {
+			//alert (this.bookTitle);
+			//alert (this.bookId)
+		
+			$("#BookReader").append(
+				  "<div id='BRtoolbar'>"
+				+   "<span id='BRtoolbarbuttons'>"
+				+     "<form action='javascript:br.search($(\"#textSrch\").val());' id='booksearch'><input type='search' id='textSrch' name='textSrch' val='' placeholder='Search inside' onclick='$(this).focus()'/><button type='submit' id='btnSrch' name='btnSrch'>GO</button></form>"
+				+     "<button class='BRicon play'></button>"
+				+     "<button class='BRicon pause'></button>"
+				+     "<button class='BRicon info'></button>"
+				+     "<button class='BRicon share'></button>"
+				+     "<button class='BRicon question'></button>"
+				//+     readIcon
+				+   "</span>"
+				
+	//			+   "<span><a href='" + this.logoURL + "'>Yearbook Collection</a></span>"
+	//			+   "<span><a class='logo' href='" + this.logoURL + "'></a></span>"
+	//			+   "<span id='BRreturn'><a></a></span>"
+			
+				+ "<span><a class='logotamu' href='https://www.tamu.edu/'></a><a class='logo' href='" + this.logoURL + "'></a><ul class='breadcrumb'>"
+				+ "<li>" + this.bookTitle + "</li></ul></span>"
 
 				+   "<div id='BRnavCntlTop' class='BRnabrbuvCntl'></div>"
 				+ "</div>"
@@ -3725,8 +3752,8 @@ BookReader.prototype.initToolbar = function(mode, ui) {
 	//			+   "<span><a class='logo' href='" + this.logoURL + "'></a></span>"
 	//			+   "<span id='BRreturn'><a></a></span>"
 		
-				+ "<span><a class='logotamu' href='http://www.tamu.edu/'></a><a class='logo' href='" + this.logoURL + "'></a><ul class='breadcrumb'>"
-				+ "<li><a href='http://library.tamu.edu/yearbooks'>Yearbook Collection</a></li>"
+				+ "<span><a class='logotamu' href='https://www.tamu.edu/'></a><a class='logo' href='" + this.logoURL + "'></a><ul class='breadcrumb'>"
+				+ "<li><a href='https://library.tamu.edu/yearbooks'>Yearbook Collection</a></li>"
 				+ "<li>" + this.bookTitle + " " + this.bookId.replace('yb', '').replace('yellbooks_', '') + "</li></ul></span>"
 
 				+   "<div id='BRnavCntlTop' class='BRnabrbuvCntl'></div>"
@@ -3746,10 +3773,10 @@ BookReader.prototype.initToolbar = function(mode, ui) {
 			//+     readIcon
 			+   "</span>"
 			
-			+ "<span><a class='logotamu' href='http://www.tamu.edu/'></a><a class='logo' href='" + this.logoURL + "'></a><ul class='breadcrumb'><li>" + this.bookTitle + " " + "</li></ul></span>"
+			+ "<span><a class='logotamu' href='https://www.tamu.edu/'></a><a class='logo' href='" + this.logoURL + "'></a><ul class='breadcrumb'><li>" + this.bookTitle + " " + "</li></ul></span>"
 
 
-//			+   "<span><a href='http://library.tamu.edu/yearbooks/'>Yearbook Collection</a>" + this.logoURL + "'></a></span>"
+//			+   "<span><a href='https://library.tamu.edu/yearbooks/'>Yearbook Collection</a>" + this.logoURL + "'></a></span>"
 //			+   "<span id='BRreturn'><a></a></span>"
 			
 			
