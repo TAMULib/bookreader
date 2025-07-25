@@ -3846,7 +3846,7 @@ BookReader.prototype.initToolbar = function(mode, ui) {
 BookReader.prototype.blankInfoDiv = function() {
     return $([
         '<div class="BRfloat" id="BRinfo">',
-            '<div class="BRfloatHead">About this book',
+            '<div class="BRfloatHead"><h1>About this book</h1>',
                 '<a class="floatShut" href="javascript:;" onclick="$.fn.colorbox.close();"><span class="shift">Close</span></a>',
             '</div>',
             '<div class="BRfloatBody">',
@@ -3869,7 +3869,7 @@ BookReader.prototype.blankShareDiv = function() {
     return $([
         '<div class="BRfloat" id="BRshare">',
             '<div class="BRfloatHead">',
-                'Share',
+                '<h1>Share</h1>',
                 '<a class="floatShut" href="javascript:;" onclick="$.fn.colorbox.close();"><span class="shift">Close</span></a>',
             '</div>',
         '</div>'].join('\n')
@@ -3880,7 +3880,7 @@ BookReader.prototype.blankQuestionDiv = function() {
     return $([
         '<div class="BRfloat" id="BRquestion">',
             '<div class="BRfloatHead">',
-                'Help',
+                '<h1>Help</h1>',
                 '<a class="floatShut" href="javascript:;" onclick="$.fn.colorbox.close();"><span class="shift">Close</span></a>',
             '</div>',
         '</div>'].join('\n')
