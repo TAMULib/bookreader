@@ -129,7 +129,7 @@ class BookReader
     //$startupImage = 'http://archive.org/download/' . $identifier . '/'. $subPrefix . '/page/cover_w512.jpg';
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<html lang="en-US">
 <head>
     <meta name="viewport" content="width=device-width, maximum-scale=1.0" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
