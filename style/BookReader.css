@@ -1016,3 +1016,7 @@ div#BRzoombtn {
     height: 12px;
     font-size: 16px;
 }
+
+a:focus, a:focus-visible {
+    outline: 3px solid #333333;
+}
