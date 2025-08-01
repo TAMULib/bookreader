@@ -3686,7 +3686,7 @@ BookReader.prototype.initToolbar = function(mode, ui) {
 			$("#BookReader").append(
 				  "<div id='BRtoolbar'>"
 				+   "<span id='BRtoolbarbuttons'>"
-				+     "<form action='javascript:br.search($(\"#textSrch\").val());' id='booksearch'><input type='search' id='textSrch' name='textSrch' val='' placeholder='Search inside' onclick='$(this).focus()'/><button type='submit' id='btnSrch' name='btnSrch'>GO</button></form>"
+				+     "<form action='javascript:br.search($(\"#textSrch\").val());' id='booksearch'><input type='search' id='textSrch' name='textSrch' val='' placeholder='Search inside' aria-label='Search inside' onclick='$(this).focus()'/><button type='submit' id='btnSrch' name='btnSrch'>GO</button></form>"
 				+     "<button class='BRicon play'></button>"
 				+     "<button class='BRicon pause'></button>"
 				+     "<button class='BRicon info'></button>"
@@ -3714,7 +3714,7 @@ BookReader.prototype.initToolbar = function(mode, ui) {
 			$("#BookReader").append(
 				  "<div id='BRtoolbar'>"
 				+   "<span id='BRtoolbarbuttons'>"
-				+     "<form action='javascript:br.search($(\"#textSrch\").val());' id='booksearch'><input type='search' id='textSrch' name='textSrch' val='' placeholder='Search inside' onclick='$(this).focus()'/><button type='submit' id='btnSrch' name='btnSrch'>GO</button></form>"
+				+     "<form action='javascript:br.search($(\"#textSrch\").val());' id='booksearch'><input type='search' id='textSrch' name='textSrch' val='' placeholder='Search inside' aria-label='Search inside' onclick='$(this).focus()'/><button type='submit' id='btnSrch' name='btnSrch'>GO</button></form>"
 				+     "<button class='BRicon play'></button>"
 				+     "<button class='BRicon pause'></button>"
 				+     "<button class='BRicon info'></button>"
@@ -3739,7 +3739,7 @@ BookReader.prototype.initToolbar = function(mode, ui) {
 			$("#BookReader").append(
 				  "<div id='BRtoolbar'>"
 				+   "<span id='BRtoolbarbuttons'>"
-				+     "<form action='javascript:br.search($(\"#textSrch\").val());' id='booksearch'><input type='search' id='textSrch' name='textSrch' val='' placeholder='Search inside' onclick='$(this).focus()'/><button type='submit' id='btnSrch' name='btnSrch'>GO</button></form>"
+				+     "<form action='javascript:br.search($(\"#textSrch\").val());' id='booksearch'><input type='search' id='textSrch' name='textSrch' val='' placeholder='Search inside' aria-label='Search inside' onclick='$(this).focus()'/><button type='submit' id='btnSrch' name='btnSrch'>GO</button></form>"
 				+     "<button class='BRicon play'></button>"
 				+     "<button class='BRicon pause'></button>"
 				+     "<button class='BRicon info'></button>"
@@ -3825,12 +3825,11 @@ BookReader.prototype.initToolbar = function(mode, ui) {
 
     // $$$ Don't hardcode ids
     var self = this;
-    jToolbar.find('.share').colorbox({inline: true, opacity: "0.5", href: "#BRshare", onLoad: function() { self.autoStop(); self.ttsStop(); } });
-    jToolbar.find('.info').colorbox({inline: true, opacity: "0.5", href: "#BRinfo", onLoad: function() { self.autoStop(); self.ttsStop(); } });
-    jToolbar.find('.question').colorbox({inline: true, opacity: "0.5", href: "#BRquestion", onLoad: function() { self.autoStop(); self.ttsStop(); } });
+    jToolbar.find('.share').colorbox({inline: true, opacity: "0.5", href: "#BRshare", onLoad: function() { self.autoStop(); self.ttsStop(); }, onComplete: function() {$('#BRshareTitle').focus();}, onClosed: function() { jToolbar.find('.share').focus();} });
+    jToolbar.find('.info').colorbox({inline: true, opacity: "0.5", href: "#BRinfo", onLoad: function() { self.autoStop(); self.ttsStop(); }, onComplete: function() {$('#BRinfoTitle').focus();}, onClosed: function() { jToolbar.find('.info').focus();} });
+    jToolbar.find('.question').colorbox({inline: true, opacity: "0.5", href: "#BRquestion", onLoad: function() { self.autoStop(); self.ttsStop(); }, onComplete: function() {$('#BRquestionTitle').focus();}, onClosed: function() { jToolbar.find('.question').focus();} });
 
-    $('<div style="display: none;"></div>').append(this.blankShareDiv()).append(this.blankInfoDiv()).appendTo($('body'));
-    $('<div style="display: none;"></div>').append(this.blankQuestionDiv()).append(this.blankInfoDiv()).appendTo($('body'));
+    $('<div style="display: none;"></div>').append(this.blankShareDiv()).append(this.blankInfoDiv()).append(this.blankQuestionDiv()).appendTo($('body'));
     $('#BRinfo .BRfloatTitle a').attr( {'href': this.bookUrl} ).text(this.bookTitle).addClass('title');
 
     // These functions can be overridden
@@ -3845,8 +3844,8 @@ BookReader.prototype.initToolbar = function(mode, ui) {
 
 BookReader.prototype.blankInfoDiv = function() {
     return $([
-        '<div class="BRfloat" id="BRinfo">',
-            '<div class="BRfloatHead">About this book',
+        '<div class="BRfloat" id="BRinfo" role="dialog" aria-modal="true" aria-labelledby="BRinfoTitle" tabindex="-1">',
+            '<div class="BRfloatHead"><h1 id="BRinfoTitle" tabindex="0">About this book</h1>',
                 '<a class="floatShut" href="javascript:;" onclick="$.fn.colorbox.close();"><span class="shift">Close</span></a>',
             '</div>',
             '<div class="BRfloatBody">',
@@ -3867,9 +3866,9 @@ BookReader.prototype.blankInfoDiv = function() {
 
 BookReader.prototype.blankShareDiv = function() {
     return $([
-        '<div class="BRfloat" id="BRshare">',
+        '<div class="BRfloat" id="BRshare" role="dialog" aria-modal="true" aria-labelledby="BRshareTitle" tabindex="-1">',
             '<div class="BRfloatHead">',
-                'Share',
+                '<h1 id="BRshareTitle" tabindex="0">Share</h1>',
                 '<a class="floatShut" href="javascript:;" onclick="$.fn.colorbox.close();"><span class="shift">Close</span></a>',
             '</div>',
         '</div>'].join('\n')
@@ -3878,9 +3877,9 @@ BookReader.prototype.blankShareDiv = function() {
 
 BookReader.prototype.blankQuestionDiv = function() {
     return $([
-        '<div class="BRfloat" id="BRquestion">',
+        '<div class="BRfloat" id="BRquestion" role="dialog" aria-modal="true" aria-labelledby="BRquestionTitle" tabindex="-1">',
             '<div class="BRfloatHead">',
-                'Help',
+                '<h1 id="BRquestionTitle" tabindex="0">Help</h1>',
                 '<a class="floatShut" href="javascript:;" onclick="$.fn.colorbox.close();"><span class="shift">Close</span></a>',
             '</div>',
         '</div>'].join('\n')
@@ -5508,16 +5507,20 @@ BookReader.prototype.buildShareDiv = function(jShareDiv)
         '<p>Copy and paste one of these options to share this book elsewhere.</p>',
         '<form method="post" action="">',
             '<fieldset>',
+                '<legend>Link to this page view:</legend>',
                 '<label for="pageview">Link to this page view:</label>',
                 '<input type="text" name="pageview" id="pageview" value="' + pageView + '"/>',
             '</fieldset>',
             '<fieldset>',
+                '<legend>Link to the book:</legend>',
                 '<label for="booklink">Link to the book:</label>',
                 '<input type="text" name="booklink" id="booklink" value="' + bookView + '"/>',
             '</fieldset>',
             '<fieldset>',
+                '<legend>Embed a mini Book Reader:</legend>',
                 '<label for="iframe">Embed a mini Book Reader:</label>',
                 '<fieldset class="sub">',
+                    '<legend>Display options</legend>',
                     '<label class="sub">',
                         '<input type="radio" name="pages" value="' + this.constMode1up + '" checked="checked"/>',
                         '1 page',
