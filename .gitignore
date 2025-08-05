@@ -1,2 +1,13 @@
+<<<<<<< HEAD
 
 config.php
+=======
+BookReader/
+BookReaderDev
+node_modules/
+.DS_Store
+coverage*/
+.env
+
+.vscode
+>>>>>>> upstream

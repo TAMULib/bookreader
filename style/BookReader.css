@@ -40,7 +40,7 @@ a {
     color: #999;
 }
 #BRtoolbar a {
-    color: #036daa;
+    color: #0366A0;
     text-decoration: underline;
 }
 #BRtoolbarbuttons {
@@ -982,7 +982,7 @@ div#BRzoombtn {
 .BRhelp {
     display: block;
     width: 40px;
-    height: 40px;
+    height: 33px;
     padding: 0;
     margin: 0;
     vertical-align: middle;
@@ -1013,4 +1013,10 @@ div#BRzoombtn {
     position: relative;
     right: -50px;
 	top:-26px;
+    height: 12px;
+    font-size: 16px;
+}
+
+a:focus, a:focus-visible {
+    outline: 3px solid #333333;
 }
