@@ -95,7 +95,7 @@ class BookReader
     }
 
     if (!$searchenabled) {
-        $searchenabled = 0;
+        $searchenabled = 1;
     }
 	
 	
